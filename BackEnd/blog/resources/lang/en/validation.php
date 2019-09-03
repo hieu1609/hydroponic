@@ -127,11 +127,183 @@ return [
     | specify a specific custom language line for a given attribute rule.
     |
     */
-
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'username' => [
+            'required' => 'users_name_required',
+            'min' => 'users_name_min',
+            'max' => 'users_name_max',
+            'string' => 'username_string',
+        ],
+        'email' => [
+            'required' => 'users_email_required',
+            'required_without' => 'users_email_required_without',
+            'unique' => 'users_email_unique',
+            'string' => 'users_email_string',
+            'regex' => 'users_email_regex',
+        ],
+        'password' => [
+            'required' => 'users_password_required',
+            'min' => 'users_password_min',
+            'max' => 'users_password_max',
+            'incorrect' => 'users_password_incorrect',
+            'string' => 'users_password_string'
+        ],
+        'newPassword' => [
+            'required' => 'users_newPassword_required',
+            'min' => 'users_newPassword_min',
+            'max' => 'users_newPassword_max',
+            'string' => 'users_newPassword_string'
+        ],
+        'confirmNewPassword' => [
+            'required' => 'users_confirmNewPassword_required',
+            'min' => 'users_confirmNewPassword_min',
+            'max' => 'users_confirmNewPassword_max',
+            'string' => 'users_confirmNewPasswordn_string',
+            'same' => 'users_confirmNewPassword_same',
+        ],
+        'currentPassword' => [
+            'required' => 'users_currentPassword_required',
+            'min' => 'users_currentPassword_min',
+            'max' => 'users_currentPassword_max',
+            'string' => 'users_currentPassword_string'
+        ],
+        'confirmPassword' => [
+            'required' => 'users_confirmPassword_required',
+            'min' => 'users_confirmPassword_min',
+            'max' => 'users_confirmPassword_max',
+            'string' => 'users_confirmPassword_string',
+            'same' => 'users_confirmPassword_same',
+        ],
+        'askImage' => [
+            'image' => "ask_image_image",
+            'mimes' => 'ask_image_mimes',
+            'size' => "ask_image_size",
+            'required' => 'ask_image_required',
+            'required_without' => 'image_required_without_content',
+        ],
+        'learnImage' => [
+            'image' => "learn_image_image",
+            'mimes' => 'learn_image_mimes',
+            'size' => "learn_image_size",
+            'required' => 'learn_image_required',
+            'max' => "learn_image_size",
+        ],
+        'learnTitle' => [
+            'required' => 'learn_title_required',
+            'string' => 'learn_title_string',
+            'max' => 'learn_title_max'
+        ],
+        'learnContent' => [
+            'max' => 'learn_content_max',
+            'required' => 'learn_content_required',
+            'string' => 'learn_content_string'
+        ],
+        'askContent' => [
+            'max' => 'ask_content_max',
+            'required' => 'ask_content_required',
+            'required_without' => 'content_required_without_image',
+            'string' => 'ask_content_string'
+        ],
+        'learnPriority' => [
+            'required' => 'learn_priority_required',
+            'boolean' => 'learn_priority_boolean',
+            'numberic' => 'learn_priority_numberic',
+            'between' => 'learn_priority_between',
+        ],
+        'videoTitle' => [
+            'required' => 'video_title_required',
+            'max' => 'video_title_max',
+            'string' => 'video_title_string',
+        ],
+        'videoLink' => [
+            'required' => 'video_link_required',
+            'max' => 'video_link_max',
+            'string' => 'video_link_string',
+        ],
+        'videoImage' => [
+            'image' => "learn_image_image",
+            'mimes' => 'learn_image_mimes',
+            'size' => "learn_image_size",
+            'required' => 'learn_image_required',
+            'max' => "learn_image_size",
+        ],
+        'videoPriority' => [
+            'required' => 'video_priority_required',
+            'boolean' => 'video_priority_boolean'
+        ],
+        'commentContent' => [
+            'max' => 'comment_content_max',
+            'required' => 'comment_content_required',
+            'string' => 'comment_string'
+        ],
+        'askId' => [
+            'required' => 'askId_required',
+            'integer' => 'askId_integer',
+            'exists' => 'askId_exists',
+        ],
+        'learnId' => [
+            'required' => 'learnId_required',
+            'integer' => 'learnId_integer',
+            'exists' => 'learnId_exists',
+        ],
+        'commentId' => [
+            'required' => 'commentId_required',
+            'integer' => 'commentId_integer',
+            'exists' => 'commentId_exists',
+        ],
+        'reactionId' => [
+            'required' => 'reactionId_required',
+            'integer' => 'reactionId_integer',
+            'exists' => 'reactionId_exists',
+        ],
+        'videoId' => [
+            'required' => 'videoId_required',
+            'integer' => 'videoId_integer',
+            'exists' => 'videoId_exists',
+        ],
+        'admin' => [
+            'required' => 'admin_required',
+            'boolean' => 'admin_boolean',
+        ],
+        'offset' => [
+            'integer' => 'offset_integer',
+        ],
+        'limit' => [
+            'integer' => 'limit_integer',
+        ],
+        'sort' => [
+            'in' => 'sort_in',
+        ],
+        'userId' => [
+            'required' => 'userId_required',
+            'integer' => 'userId_integer',
+            'min' => 'userId_min',
+        ],
+        'avatar' => [
+            'required' => 'avatar_required',
+            'image' => 'avatar_image',
+            'mimes' => 'avatar_mime',
+            'max' => 'avatar_max',
+        ],
+        'active' => [
+            'required' => 'active_required',
+            'boolean' => 'active_boolean',
+        ],
+        'fieldSort' => [
+            'string' => 'fieldSort_string'
+        ],
+        'typeSort' => [
+            'in' => 'TypeSort_in',
+        ],
+        'fieldSearch' => [
+            'string' => 'fieldSearch_string'
+        ],
+        'keySearch' => [
+            'string' => 'keySearch_string'
+        ]
     ],
 
     /*
