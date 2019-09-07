@@ -11,6 +11,214 @@
         "https"
     ],
     "paths": {
+        "/admin/{id}": {
+            "put": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Edit user",
+                "description": "Edit user",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID user to edit",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Create user",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "admin": {
+                                    "type": "boolean"
+                                },
+                                "username": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Delete user",
+                "description": "Delete user",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID user to delete",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/admin/all-user": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get list users",
+                "description": "Get list users",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Query page",
+                        "type": "number"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Query limit records per page",
+                        "type": "number"
+                    },
+                    {
+                        "name": "searchBy",
+                        "in": "query",
+                        "description": "Query searchBy column",
+                        "type": "string"
+                    },
+                    {
+                        "name": "keyword",
+                        "in": "query",
+                        "description": "Query search",
+                        "type": "string"
+                    },
+                    {
+                        "name": "sortBy",
+                        "in": "query",
+                        "description": "Query sortBy column",
+                        "type": "string"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Query sort",
+                        "type": "string"
+                    },
+                    {
+                        "name": "admin",
+                        "in": "query",
+                        "description": "Query admin",
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/admin/statistic": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get Statistic",
+                "description": "Get Statistic",
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
         "/auth/login": {
             "post": {
                 "tags": [
@@ -274,6 +482,31 @@
                         "description": "Internal Server Error"
                     }
                 }
+            }
+        },
+        "/devices/getData": {
+            "get": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "get data",
+                "description": "get data",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
             }
         }
     },

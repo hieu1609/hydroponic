@@ -24,3 +24,20 @@ Route::group(['prefix' => 'auth'], function () {
         Route::post('logout', 'AuthController@logout');
     });
 });
+
+//Route Devices
+Route::group(['prefix' => 'devices'], function () {
+    Route::group(['middleware' => ['jwt']], function () {
+        Route::get('getData', 'DevicesController@getData');
+    });
+});
+
+//Route Admin
+Route::group(['prefix' => 'admin'], function () {
+    Route::middleware(['jwt', 'admin'])->group(function () {
+        Route::get('all-user', 'AdminController@getAllUser');
+        Route::get('statistic', 'AdminController@getStatistic');
+        Route::put('/{id}', 'AdminController@editUser');
+        Route::delete('/{id}', 'AdminController@deleteUser');
+    });
+});
