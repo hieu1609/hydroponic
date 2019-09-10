@@ -76,7 +76,8 @@ class AdminController extends BaseApiController
          *          name="page",
          *          description="Query page",
          *          in="query",
-         *          type="number"
+         *          type="number",
+         *          required=true
          *      ),
          *       @SWG\Parameter(
          *          name="limit",
