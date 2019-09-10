@@ -125,6 +125,7 @@
                         "name": "page",
                         "in": "query",
                         "description": "Query page",
+                        "required": true,
                         "type": "number"
                     },
                     {
