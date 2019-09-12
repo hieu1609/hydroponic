@@ -1,0 +1,25 @@
+@import "~src/styles/variables.scss";
+
+.title {
+  font-family: $font1;
+  font-size: $fs5;
+  color: lime;
+}
+.navbar--config {
+  text-align: right;
+  a {
+    color: seagreen;
+  }
+}
+.carousel--config {
+  height: 500px;
+  img {
+    height: 800px;
+  }
+}
+.nav-item--config {
+  a {
+    font-family: $font2;
+    font-size: $fs2;
+  }
+}
