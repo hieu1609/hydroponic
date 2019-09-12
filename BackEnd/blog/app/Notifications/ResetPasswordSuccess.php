@@ -41,7 +41,7 @@ class ResetPasswordSuccess extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('<Maxdino> Changed password successfully')
+            ->subject('<Hydroponic> Changed password successfully')
             ->line('Your password is changed successful.')
             ->line('Thank you for using our application!');
     }

@@ -51,7 +51,7 @@ class ResetPasswordRequest extends Notification
         }
 
         return (new MailMessage)
-            ->subject('<Maxdino> Reset password link')
+            ->subject('<Hydroponic> Reset password link')
             ->line('Press the link below to reset your password.')
             ->action('Reset password here', url($url))
             ->line('Thank you for using our application!');
