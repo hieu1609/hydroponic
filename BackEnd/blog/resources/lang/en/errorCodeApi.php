@@ -21,6 +21,8 @@ $ApiErrorMessages = array(
 
     // / Validator Errors Message /
     'users_not_found' => 'The user is not found.',
+    'id_not_found' => 'The id user is not found.',
+    'that_is_your_id' => 'The id user is your id.',
     'users_not_create' => 'The user is not create.',
     'users_name_required' => 'The name is required.',
     'users_name_min' => 'The name must be at least 3 characters',
@@ -154,8 +156,19 @@ $ApiErrorMessages = array(
     'fieldSort_not_found' => 'Field Sort not found',
     'fieldSearch_not_found' => 'Field Search not found',
 
+    //feedback
+    'feedback_title_required' => 'Feedback title is required',
+    'feedback_title_string' => 'Feedback title must be string',
+    'feedback_content_required' => 'Feedback content is required',
+    'feedback_content_string' => 'Feedback content must be string',
 
-
+    'notification_title_required' => 'Notification title is required',
+    'notification_title_string' => 'Notification title must be string',
+    'notification_content_required' => 'Notification content is required',
+    'notification_content_string' => 'Notification content must be string',
+    'notification_id_required' => 'Notification id is required',
+    'notification_id_integer' => 'Notification id must be integer',
+    'notification_id_not_found' => 'Notification id not found',
 );
 
 $ApiErrorCodes = array(
@@ -275,6 +288,7 @@ $ApiErrorCodes = array(
     'comment_content_required' => 3181,
     'comment_content_max' => 3182,
     'comment_string' => 3183,
+
     //id
     'askId_required' => 3201,
     'askId_integer' => 3203,
@@ -291,6 +305,7 @@ $ApiErrorCodes = array(
     'videoId_required' => 3241,
     'videoId_integer' => 3242,
     'videoId_exists' => 3243,
+
     //filter
     'offset_integer' => 3341,
     'limit_integer' => 3342,
@@ -299,6 +314,7 @@ $ApiErrorCodes = array(
     'TypeSort_in' => 3361,
     'fieldSearch_string' => 3371,
     'keySearch_string' => 3381,
+
     //custom error
     'email_password_invalid' => 8000,
     'user_password_invalid' => 8001,
@@ -307,6 +323,23 @@ $ApiErrorCodes = array(
     'users_available' => 8004, //when send request create user
     'fieldSort_not_found' => 8011,
     'fieldSearch_not_found' => 8012,
+
+    //feedback
+    'feedback_title_required' => 8013,
+    'feedback_title_string' => 8014,
+    'feedback_content_required' => 8015,
+    'feedback_content_string' => 8016,
+
+    'notification_title_required' => 8017,
+    'notification_title_string' => 8018,
+    'notification_content_required' => 8019,
+    'notification_content_string' => 8020,
+
+    'id_not_found' => 8021,
+    'that_is_your_id' => 8022,
+    'notification_id_required' => 8023,
+    'notification_id_integer' =>8024,
+    'notification_id_not_found' => 8025,
 );
 
 $ApiCodes['ApiErrorMessages'] = $ApiErrorMessages;

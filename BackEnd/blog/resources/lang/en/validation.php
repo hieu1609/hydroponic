@@ -303,7 +303,27 @@ return [
         ],
         'keySearch' => [
             'string' => 'keySearch_string'
-        ]
+        ],
+        'feedbackTitle' => [
+            'required' => 'feedback_title_required',
+            'string' => 'feedback_title_string'
+        ],
+        'feedbackContent' => [
+            'required' => 'feedback_content_required',
+            'string' => 'feedback_content_string'
+        ],
+        'notificationTitle' => [
+            'required' => 'notification_title_required',
+            'string' => 'notification_title_string'
+        ],
+        'notificationContent' => [
+            'required' => 'notification_content_required',
+            'string' => 'notification_content_string'
+        ],
+        'notificationId' => [
+            'required' => 'notification_id_required',
+            'integer' => 'notification_id_integer'
+        ],
     ],
 
     /*

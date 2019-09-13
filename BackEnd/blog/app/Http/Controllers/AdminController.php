@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Devices;
+use App\Notification;
 use Illuminate\Http\Request;
 use Mockery\CountValidator\Exception;
 use JWTAuth;
@@ -247,6 +248,72 @@ class AdminController extends BaseApiController
             $user->username = $request->username;
             $user->save();
             return $this->responseSuccess($user);
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    public function sendNotification(Request $request)
+    {
+        /**
+         * @SWG\Post(
+         *     path="/admin/sendNotification",
+         *     description="Send notification for user",
+         *     tags={"Admin"},
+         *     summary="Send notification",
+         *     security={{"jwt":{}}},
+         *
+         *      @SWG\Parameter(
+         *          name="body",
+         *          description="Send notification for user",
+         *          required=true,
+         *          in="body",
+         *          @SWG\Schema(
+         *              @SWG\property(
+         *                  property="userId",
+         *                  type="integer",
+         *              ),
+         *              @SWG\property(
+         *                  property="notificationTitle",
+         *                  type="string",
+         *              ),
+         *              @SWG\property(
+         *                  property="notificationContent",
+         *                  type="string",
+         *              ),
+         *          ),
+         *      ),
+         *      @SWG\Response(response=200, description="Successful operation"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=403, description="Forbidden"),
+         *      @SWG\Response(response=422, description="Unprocessable Entity"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $validator = Notification::validate($request->all(), 'Send_Notification');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+            
+            $checkId = User::where(['id' => $request->userId])->first();
+            if (!$checkId) {
+                return $this->responseErrorCustom("id_not_found", 404);
+            }
+
+            if ($request->userId === $request->user->id) {
+                return $this->responseErrorCustom("that_is_your_id", 403);
+            }
+
+            $notification = new Notification;
+            $notification->user_id_send = 1;
+            $notification->user_id_receive = $request->userId;
+            $notification->title = $request->notificationTitle;
+            $notification->content = $request->notificationContent;
+            $notification->save();
+            return $this->responseSuccess("Send notification successfully");
+
         } catch (\Exception $exception) {
             return $this->responseErrorException($exception->getMessage(), 99999, 500);
         }
