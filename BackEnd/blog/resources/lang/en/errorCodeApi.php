@@ -169,6 +169,19 @@ $ApiErrorMessages = array(
     'notification_id_required' => 'Notification id is required',
     'notification_id_integer' => 'Notification id must be integer',
     'notification_id_not_found' => 'Notification id not found',
+    'user_id_send_not_found' => 'User id send not found',
+    'user_id_receive_not_found' => 'User id receive not found',
+
+    'feedback_title_max' => 'The feedback title may not be greater than 50 characters.',
+    'feedback_content_max' => 'The feedback content may not be greater than 2000 characters.',
+    'notification_title_max' => 'The notification title may not be greater than 50 characters.',
+    'notification_content_max' => 'The notification content may not be greater than 2000 characters.',
+    'user_id_send_required' => 'User id send is required',
+    'user_id_send_integer' => 'User id send must be integer',
+    'user_id_receive_required' => 'User id receive is required',
+    'user_id_receive_integer' => 'User id receive must be integer',
+    'seen_required' => 'Seen is required',
+    'seen_id_boolean' => 'Seen id send must be boolean',
 );
 
 $ApiErrorCodes = array(
@@ -340,6 +353,20 @@ $ApiErrorCodes = array(
     'notification_id_required' => 8023,
     'notification_id_integer' =>8024,
     'notification_id_not_found' => 8025,
+    'user_id_send_not_found' => 8026,
+    'user_id_receive_not_found' => 8027,
+
+    'feedback_title_max' => 8028,
+    'feedback_content_max' => 8029,
+    'notification_title_max' => 8030,
+    'notification_content_max' => 8031,
+    'user_id_send_required' => 8032,
+    'user_id_send_integer' => 8033,
+    'user_id_receive_required' => 8034,
+    'user_id_receive_integer' => 8035,
+    'seen_required' => 8036,
+    'seen_id_boolean' => 8037,
+
 );
 
 $ApiCodes['ApiErrorMessages'] = $ApiErrorMessages;
