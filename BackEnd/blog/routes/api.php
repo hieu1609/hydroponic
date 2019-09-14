@@ -49,5 +49,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::put('/{id}', 'AdminController@editUser');
         Route::delete('/{id}', 'AdminController@deleteUser');
         Route::post('sendNotification', 'AdminController@sendNotification');
+        Route::get('getAllNotifications', 'AdminController@getAllNotifications');
+        Route::put('notification/{notificationId}', 'AdminController@editNotification');
+        Route::delete('notification/{notificationId}', 'AdminController@deleteNotification');
     });
 });

@@ -125,7 +125,7 @@ class UserController extends BaseApiController
                 return $this->responseErrorCustom("notification_id_not_found", 404);
             }
             else {
-                $checkNotificationId->update(['seen' => 1]);
+                $checkNotificationId->update(['seen' => true]);
                 return $this->responseSuccess("Seen notification successfully");
             }
 
