@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  urlApi:"http://localhost:800/hydroponic/BackEnd/blog/public/api"
 };
 
 /*
