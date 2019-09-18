@@ -32,6 +32,15 @@ Route::group(['prefix' => 'devices'], function () {
     });
 });
 
+//Route User
+Route::group(['prefix' => 'user'], function () {
+    Route::group(['middleware' => ['jwt']], function () {
+        Route::get('getNotifications', 'UserController@getNotifications');
+        Route::post('postFeedback', 'UserController@postFeedback');
+        Route::put('seenNotification', 'UserController@seenNotification');
+    });
+});
+
 //Route Admin
 Route::group(['prefix' => 'admin'], function () {
     Route::middleware(['jwt', 'admin'])->group(function () {
@@ -39,5 +48,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('statistic', 'AdminController@getStatistic');
         Route::put('/{id}', 'AdminController@editUser');
         Route::delete('/{id}', 'AdminController@deleteUser');
+        Route::post('sendNotification', 'AdminController@sendNotification');
+        Route::get('getAllNotifications', 'AdminController@getAllNotifications');
+        Route::put('notification/{notificationId}', 'AdminController@editNotification');
+        Route::delete('notification/{notificationId}', 'AdminController@deleteNotification');
     });
 });

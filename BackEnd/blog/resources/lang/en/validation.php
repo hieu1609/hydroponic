@@ -303,7 +303,43 @@ return [
         ],
         'keySearch' => [
             'string' => 'keySearch_string'
-        ]
+        ],
+        'feedbackTitle' => [
+            'required' => 'feedback_title_required',
+            'string' => 'feedback_title_string',
+            'max' => 'feedback_title_max'
+        ],
+        'feedbackContent' => [
+            'required' => 'feedback_content_required',
+            'string' => 'feedback_content_string',
+            'max' => 'feedback_content_max'
+        ],
+        'notificationTitle' => [
+            'required' => 'notification_title_required',
+            'string' => 'notification_title_string',
+            'max' => 'notification_title_max'
+        ],
+        'notificationContent' => [
+            'required' => 'notification_content_required',
+            'string' => 'notification_content_string',
+            'max' => 'notification_content_max'
+        ],
+        'notificationId' => [
+            'required' => 'notification_id_required',
+            'integer' => 'notification_id_integer'
+        ],
+        'userIdSend' => [
+            'required' => 'user_id_send_required',
+            'integer' => 'user_id_send_integer'
+        ],
+        'userIdReceive' => [
+            'required' => 'user_id_receive_required',
+            'integer' => 'user_id_receive_integer'
+        ],
+        'seen' => [
+            'required' => 'seen_required',
+            'boolean' => 'seen_id_boolean'
+        ],
     ],
 
     /*

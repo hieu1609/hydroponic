@@ -220,6 +220,194 @@
                 ]
             }
         },
+        "/admin/sendNotification": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Send notification",
+                "description": "Send notification for user",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Send notification for user",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "userId": {
+                                    "type": "integer"
+                                },
+                                "notificationTitle": {
+                                    "type": "string"
+                                },
+                                "notificationContent": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/admin/getAllNotifications": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "get all notifications",
+                "description": "get all notifications",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/admin/notification/{notificationId}": {
+            "put": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Edit notification",
+                "description": "Edit notification",
+                "parameters": [
+                    {
+                        "name": "notificationId",
+                        "in": "path",
+                        "description": "ID notification to edit",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Edit notification",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "userIdSend": {
+                                    "type": "integer"
+                                },
+                                "userIdReceive": {
+                                    "type": "integer"
+                                },
+                                "notificationTitle": {
+                                    "type": "string"
+                                },
+                                "notificationContent": {
+                                    "type": "string"
+                                },
+                                "seen": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Delete notification",
+                "description": "Delete notification",
+                "parameters": [
+                    {
+                        "name": "notificationId",
+                        "in": "path",
+                        "description": "ID notification to delete",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
         "/auth/login": {
             "post": {
                 "tags": [
@@ -498,6 +686,126 @@
                     },
                     "401": {
                         "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/user/getNotifications": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "get notifications",
+                "description": "get notifications",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/user/postFeedback": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Send feedback",
+                "description": "Send feedback for admin",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Send feedback for admin",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "feedbackTitle": {
+                                    "type": "string"
+                                },
+                                "feedbackContent": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/user/seenNotification": {
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Seen notification",
+                "description": "Seen notification",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Seen notification",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "notificationId": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
                     },
                     "500": {
                         "description": "Internal Server Error"

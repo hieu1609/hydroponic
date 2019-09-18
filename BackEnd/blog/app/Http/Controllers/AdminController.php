@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Devices;
+use App\Notification;
 use Illuminate\Http\Request;
 use Mockery\CountValidator\Exception;
 use JWTAuth;
@@ -247,6 +248,230 @@ class AdminController extends BaseApiController
             $user->username = $request->username;
             $user->save();
             return $this->responseSuccess($user);
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    public function sendNotification(Request $request)
+    {
+        /**
+         * @SWG\Post(
+         *     path="/admin/sendNotification",
+         *     description="Send notification for user",
+         *     tags={"Admin"},
+         *     summary="Send notification",
+         *     security={{"jwt":{}}},
+         *
+         *      @SWG\Parameter(
+         *          name="body",
+         *          description="Send notification for user",
+         *          required=true,
+         *          in="body",
+         *          @SWG\Schema(
+         *              @SWG\property(
+         *                  property="userId",
+         *                  type="integer",
+         *              ),
+         *              @SWG\property(
+         *                  property="notificationTitle",
+         *                  type="string",
+         *              ),
+         *              @SWG\property(
+         *                  property="notificationContent",
+         *                  type="string",
+         *              ),
+         *          ),
+         *      ),
+         *      @SWG\Response(response=200, description="Successful operation"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=403, description="Forbidden"),
+         *      @SWG\Response(response=422, description="Unprocessable Entity"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $validator = Notification::validate($request->all(), 'Send_Notification');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+            
+            $checkId = User::where(['id' => $request->userId])->first();
+            if (!$checkId) {
+                return $this->responseErrorCustom("id_not_found", 404);
+            }
+
+            if ($request->userId === $request->user->id) {
+                return $this->responseErrorCustom("that_is_your_id", 403);
+            }
+
+            $notification = new Notification;
+            $notification->user_id_send = 1;
+            $notification->user_id_receive = $request->userId;
+            $notification->title = $request->notificationTitle;
+            $notification->content = $request->notificationContent;
+            $notification->save();
+            return $this->responseSuccess("Send notification successfully");
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    public function getAllNotifications(Request $request)
+    {
+        /**
+         * @SWG\Get(
+         *     path="/admin/getAllNotifications",
+         *     description="get all notifications",
+         *     tags={"Admin"},
+         *     summary="get all notifications",
+         *     security={{"jwt":{}}},
+         *
+         *      @SWG\Response(response=200, description="Successful operation"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $dataNotifications = Notification::getAllNotifications();
+            return $this->responseSuccess($dataNotifications);
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), $exception->getCode(), 500);
+        }
+    }
+
+    public function editNotification(Request $request)
+    {
+        /**
+         * @SWG\Put(
+         *     path="/admin/notification/{notificationId}",
+         *     description="Edit notification",
+         *     tags={"Admin"},
+         *     summary="Edit notification",
+         *     security={{"jwt":{}}},
+         *      @SWG\Parameter(
+         *         description="ID notification to edit",
+         *         in="path",
+         *         name="notificationId",
+         *         required=true,
+         *         type="integer",
+         *         format="int64"
+         *     ),
+         *      @SWG\Parameter(
+         *          name="body",
+         *          description="Edit notification",
+         *          required=true,
+         *          in="body",
+         *          @SWG\Schema(
+         *              @SWG\Property(
+         *                  property="userIdSend",
+         *                  type="integer",
+         *              ),
+         *              @SWG\Property(
+         *                  property="userIdReceive",
+         *                  type="integer",
+         *              ),
+         *              @SWG\Property(
+         *                  property="notificationTitle",
+         *                  type="string",
+         *              ),
+         *              @SWG\Property(
+         *                  property="notificationContent",
+         *                  type="string",
+         *              ),
+         *              @SWG\Property(
+         *                  property="seen",
+         *                  type="boolean",
+         *              ),
+         *          ),
+         *      ),
+         *      @SWG\Response(response=200, description="Successful"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=403, description="Forbidden"),
+         *      @SWG\Response(response=404, description="Not Found"),
+         *      @SWG\Response(response=422, description="Unprocessable Entity"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $input = $request->all();
+            $input['notificationId'] = $request->notificationId;
+            $validator = Notification::validate($input, 'Edit_Notification');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            $checkUserIdSend = User::where(['id' => $request->userIdSend])->first();
+            if (!$checkUserIdSend) {
+                return $this->responseErrorCustom("user_id_send_not_found", 404);
+            }
+
+            $checkUserIdReceive = User::where(['id' => $request->userIdReceive])->first();
+            if (!$checkUserIdReceive) {
+                return $this->responseErrorCustom("user_id_receive_not_found", 404);
+            }
+            
+            $checkNotification = Notification::where(['id' => $request->notificationId])->first();
+            if (!$checkNotification) {
+                return $this->responseErrorCustom("notification_id_not_found", 404);
+            }
+
+            $checkNotification->user_id_send = $request->userIdSend;
+            $checkNotification->user_id_receive = $request->userIdReceive;
+            $checkNotification->title = $request->notificationTitle;
+            $checkNotification->content = $request->notificationContent;
+            $checkNotification->seen = $request->seen;
+            $checkNotification->save();
+            return $this->responseSuccess($checkNotification);
+
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    public function deleteNotification(Request $request)
+    {
+        /**
+         * @SWG\Delete(
+         *     path="/admin/notification/{notificationId}",
+         *     description="Delete notification",
+         *     tags={"Admin"},
+         *     summary="Delete notification",
+         *     security={{"jwt":{}}},
+         *      @SWG\Parameter(
+         *         description="ID notification to delete",
+         *         in="path",
+         *         name="notificationId",
+         *         required=true,
+         *         type="integer",
+         *         format="int64"
+         *     ),
+         *      @SWG\Response(response=200, description="Successful"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=403, description="Forbidden"),
+         *      @SWG\Response(response=404, description="Not Found"),
+         *      @SWG\Response(response=422, description="Unprocessable Entity"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            // return($request->notificationId);
+            $input['notificationId'] = $request->notificationId;
+            $validator = Notification::validate($input, 'Delete_Notification');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+            $checkNotification = Notification::where(['id' => $request->notificationId])->first();
+            if (!$checkNotification) {
+                return $this->responseErrorCustom("notification_id_not_found", 404);
+            }
+
+            $checkNotification->delete();
+            return $this->responseSuccess("Delete notification successfully");
         } catch (\Exception $exception) {
             return $this->responseErrorException($exception->getMessage(), 99999, 500);
         }

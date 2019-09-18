@@ -11,14 +11,40 @@ class Notification extends BaseModel
         'user_id_send', 'user_id_receive', 'title', 'content', 'seen'
     ];
 
-    // public static $rules = array(
-    //     'Rule_RequestResetPassword' => [
-    //         'email' => 'required|regex:/^[a-z][a-z0-9_\.]{2,}@[a-z0-9]{2,}(\.[a-z0-9]{2,}){1,2}$/'
-    //     ],
-    //     'Rule_AcceptResetPassword' => [
-    //         'token' => 'required|string',
-    //         'newPassword' => 'required|string|min:6|max:16',
-    //         'confirmNewPassword' => 'required|same:newPassword'
-    //     ],
-    // );
+    public static $rules = array(
+        'Post_Feedback' => [
+            'feedbackTitle' => 'required|string|max:50',
+            'feedbackContent' => 'required|string|max:2000'
+        ],
+        'Send_Notification' => [
+            'userId' => 'required|integer',
+            'notificationTitle' => 'required|string|max:50',
+            'notificationContent' => 'required|string|max:2000'
+        ],
+        'Seen_Notification' => [
+            'notificationId' => 'required|integer'
+        ],
+        'Edit_Notification' => [
+            'notificationId' => 'required|integer',
+            'userIdSend' => 'required|integer',
+            'userIdReceive' => 'required|integer',
+            'notificationTitle' => 'required|string|max:50',
+            'notificationContent' => 'required|string|max:2000',
+            'seen' => 'required|boolean'
+        ],
+        'Delete_Notification' => [
+            'notificationId' => 'required|integer'
+        ],
+    );
+
+    public static function getAllNotifications() {
+        return Notification::orderBy('id', 'desc')
+        ->get();
+    }
+
+    public static function getNotifications($idUser) {
+        return Notification::where('user_id_receive', $idUser)
+        ->orderBy('id', 'desc')
+        ->get();
+    }
 }
