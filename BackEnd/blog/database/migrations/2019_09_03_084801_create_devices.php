@@ -16,15 +16,15 @@ class CreateDevices extends Migration
         Schema::create('devices', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
-            $table->float('temperature');
-            $table->float('humidity');
-            $table->integer('light');
-            $table->float('EC');
-            $table->integer('PPM');
-            $table->float('water');
+            $table->float('temperature')->default(0);
+            $table->float('humidity')->default(0);
+            $table->integer('light')->default(0);
+            $table->float('EC')->default(0);
+            $table->integer('PPM')->default(0);
+            $table->float('water')->default(0);
             $table->boolean('pump')->default(0);
-            $table->string('type', 50);
-            $table->integer('day')->unsigned();
+            $table->string('type', 50)->nullable();
+            $table->integer('day')->unsigned()->default(0);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
         });
