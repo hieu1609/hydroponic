@@ -253,6 +253,30 @@ class AdminController extends BaseApiController
         }
     }
 
+    public function getAllNotifications(Request $request)
+    {
+        /**
+         * @SWG\Get(
+         *     path="/admin/getAllNotifications",
+         *     description="get all notifications",
+         *     tags={"Admin"},
+         *     summary="get all notifications",
+         *     security={{"jwt":{}}},
+         *
+         *      @SWG\Response(response=200, description="Successful operation"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $dataNotifications = Notification::getAllNotifications();
+            return $this->responseSuccess($dataNotifications);
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), $exception->getCode(), 500);
+        }
+    }
+
     public function sendNotification(Request $request)
     {
         /**
@@ -315,30 +339,6 @@ class AdminController extends BaseApiController
             return $this->responseSuccess("Send notification successfully");
         } catch (\Exception $exception) {
             return $this->responseErrorException($exception->getMessage(), 99999, 500);
-        }
-    }
-
-    public function getAllNotifications(Request $request)
-    {
-        /**
-         * @SWG\Get(
-         *     path="/admin/getAllNotifications",
-         *     description="get all notifications",
-         *     tags={"Admin"},
-         *     summary="get all notifications",
-         *     security={{"jwt":{}}},
-         *
-         *      @SWG\Response(response=200, description="Successful operation"),
-         *      @SWG\Response(response=401, description="Unauthorized"),
-         *      @SWG\Response(response=500, description="Internal Server Error"),
-         * )
-         */
-
-        try {
-            $dataNotifications = Notification::getAllNotifications();
-            return $this->responseSuccess($dataNotifications);
-        } catch (\Exception $exception) {
-            return $this->responseErrorException($exception->getMessage(), $exception->getCode(), 500);
         }
     }
 
@@ -459,7 +459,6 @@ class AdminController extends BaseApiController
          */
 
         try {
-            // return($request->notificationId);
             $input['notificationId'] = $request->notificationId;
             $validator = Notification::validate($input, 'Delete_Notification');
             if ($validator) {
@@ -472,6 +471,235 @@ class AdminController extends BaseApiController
 
             $checkNotification->delete();
             return $this->responseSuccess("Delete notification successfully");
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    public function getAllDevices(Request $request)
+    {
+        /**
+         * @SWG\Get(
+         *     path="/admin/getAllDevices",
+         *     description="get all devices",
+         *     tags={"Admin"},
+         *     summary="get all devices",
+         *     security={{"jwt":{}}},
+         *
+         *      @SWG\Response(response=200, description="Successful operation"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $dataDevices = Devices::getAllDevices();
+            return $this->responseSuccess($dataDevices);
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), $exception->getCode(), 500);
+        }
+    }
+
+    public function addDevices(Request $request)
+    {
+        /**
+         * @SWG\Post(
+         *     path="/admin/addDevices",
+         *     description="Add devices for user",
+         *     tags={"Admin"},
+         *     summary="Add devices",
+         *     security={{"jwt":{}}},
+         *
+         *      @SWG\Parameter(
+         *          name="body",
+         *          description="Add devices for user",
+         *          required=true,
+         *          in="body",
+         *          @SWG\Schema(
+         *              @SWG\property(
+         *                  property="userId",
+         *                  type="integer",
+         *              ),
+         *          ),
+         *      ),
+         *      @SWG\Response(response=200, description="Successful operation"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=403, description="Forbidden"),
+         *      @SWG\Response(response=422, description="Unprocessable Entity"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $validator = Devices::validate($request->all(), 'Add_Devices');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+            
+            $checkId = User::where(['id' => $request->userId])->first();
+            if (!$checkId) {
+                return $this->responseErrorCustom("id_not_found", 404);
+            }
+
+            $devices = new Devices;
+            $devices->user_id = $request->userId;
+            $devices->save();
+            return $this->responseSuccess("Add device successfully");
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    public function editDevices(Request $request)
+    {
+        /**
+         * @SWG\Put(
+         *     path="/admin/devices/{devicesId}",
+         *     description="Edit devices",
+         *     tags={"Admin"},
+         *     summary="Edit devices",
+         *     security={{"jwt":{}}},
+         *      @SWG\Parameter(
+         *         description="ID devices to edit",
+         *         in="path",
+         *         name="devicesId",
+         *         required=true,
+         *         type="integer",
+         *         format="int64"
+         *     ),
+         *      @SWG\Parameter(
+         *          name="body",
+         *          description="Edit devices",
+         *          required=true,
+         *          in="body",
+         *          @SWG\Schema(
+         *              @SWG\Property(
+         *                  property="userId",
+         *                  type="integer",
+         *              ),
+         *              @SWG\Property(
+         *                  property="temperature",
+         *                  type="number",
+         *              ),
+         *              @SWG\Property(
+         *                  property="humidity",
+         *                  type="number",
+         *              ),
+         *              @SWG\Property(
+         *                  property="light",
+         *                  type="integer",
+         *              ),
+         *              @SWG\Property(
+         *                  property="EC",
+         *                  type="number",
+         *              ),
+         *              @SWG\Property(
+         *                  property="PPM",
+         *                  type="integer",
+         *              ),
+         *              @SWG\Property(
+         *                  property="water",
+         *                  type="number",
+         *              ),
+         *              @SWG\Property(
+         *                  property="pump",
+         *                  type="boolean",
+         *              ),
+         *              @SWG\Property(
+         *                  property="type",
+         *                  type="string",
+         *              ),
+         *              @SWG\Property(
+         *                  property="day",
+         *                  type="integer",
+         *              ),
+         *          ),
+         *      ),
+         *      @SWG\Response(response=200, description="Successful"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=403, description="Forbidden"),
+         *      @SWG\Response(response=404, description="Not Found"),
+         *      @SWG\Response(response=422, description="Unprocessable Entity"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $input = $request->all();
+            $input['devicesId'] = $request->devicesId;
+            $validator = Devices::validate($input, 'Edit_Devices');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            $checkId = User::where(['id' => $request->userId])->first();
+            if (!$checkId) {
+                return $this->responseErrorCustom("id_not_found", 404);
+            }
+            
+            $checkDevices = Devices::where(['id' => $request->devicesId])->first();
+            if (!$checkDevices) {
+                return $this->responseErrorCustom("devices_id_not_found", 404);
+            }
+
+            $checkDevices->user_id = $request->userId;
+            $checkDevices->temperature = $request->temperature;
+            $checkDevices->humidity = $request->humidity;
+            $checkDevices->light = $request->light;
+            $checkDevices->EC = $request->EC;
+            $checkDevices->PPM = $request->PPM;
+            $checkDevices->water = $request->water;
+            $checkDevices->pump = $request->pump;
+            $checkDevices->type = $request->type;
+            $checkDevices->day = $request->day;
+            $checkDevices->save();
+            return $this->responseSuccess($checkDevices);
+
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    public function deleteDevices(Request $request)
+    {
+        /**
+         * @SWG\Delete(
+         *     path="/admin/devices/{devicesId}",
+         *     description="Delete device",
+         *     tags={"Admin"},
+         *     summary="Delete device",
+         *     security={{"jwt":{}}},
+         *      @SWG\Parameter(
+         *         description="ID device to delete",
+         *         in="path",
+         *         name="devicesId",
+         *         required=true,
+         *         type="integer",
+         *         format="int64"
+         *     ),
+         *      @SWG\Response(response=200, description="Successful"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=403, description="Forbidden"),
+         *      @SWG\Response(response=404, description="Not Found"),
+         *      @SWG\Response(response=422, description="Unprocessable Entity"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $input['devicesId'] = $request->devicesId;
+            $validator = Devices::validate($input, 'Delete_Devices');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            $checkDevices = Devices::where(['id' => $request->devicesId])->first();
+            if (!$checkDevices) {
+                return $this->responseErrorCustom("devices_id_not_found", 404);
+            }
+
+            $checkDevices->delete();
+            return $this->responseSuccess("Delete device successfully");
         } catch (\Exception $exception) {
             return $this->responseErrorException($exception->getMessage(), 99999, 500);
         }

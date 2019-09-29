@@ -29,6 +29,7 @@ Route::group(['prefix' => 'auth'], function () {
 Route::group(['prefix' => 'devices'], function () {
     Route::group(['middleware' => ['jwt']], function () {
         Route::get('getData', 'DevicesController@getData');
+        Route::put('/{devicesId}', 'DevicesController@pumpDevices');
     });
 });
 
@@ -48,9 +49,15 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('statistic', 'AdminController@getStatistic');
         Route::put('/{id}', 'AdminController@editUser');
         Route::delete('/{id}', 'AdminController@deleteUser');
-        Route::post('sendNotification', 'AdminController@sendNotification');
+
         Route::get('getAllNotifications', 'AdminController@getAllNotifications');
+        Route::post('sendNotification', 'AdminController@sendNotification');
         Route::put('notification/{notificationId}', 'AdminController@editNotification');
         Route::delete('notification/{notificationId}', 'AdminController@deleteNotification');
+
+        Route::get('getAllDevices', 'AdminController@getAllDevices');
+        Route::post('addDevices', 'AdminController@addDevices');
+        Route::put('devices/{devicesId}', 'AdminController@editDevices');
+        Route::delete('devices/{devicesId}', 'AdminController@deleteDevices');
     });
 });
