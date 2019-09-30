@@ -1,25 +1,80 @@
 @import "~src/styles/variables.scss";
 
-.title {
-  font-family: $font1;
-  font-size: $fs5;
-  color: lime;
-}
-.navbar--config {
-  text-align: right;
-  a {
-    color: seagreen;
+#nav-1 {
+  .nav {
+    position: relative;
+    border: none;
+    border-radius: 10em;
+    display: flex;
+    list-style: none;
+    background: #f5f5f5;
+    box-shadow: 20px 40px 50px #00000044;
+    padding: 10px;
+    li {
+      margin: 0px;
+      a {
+        position: relative;
+        padding: 0.6em 2em;
+        font-size: 18px;
+        border: none;
+        color: #333;
+        display: inline-block;
+        text-decoration: none;
+        z-index: 3;
+      }
+    }
+  }
+  .slide1,
+  .slide2 {
+    position: absolute;
+    display: inline-block;
+    height: 3em;
+    border-radius: 10em;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1.05);
+  }
+  .nav .slide1 {
+    background-color: yellowgreen;
+    z-index: 2;
+  }
+  .nav .slide2 {
+    opacity: 0;
+    background: #fff;
+    border: 1px solid #8ab9ff;
+    z-index: 1;
   }
 }
-.carousel--config {
-  height: 500px;
-  img {
-    height: 800px;
-  }
+
+.squeeze {
+  transition: all 1.5s;
+  transform: scale(0.9);
 }
-.nav-item--config {
-  a {
-    font-family: $font2;
-    font-size: $fs2;
-  }
+
+// *************************************** Demo stuff
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  position: relative;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e0e0e0;
+  font-family: Montserrat, sans-serif;
+  line-height: 1.5;
+  background: linear-gradient(160deg, #4567b2 20%, #8ab9ff 20%, #8ab9ff 80%, #4567b2 80%);
+}
+nav {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  display: block;
+  z-index: 2;
 }

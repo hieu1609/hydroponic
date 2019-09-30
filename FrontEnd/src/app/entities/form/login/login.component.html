@@ -1,0 +1,74 @@
+<div class="container mt-5" [ngClass]="{'right-panel-active' : signIn}">
+    <div class="form-container sign-in-container">
+        <form #formSignIn="ngForm" (submit)="_handleOnSubmit(formSignIn)">
+            <h1>Sign in</h1>
+            <div class="social-container">
+                <a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
+                <a href="#" class="social"><i class="fa fa-google"></i></a>
+                <a href="#" class="social"><i class="fa fa-linkedin"></i></a>
+            </div>
+            <span>or use your account</span>
+
+            <input placeholder="Email" type="email" name="email" required #email="ngModel"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" ngModel class="form-control">
+
+            <p class="alert alert-danger mt-2" *ngIf="email?.errors?.required && (email.dirty || email.touched)">
+                Vui lòng nhập email </p>
+            <p class="alert alert-danger mt-2" *ngIf="email?.errors?.pattern"> Email phải đúng định dạng </p>
+            <input placeholder="Password" type="password" #password="ngModel" required minlength="6" maxlength="16"
+                name="password" ngModel class="form-control">
+
+            <p class="alert alert-danger mt-2"
+                *ngIf="password?.errors?.required && (password.dirty || password.touched)">
+                Vui lòng nhập mật khẩu </p>
+            <p class="alert alert-danger mt-2" *ngIf="password?.errors?.minlength || password?.errors?.maxlength"> Mật
+                khẩu phải có từ 6 tới 16 kí tự </p>
+            <a href="#">Forgot your password?</a>
+            <button type="submit">Đăng nhập</button>
+        </form>
+    </div>
+    <div class="form-container sign-up-container">
+        <form #formSignUp="ngForm" (submit)="_handleOnSubmitSignUp(formSignUp)">
+            <h1>Create Account</h1>
+            <div class="social-container">
+                <a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
+                <a href="#" class="social"><i class="fa fa-google"></i></a>
+                <a href="#" class="social"><i class="fa fa-linkedin"></i></a>
+            </div>
+            <span>or use your email for registration</span>
+            <input type="text" name="username" #username="ngModel" ngModel placeholder="Name" />
+            <input placeholder="Email" type="email" name="email" required #email="ngModel"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" ngModel class="form-control">
+
+            <p class="alert alert-danger mt-2" *ngIf="email?.errors?.required && (email.dirty || email.touched)">
+                Vui lòng nhập email </p>
+            <p class="alert alert-danger mt-2" *ngIf="email?.errors?.pattern"> Email phải đúng định dạng </p>
+            <input placeholder="Password" type="password" #password="ngModel" required minlength="6" maxlength="16"
+                name="password" ngModel class="form-control">
+            <input placeholder="Confirm password" type="password" name="confirmPassword" #confirmPassword="ngModel"
+                required minlength="6" maxlength="16" ngModel class="form-control">
+            <p class="alert alert-danger mt-2"
+                *ngIf="password?.errors?.required && (password.dirty || password.touched)">
+                Vui lòng nhập mật khẩu </p>
+            <p class="alert alert-danger mt-2" *ngIf="password?.errors?.minlength || password?.errors?.maxlength"> Mật
+                khẩu phải có từ 6 tới 16 kí tự </p>
+            <a href="#">Forgot your password?</a>
+            <button type="submit">Đăng ký</button>
+        </form>
+    </div>
+
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>Welcome Back!</h1>
+                <p>Hãy đăng nhập để tiếp tục nhé</p>
+                <button class="ghost" (click)="SignIn()" id="signIn">Đăng nhập</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Hello !</h1>
+                <p>Nếu chưa có hãy đăng ký tài khoản ngay nào</p>
+                <button class="ghost" (click)="SignUp()" id="signUp">Đăng ký</button>
+            </div>
+        </div>
+    </div>
+</div>

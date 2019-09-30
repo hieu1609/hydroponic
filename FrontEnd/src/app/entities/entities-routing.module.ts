@@ -3,14 +3,14 @@ import { Routes, RouterModule } from "@angular/router";
 import { AuthGuard } from "./../common/guards/auth.guard";
 
 const routes: Routes = [
-  { path: "login", loadChildren: "./login/login.module#LoginModule" },
+  { path: "", loadChildren: "./form/form.module#FormModule" },
+  // {
+  //   path: "",
+  //   loadChildren: "./home/home.module#HomeModule",
+  //   canActivate: [AuthGuard]
+  // },
   {
     path: "",
-    loadChildren: "./home/home.module#HomeModule",
-    canActivate: [AuthGuard]
-  },
-  {
-    path: "home",
     loadChildren: "./home/home.module#HomeModule",
     canActivate: [AuthGuard]
   },
