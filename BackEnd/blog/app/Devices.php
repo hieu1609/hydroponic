@@ -11,16 +11,32 @@ class Devices extends BaseModel
         'user_id', 'temperature', 'humidity', 'light', 'EC', 'PPM', 'water', 'pump', 'type', 'day'
     ];
 
-    // public static $rules = array(
-    //     'Rule_RequestResetPassword' => [
-    //         'email' => 'required|regex:/^[a-z][a-z0-9_\.]{2,}@[a-z0-9]{2,}(\.[a-z0-9]{2,}){1,2}$/'
-    //     ],
-    //     'Rule_AcceptResetPassword' => [
-    //         'token' => 'required|string',
-    //         'newPassword' => 'required|string|min:6|max:16',
-    //         'confirmNewPassword' => 'required|same:newPassword'
-    //     ],
-    // );
+    public static $rules = array(
+        'Add_Devices' => [
+            'userId' => 'required|integer'
+        ],
+        'Edit_Devices' => [
+            'devicesId' => 'required|integer',
+            'userId' => 'required|integer',
+            'light' => 'integer',
+            'PPM' => 'integer',
+            'pump' => 'boolean',
+            'type' => 'string',
+            'day' => 'integer',
+        ],
+        'Delete_Devices' => [
+            'devicesId' => 'required|integer'
+        ],
+        'Pump_Devices' => [
+            'devicesId' => 'required|integer',
+            'pump' => 'boolean',
+        ],
+    );
+
+    public static function getAllDevices() {
+        return Devices::orderBy('id', 'asc')
+        ->get();
+    }
 
     public static function getData($idUser) {
         return Devices::where('user_id', $idUser)

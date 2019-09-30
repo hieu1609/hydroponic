@@ -340,6 +340,34 @@ return [
             'required' => 'seen_required',
             'boolean' => 'seen_id_boolean'
         ],
+        'devicesId' => [
+            'required' => 'devices_id_required',
+            'integer' => 'devices_id_integer'
+        ],
+        'temperature' => [
+            'number' => 'temperature_number'
+        ],
+        'humidity' => [
+            'number' => 'humidity_number'
+        ],
+        'EC' => [
+            'number' => 'EC_number'
+        ],
+        'water' => [
+            'number' => 'water_number'
+        ],
+        'light' => [
+            'integer' => 'light_integer'
+        ],
+        'PPM' => [
+            'integer' => 'PPM_integer'
+        ],
+        'day' => [
+            'integer' => 'day_integer'
+        ],
+        'type' => [
+            'string' => 'type_string'
+        ],
     ],
 
     /*

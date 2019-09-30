@@ -182,6 +182,19 @@ $ApiErrorMessages = array(
     'user_id_receive_integer' => 'User id receive must be integer',
     'seen_required' => 'Seen is required',
     'seen_id_boolean' => 'Seen id send must be boolean',
+
+    'devices_id_not_found' => 'Device id not found',
+    'devices_id_required' => 'Devices id is required',
+    'devices_id_integer' => 'Devices id must be integer',
+    'temperature_number' => 'Temperature must be number',
+    'humidity_number' => 'Humidity must be number',
+    'EC_number' => 'EC must be number',
+    'water_number' => 'Water must be number',
+    'light_integer' => 'Light must be integer',
+    'PPM_integer' => 'PPM must be integer',
+    'day_integer' => 'Day must be integer',
+    'type_string' => 'Type must be string',
+    'permission_denied' => 'Permission denied',
 );
 
 $ApiErrorCodes = array(
@@ -367,6 +380,19 @@ $ApiErrorCodes = array(
     'seen_required' => 8036,
     'seen_id_boolean' => 8037,
 
+    'devices_id_not_found' => 8038,
+    'devices_id_required' => 8039,
+    'devices_id_integer' => 8040,
+    'temperature_number' => 8041,
+    'humidity_number' => 8042,
+    'EC_number' => 8043,
+    'water_number' => 8044,
+    'light_integer' => 8045,
+    'PPM_integer' => 8046,
+    'day_integer' => 8047,
+    'type_string' => 8048,
+
+    'permission_denied' => 8050,
 );
 
 $ApiCodes['ApiErrorMessages'] = $ApiErrorMessages;
