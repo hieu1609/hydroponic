@@ -42,6 +42,12 @@ Route::group(['prefix' => 'user'], function () {
     });
 });
 
+//Route Weather
+Route::group(['middleware' => ['jwt']], function () {
+    Route::post('weather/currentweather', 'LaravelOWMController@currentweather');
+    Route::post('weather/forecast', 'LaravelOWMController@forecast');        
+});
+
 //Route Admin
 Route::group(['prefix' => 'admin'], function () {
     Route::middleware(['jwt', 'admin'])->group(function () {
