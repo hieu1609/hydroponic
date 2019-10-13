@@ -22,7 +22,7 @@ class User extends BaseModel  implements JWTSubject, Authenticatable
      */
 
     protected $fillable = [
-        'username', 'email', 'password',
+        'username', 'email', 'password', 'city',
     ];
 
     /**

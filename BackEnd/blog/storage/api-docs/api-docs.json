@@ -952,6 +952,110 @@
                 ]
             }
         },
+        "/weather/currentweather": {
+            "post": {
+                "tags": [
+                    "Weather"
+                ],
+                "summary": "get current weather",
+                "description": "get current weather",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "get current weather",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "city": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/weather/forecast": {
+            "post": {
+                "tags": [
+                    "Weather"
+                ],
+                "summary": "get forecast",
+                "description": "get forecast",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "get forecast",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "city": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
         "/user/getNotifications": {
             "get": {
                 "tags": [
