@@ -39,6 +39,9 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('getNotifications', 'UserController@getNotifications');
         Route::post('postFeedback', 'UserController@postFeedback');
         Route::put('seenNotification', 'UserController@seenNotification');
+
+        Route::post('sendMsgViaMqtt', 'UserController@sendMsgViaMqtt');
+        Route::post('subscribetoTopic', 'UserController@subscribetoTopic');
     });
 });
 

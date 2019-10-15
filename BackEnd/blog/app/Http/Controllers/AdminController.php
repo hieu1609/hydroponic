@@ -201,7 +201,7 @@ class AdminController extends BaseApiController
          *     ),
          *      @SWG\Parameter(
          *          name="body",
-         *          description="Create user",
+         *          description="Edit user",
          *          required=true,
          *          in="body",
          *          @SWG\Schema(

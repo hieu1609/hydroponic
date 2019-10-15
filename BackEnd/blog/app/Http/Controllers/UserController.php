@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Salman\Mqtt\MqttClass\Mqtt;
 use Illuminate\Http\Request;
 use Mockery\CountValidator\Exception;
 use App\Notification;
@@ -133,5 +134,95 @@ class UserController extends BaseApiController
         } catch (\Exception $exception) {
             return $this->responseErrorException($exception->getMessage(), 99999, 500);
         }
+    }
+
+    /**
+     * @SWG\Post(
+     *     path="/user/sendMsgViaMqtt",
+     *     description="Send msg via mqtt",
+     *     tags={"MQTT"},
+     *     summary="Send msg via mqtt",
+     *     security={{"jwt":{}}},
+     *
+     *      @SWG\Parameter(
+     *          name="body",
+     *          description="Send msg via mqtt",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(
+     *              @SWG\property(
+     *                  property="topic",
+     *                  type="string",
+     *              ),
+     *              @SWG\property(
+     *                  property="message",
+     *                  type="string",
+     *              ),
+     *          ),
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @SWG\Response(response=403, description="Forbidden"),
+     *      @SWG\Response(response=422, description="Unprocessable Entity"),
+     *      @SWG\Response(response=500, description="Internal Server Error"),
+     * )
+     */
+    public function sendMsgViaMqtt(Request $request)
+    {
+        try {
+            $mqtt = new Mqtt();
+            $output = $mqtt->ConnectAndPublish($request->topic, $request->message);
+            if ($output === true) {
+                return $this->responseSuccess("Seen to mqtt successfully");
+            } 
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+
+    /**
+     * @SWG\Post(
+     *     path="/user/subscribetoTopic",
+     *     description="Subscribe to topic",
+     *     tags={"MQTT"},
+     *     summary="Subscribe to topic",
+     *     security={{"jwt":{}}},
+     *
+     *      @SWG\Parameter(
+     *          name="body",
+     *          description="Subscribe to topic",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(
+     *              @SWG\property(
+     *                  property="topic",
+     *                  type="string",
+     *              ),
+     *          ),
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @SWG\Response(response=403, description="Forbidden"),
+     *      @SWG\Response(response=422, description="Unprocessable Entity"),
+     *      @SWG\Response(response=500, description="Internal Server Error"),
+     * )
+     */
+    public function subscribetoTopic(Request $request)
+    {
+        $topic = $request->topic;
+        $mqtt = new Mqtt();
+        $mqtt->ConnectAndSubscribe($topic, function($topic, $msg){
+            // return $this->responseSuccess($msg);
+            echo "Msg Received: \n";
+            echo "Topic: {$topic}\n";
+            echo "Message: {$msg}\n\n";
+        });
+        // return $this->responseSuccess($msg);
+        // {
+        //     $data->topic = $topic;
+        //     $data->msg = $msg;
+        //     return $this->responseSuccess($data);
+        // });
     }
 }
