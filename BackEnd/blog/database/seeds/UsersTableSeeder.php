@@ -18,6 +18,7 @@ class UsersTableSeeder extends Seeder
                 'username' => 'Admin',
                 'email' => 'admin' . '@gmail.com',
                 'password' => bcrypt('string'),
+                'city' => 'Ho Chi Minh City',
                 'admin' => 1,
                 "created_at"=> "2019-08-28 03:12:33",
                 "updated_at"=> "2019-08-28 03:12:33"
@@ -26,6 +27,7 @@ class UsersTableSeeder extends Seeder
                 "username"=> "Duc",
                 "email"=> "duc@gmail.com",
                 'password' => bcrypt('string'),
+                'city' => 'Ha Noi',
                 "admin"=> 0,
                 "created_at"=> "2019-08-28 03:12:34",
                 "updated_at"=> "2019-08-28 03:12:34"
@@ -35,6 +37,7 @@ class UsersTableSeeder extends Seeder
                 "username" => "Hieu",
                 "email" => "hieu@gmail.com",
                 'password' => bcrypt('string'),
+                'city' => 'Bien Hoa',
                 "admin" => 0,
                 "created_at"=> "2019-08-28 03:12:35",
                 "updated_at"=> "2019-08-28 03:12:35"
@@ -43,6 +46,7 @@ class UsersTableSeeder extends Seeder
                 "username" => "Quan",
                 "email" => "quan@gmail.com",
                 'password' => bcrypt('string'),
+                'city' => 'Hoi An',
                 "admin" => 0,
                 "created_at"=> "2019-08-28 03:12:35",
                 "updated_at"=> "2019-08-28 03:12:35"
@@ -51,6 +55,7 @@ class UsersTableSeeder extends Seeder
                 "username" => "String",
                 "email" => "string@gmail.com",
                 'password' => bcrypt('string'),
+                'city' => 'Can Tho',
                 "admin" => 0,
                 "created_at"=> "2019-08-28 03:12:35",
                 "updated_at"=> "2019-08-28 03:12:35"
@@ -59,6 +64,7 @@ class UsersTableSeeder extends Seeder
                 "username" => "String1",
                 "email" => "string1@gmail.com",
                 'password' => bcrypt('string'),
+                'city' => 'Nha Trang',
                 "admin" => 0,
                 "created_at"=> "2019-08-28 03:12:35",
                 "updated_at"=> "2019-08-28 03:12:35"

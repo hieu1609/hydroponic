@@ -18,6 +18,7 @@ class CreateUsers extends Migration
             $table->string('username', 30);
             $table->string('email', 32)->unique();
             $table->string('password', 256);
+            $table->string('city', 100)->default('Ho Chi Minh City');
             $table->boolean('admin')->default(0);
             $table->timestamps();
         });
