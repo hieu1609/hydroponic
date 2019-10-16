@@ -195,6 +195,11 @@ $ApiErrorMessages = array(
     'day_integer' => 'Day must be integer',
     'type_string' => 'Type must be string',
     'permission_denied' => 'Permission denied',
+
+    'topic_required' => 'Topic id is required',
+    'topic_string' => 'Topic must be string',
+    'message_required' => 'Message id is required',
+    'message_string' => 'Message must be string',
 );
 
 $ApiErrorCodes = array(
@@ -393,6 +398,11 @@ $ApiErrorCodes = array(
     'type_string' => 8048,
 
     'permission_denied' => 8050,
+
+    'topic_required' => 8051,
+    'topic_string' => 8052,
+    'message_required' => 8053,
+    'message_string' => 8054,
 );
 
 $ApiCodes['ApiErrorMessages'] = $ApiErrorMessages;
