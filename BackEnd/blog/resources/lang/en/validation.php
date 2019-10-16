@@ -368,6 +368,14 @@ return [
         'type' => [
             'string' => 'type_string'
         ],
+        'topic' => [
+            'required' => 'topic_required',
+            'string' => 'topic_string'
+        ],
+        'message' => [
+            'required' => 'message_required',
+            'string' => 'message_string'
+        ],
     ],
 
     /*

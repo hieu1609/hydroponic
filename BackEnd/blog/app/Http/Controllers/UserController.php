@@ -151,6 +151,10 @@ class UserController extends BaseApiController
      *          in="body",
      *          @SWG\Schema(
      *              @SWG\property(
+     *                  property="devicesId",
+     *                  type="integer",
+     *              ),
+     *              @SWG\property(
      *                  property="topic",
      *                  type="string",
      *              ),
@@ -170,8 +174,13 @@ class UserController extends BaseApiController
     public function sendMsgViaMqtt(Request $request)
     {
         try {
+            $validator = Notification::validate($request->all(), 'Send_Msg_Via_Mqtt');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
             $mqtt = new Mqtt();
-            $output = $mqtt->ConnectAndPublish($request->topic, $request->message);
+            $topic = $request->devicesId."=".$request->topic;
+            $output = $mqtt->ConnectAndPublish($topic, $request->message);
             if ($output === true) {
                 return $this->responseSuccess("Seen to mqtt successfully");
             } 
@@ -179,7 +188,6 @@ class UserController extends BaseApiController
             return $this->responseErrorException($exception->getMessage(), 99999, 500);
         }
     }
-
 
     /**
      * @SWG\Post(
@@ -196,6 +204,10 @@ class UserController extends BaseApiController
      *          in="body",
      *          @SWG\Schema(
      *              @SWG\property(
+     *                  property="devicesId",
+     *                  type="integer",
+     *              ),
+     *              @SWG\property(
      *                  property="topic",
      *                  type="string",
      *              ),
@@ -210,19 +222,24 @@ class UserController extends BaseApiController
      */
     public function subscribetoTopic(Request $request)
     {
-        $topic = $request->topic;
-        $mqtt = new Mqtt();
-        $mqtt->ConnectAndSubscribe($topic, function($topic, $msg){
-            // return $this->responseSuccess($msg);
-            echo "Msg Received: \n";
-            echo "Topic: {$topic}\n";
-            echo "Message: {$msg}\n\n";
-        });
-        // return $this->responseSuccess($msg);
-        // {
-        //     $data->topic = $topic;
-        //     $data->msg = $msg;
-        //     return $this->responseSuccess($data);
-        // });
+        try {
+            set_time_limit(0);
+            $validator = Notification::validate($request->all(), 'Subscribe_To_Topic');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+            $topic = $request->devicesId."=".$request->topic;
+            $mqtt = new Mqtt();
+            $msg = "";
+            $mqtt->ConnectAndSubscribe($topic, function($topic, $message){
+                if($message != "") {
+                    $abc = $topic."=".$message;
+                    exit($abc);
+                }
+            });
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+
     }
 }
