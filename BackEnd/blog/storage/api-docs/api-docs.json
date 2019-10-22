@@ -605,6 +605,139 @@
                 ]
             }
         },
+        "/admin/getAllNutrients": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "get all nutrients",
+                "description": "get all nutrients",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/admin/nutrient/{nutrientId}": {
+            "put": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Edit nutrient",
+                "description": "Edit nutrient",
+                "parameters": [
+                    {
+                        "name": "nutrientId",
+                        "in": "path",
+                        "description": "ID nutrient to edit",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Edit nutrient",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "userId": {
+                                    "type": "integer"
+                                },
+                                "plantName": {
+                                    "type": "string"
+                                },
+                                "ppmMin": {
+                                    "type": "integer"
+                                },
+                                "ppmMax": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Delete nutrient",
+                "description": "Delete nutrient",
+                "parameters": [
+                    {
+                        "name": "nutrientId",
+                        "in": "path",
+                        "description": "ID nutrient to delete",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
         "/auth/login": {
             "post": {
                 "tags": [
@@ -1248,6 +1381,83 @@
                                 },
                                 "topic": {
                                     "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/user/getNutrients": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "get nutrients",
+                "description": "get nutrients",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/user/postNutrient": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Post nutrient",
+                "description": "Post nutrient",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Post nutrient",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "plantName": {
+                                    "type": "string"
+                                },
+                                "ppmMin": {
+                                    "type": "integer"
+                                },
+                                "ppmMax": {
+                                    "type": "integer"
                                 }
                             }
                         }

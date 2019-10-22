@@ -376,6 +376,22 @@ return [
             'required' => 'message_required',
             'string' => 'message_string'
         ],
+        'plantName' => [
+            'required' => 'plant_name_required',
+            'string' => 'plant_name_string'
+        ],
+        'ppmMin' => [
+            'required' => 'ppm_min_required',
+            'integer' => 'ppm_min_integer'
+        ],
+        'ppmMax' => [
+            'required' => 'ppm_max_required',
+            'integer' => 'ppm_max_integer'
+        ],
+        'nutrientId' => [
+            'required' => 'nutrient_id_required',
+            'integer' => 'nutrient_id_integer'
+        ],
     ],
 
     /*
