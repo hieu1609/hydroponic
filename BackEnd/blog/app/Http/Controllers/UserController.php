@@ -6,6 +6,7 @@ use Salman\Mqtt\MqttClass\Mqtt;
 use Illuminate\Http\Request;
 use Mockery\CountValidator\Exception;
 use App\Notification;
+use App\Nutrients;
 
 class UserController extends BaseApiController
 {
@@ -241,5 +242,90 @@ class UserController extends BaseApiController
             return $this->responseErrorException($exception->getMessage(), 99999, 500);
         }
 
+    }
+
+    public function getNutrients(Request $request)
+    {
+        /**
+         * @SWG\Get(
+         *     path="/user/getNutrients",
+         *     description="get nutrients",
+         *     tags={"User"},
+         *     summary="get nutrients",
+         *     security={{"jwt":{}}},
+         *
+         *      @SWG\Response(response=200, description="Successful operation"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $dataNutrients = Nutrients::getNutrients($request->user->id);
+            return $this->responseSuccess($dataNutrients);
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), $exception->getCode(), 500);
+        }
+    }
+
+    public function postNutrient(Request $request)
+    {
+        /**
+         * @SWG\Post(
+         *     path="/user/postNutrient",
+         *     description="Post nutrient",
+         *     tags={"User"},
+         *     summary="Post nutrient",
+         *     security={{"jwt":{}}},
+         *
+         *      @SWG\Parameter(
+         *          name="body",
+         *          description="Post nutrient",
+         *          required=true,
+         *          in="body",
+         *          @SWG\Schema(
+         *              @SWG\property(
+         *                  property="plantName",
+         *                  type="string",
+         *              ),
+         *              @SWG\property(
+         *                  property="ppmMin",
+         *                  type="integer",
+         *              ),
+         *              @SWG\property(
+         *                  property="ppmMax",
+         *                  type="integer",
+         *              ),
+         *          ),
+         *      ),
+         *      @SWG\Response(response=200, description="Successful operation"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=403, description="Forbidden"),
+         *      @SWG\Response(response=422, description="Unprocessable Entity"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $validator = Nutrients::validate($request->all(), 'Post_Nutrient');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            if ($request->ppmMax - $request->ppmMin < 50) {
+                return $this->responseErrorCustom("ppmMax_must_be_greater_than_ppmMin_50", 403); //Forbidden
+            }
+
+            $nutrient = new Nutrients;
+            $nutrient->user_id = $request->user->id;
+            $nutrient->plant_name = $request->plantName;
+            $nutrient->ppm_min = $request->ppmMin;
+            $nutrient->ppm_max = $request->ppmMax;
+            $nutrient->save();
+            return $this->responseSuccess("Post nutrient successfully");
+
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
     }
 }
