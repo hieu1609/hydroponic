@@ -10,6 +10,7 @@ use App\Nutrients;
 
 class UserController extends BaseApiController
 {
+    private $abc;
     public function getNotifications(Request $request)
     {
         /**
@@ -324,6 +325,97 @@ class UserController extends BaseApiController
             $nutrient->save();
             return $this->responseSuccess("Post nutrient successfully");
 
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    /**
+     * @SWG\Post(
+     *     path="/user/pumpAutoOn",
+     *     description="Send msg via mqtt",
+     *     tags={"MQTT"},
+     *     summary="Send msg via mqtt",
+     *     security={{"jwt":{}}},
+     *
+     *      @SWG\Parameter(
+     *          name="body",
+     *          description="Send msg via mqtt",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(
+     *              @SWG\property(
+     *                  property="devicesId",
+     *                  type="integer",
+     *              ),
+     *              @SWG\property(
+     *                  property="timeOn",
+     *                  type="integer",
+     *              ),
+     *              @SWG\property(
+     *                  property="timeOff",
+     *                  type="integer",
+     *              ),
+     *          ),
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @SWG\Response(response=403, description="Forbidden"),
+     *      @SWG\Response(response=422, description="Unprocessable Entity"),
+     *      @SWG\Response(response=500, description="Internal Server Error"),
+     * )
+     */
+    public function pumpAutoOn(Request $request)
+    {
+        try {
+            set_time_limit(0);
+            // $validator = Notification::validate($request->all(), 'Send_Msg_Via_Mqtt');
+            // if ($validator) {
+            //     return $this->responseErrorValidator($validator, 422);
+            // }
+            $this->abc = 1;
+            $topic = $request->devicesId."=pumpAuto";
+            $i = 0;
+            $message = 1;
+            $mqtt = new Mqtt();
+            while($this->abc == 1){   
+                $output = $mqtt->ConnectAndPublish($topic, $message);
+                if($message == 1) {
+                    $message = 0;
+                    sleep($request->timeOn);
+                }
+                else {
+                    $message = 1;
+                    sleep($request->timeOff);
+                }
+                // $this->pumpAutoOff();
+            }
+
+            if ($output === true) {
+                return $this->responseSuccess("Seen to mqtt successfully");
+            } 
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+    /**
+     * @SWG\Get(
+     *     path="/user/pumpAutoOff",
+     *     description="Turn off pump auto mode",
+     *     tags={"MQTT"},
+     *     summary="Turn off pump auto mode",
+     *     security={{"jwt":{}}},
+     *
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @SWG\Response(response=500, description="Internal Server Error"),
+     * )
+     */
+    public function pumpAutoOff()
+    {
+        try {
+            $this->abc = 0;
+            return $this->responseSuccess("ok");
         } catch (\Exception $exception) {
             return $this->responseErrorException($exception->getMessage(), 99999, 500);
         }
