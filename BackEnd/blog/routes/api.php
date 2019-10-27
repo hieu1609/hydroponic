@@ -45,7 +45,7 @@ Route::group(['prefix' => 'user'], function () {
 
         //Pump automatic
         Route::post('pumpAutoOn', 'UserController@pumpAutoOn');
-        Route::get('pumpAutoOff', 'UserController@pumpAutoOff');
+        Route::post('pumpAutoOff', 'UserController@pumpAutoOff');
 
         //Nutrients
         Route::get('getNutrients', 'UserController@getNutrients');

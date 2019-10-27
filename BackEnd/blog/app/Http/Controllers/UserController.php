@@ -7,10 +7,13 @@ use Illuminate\Http\Request;
 use Mockery\CountValidator\Exception;
 use App\Notification;
 use App\Nutrients;
+use App\PumpAutomatic;
+use App\Devices;
 
 class UserController extends BaseApiController
 {
-    private $abc;
+    public $abc = 1;
+    public $flag = 1;
     public function getNotifications(Request $request)
     {
         /**
@@ -333,14 +336,14 @@ class UserController extends BaseApiController
     /**
      * @SWG\Post(
      *     path="/user/pumpAutoOn",
-     *     description="Send msg via mqtt",
-     *     tags={"MQTT"},
-     *     summary="Send msg via mqtt",
+     *     description="Turn on pump auto mode",
+     *     tags={"Pump auto"},
+     *     summary="Turn on pump auto mode",
      *     security={{"jwt":{}}},
      *
      *      @SWG\Parameter(
      *          name="body",
-     *          description="Send msg via mqtt",
+     *          description="Turn on pump auto mode",
      *          required=true,
      *          in="body",
      *          @SWG\Schema(
@@ -369,53 +372,130 @@ class UserController extends BaseApiController
     {
         try {
             set_time_limit(0);
-            // $validator = Notification::validate($request->all(), 'Send_Msg_Via_Mqtt');
-            // if ($validator) {
-            //     return $this->responseErrorValidator($validator, 422);
-            // }
-            $this->abc = 1;
+            $validator = PumpAutomatic::validate($request->all(), 'Pump_Auto_On');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            if($request->timeOn <= 0 or $request->timeOff <= 0) {
+                return $this->responseErrorCustom("time_must_be_greater_than_0", 403); //Forbidden
+            }
+
+            $checkDevices = Devices::where(['id' => $request->devicesId])->first();
+            if (!$checkDevices) {
+                return $this->responseErrorCustom("devices_id_not_found", 404);
+            }
+            else {
+                if($checkDevices->user_id != $request->user->id) {
+                    return $this->responseErrorCustom("permission_denied", 403); //Forbidden
+                }
+                else {
+                    $checkAuto = PumpAutomatic::where(['device_id' => $request->devicesId])->first();
+                    if (!$checkAuto) {
+                        return $this->responseErrorCustom("devices_id_not_found", 404);
+                    }
+                    else {
+                        $checkAuto->time_on = $request->timeOn;
+                        $checkAuto->time_off = $request->timeOff;
+                        $checkAuto->auto = 1;
+                        $checkAuto->save();
+                    }
+                }
+            }
+
+            $Temp = PumpAutomatic::getAuto($request->devicesId);
             $topic = $request->devicesId."=pumpAuto";
-            $i = 0;
             $message = 1;
             $mqtt = new Mqtt();
-            while($this->abc == 1){   
+            while($Temp[0]->auto == 1){   
                 $output = $mqtt->ConnectAndPublish($topic, $message);
                 if($message == 1) {
                     $message = 0;
-                    sleep($request->timeOn);
+                    $n = 1;
+                    for($i = 0; $i < $n; $i++) { 
+                        $Temp = PumpAutomatic::getAuto($request->devicesId);
+                        if($Temp[0]->auto == 1 and $n <= $request->timeOn) {
+                            $n++;
+                            sleep(1);
+                        }
+                    }
                 }
                 else {
                     $message = 1;
-                    sleep($request->timeOff);
-                }
-                // $this->pumpAutoOff();
+                    $n = 1;
+                    for($i = 0; $i < $n; $i++) { 
+                        $Temp = PumpAutomatic::getAuto($request->devicesId);
+                        if($Temp[0]->auto == 1 and $n <= $request->timeOff) {
+                            $n++;
+                            sleep(1);
+                        }
+                    }
+                }    
             }
-
+            $output = $mqtt->ConnectAndPublish($topic, 0);
             if ($output === true) {
-                return $this->responseSuccess("Seen to mqtt successfully");
+                return $this->responseSuccess("Seen turn on auto mode successfully");
             } 
         } catch (\Exception $exception) {
             return $this->responseErrorException($exception->getMessage(), 99999, 500);
         }
     }
+
     /**
-     * @SWG\Get(
+     * @SWG\Post(
      *     path="/user/pumpAutoOff",
      *     description="Turn off pump auto mode",
-     *     tags={"MQTT"},
+     *     tags={"Pump auto"},
      *     summary="Turn off pump auto mode",
      *     security={{"jwt":{}}},
      *
+     *      @SWG\Parameter(
+     *          name="body",
+     *          description="Turn off pump auto mode",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(
+     *              @SWG\property(
+     *                  property="devicesId",
+     *                  type="integer",
+     *              ),
+     *          ),
+     *      ),
      *      @SWG\Response(response=200, description="Successful operation"),
      *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @SWG\Response(response=403, description="Forbidden"),
+     *      @SWG\Response(response=422, description="Unprocessable Entity"),
      *      @SWG\Response(response=500, description="Internal Server Error"),
      * )
      */
-    public function pumpAutoOff()
+    public function pumpAutoOff(Request $request)
     {
         try {
-            $this->abc = 0;
-            return $this->responseSuccess("ok");
+            $validator = PumpAutomatic::validate($request->all(), 'Pump_Auto_Off');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            $checkDevices = Devices::where(['id' => $request->devicesId])->first();
+            if (!$checkDevices) {
+                return $this->responseErrorCustom("devices_id_not_found", 404);
+            }
+            else {
+                if($checkDevices->user_id != $request->user->id) {
+                    return $this->responseErrorCustom("permission_denied", 403); //Forbidden
+                }
+                else {
+                    $checkAuto = PumpAutomatic::where(['device_id' => $request->devicesId])->first();
+                    if (!$checkAuto) {
+                        return $this->responseErrorCustom("devices_id_not_found", 404);
+                    }
+                    else {
+                        $checkAuto->auto = 0;
+                        $checkAuto->save();
+                    }
+                }
+            }
+            return $this->responseSuccess("Seen turn off auto mode successfully");
         } catch (\Exception $exception) {
             return $this->responseErrorException($exception->getMessage(), 99999, 500);
         }

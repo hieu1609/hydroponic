@@ -212,6 +212,11 @@ $ApiErrorMessages = array(
     'ppm_max_integer' => 'ppm Max must be integer',
     'nutrient_id_required' => 'Nutrient id is required',
     'nutrient_id_integer' => 'Nutrient id must be integer',
+    'time_must_be_greater_than_0' => 'Time must be greater than 0',
+    'time_on_required' => 'Time on is required',
+    'time_on_integer' => 'Time on must be integer',
+    'time_off_required' => 'Time off is required',
+    'time_off_integer' => 'Time off must be integer',
 );
 
 $ApiErrorCodes = array(
@@ -427,6 +432,11 @@ $ApiErrorCodes = array(
     'ppm_max_integer' => 8063,
     'nutrient_id_required' => 8064,
     'nutrient_id_integer' => 8065,
+    'time_must_be_greater_than_0' => 8066,
+    'time_on_required' => 8067,
+    'time_on_integer' => 8068,
+    'time_off_required' => 8069,
+    'time_off_integer' => 8070,
 );
 
 $ApiCodes['ApiErrorMessages'] = $ApiErrorMessages;
