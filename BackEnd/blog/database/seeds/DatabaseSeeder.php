@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DevicesTableSeeder::class);
         $this->call(NotificationTableSeeder::class);
         $this->call(NutrientsTableSeeder::class);
+        $this->call(PumpAutomaticTableSeeder::class);
     }
 }

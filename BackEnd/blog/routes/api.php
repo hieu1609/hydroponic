@@ -43,6 +43,10 @@ Route::group(['prefix' => 'user'], function () {
         Route::post('sendMsgViaMqtt', 'UserController@sendMsgViaMqtt');
         Route::post('subscribetoTopic', 'UserController@subscribetoTopic');
 
+        //Pump automatic
+        Route::post('pumpAutoOn', 'UserController@pumpAutoOn');
+        Route::post('pumpAutoOff', 'UserController@pumpAutoOff');
+
         //Nutrients
         Route::get('getNutrients', 'UserController@getNutrients');
         Route::post('postNutrient', 'UserController@postNutrient');

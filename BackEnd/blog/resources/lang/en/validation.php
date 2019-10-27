@@ -392,6 +392,14 @@ return [
             'required' => 'nutrient_id_required',
             'integer' => 'nutrient_id_integer'
         ],
+        'timeOn' => [
+            'required' => 'time_on_required',
+            'integer' => 'time_on_integer'
+        ],
+        'timeOff' => [
+            'required' => 'time_off_required',
+            'integer' => 'time_off_integer'
+        ],
     ],
 
     /*
