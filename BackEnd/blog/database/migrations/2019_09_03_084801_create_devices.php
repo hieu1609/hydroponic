@@ -23,8 +23,6 @@ class CreateDevices extends Migration
             $table->integer('PPM')->default(0);
             $table->float('water')->default(0);
             $table->boolean('pump')->default(0);
-            $table->string('type', 50)->nullable();
-            $table->integer('day')->unsigned()->default(0);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
         });

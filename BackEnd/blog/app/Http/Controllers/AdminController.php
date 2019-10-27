@@ -6,6 +6,8 @@ use App\User;
 use App\Devices;
 use App\Notification;
 use App\Nutrients;
+use App\PpmAutomatic;
+use App\PumpAutomatic;
 use Illuminate\Http\Request;
 use Mockery\CountValidator\Exception;
 use JWTAuth;
@@ -545,6 +547,17 @@ class AdminController extends BaseApiController
             $devices = new Devices;
             $devices->user_id = $request->userId;
             $devices->save();
+
+            $devicesID = Devices::getIdNewDevice();
+
+            $ppmAuto = new PpmAutomatic;
+            $ppmAuto->device_id = $devicesID[0]->id;
+            $ppmAuto->nutrient_id = 2;
+            $ppmAuto->save();
+
+            $pumpAuto = new PumpAutomatic;
+            $pumpAuto->device_id = $devicesID[0]->id;
+            $pumpAuto->save();
             return $this->responseSuccess("Add device successfully");
         } catch (\Exception $exception) {
             return $this->responseErrorException($exception->getMessage(), 99999, 500);
@@ -698,7 +711,11 @@ class AdminController extends BaseApiController
             if (!$checkDevices) {
                 return $this->responseErrorCustom("devices_id_not_found", 404);
             }
+            $checkPpmDevices = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+            $checkPumpDevices = PumpAutomatic::where(['device_id' => $request->devicesId])->first();
 
+            $checkPpmDevices->delete();
+            $checkPumpDevices->delete();
             $checkDevices->delete();
             return $this->responseSuccess("Delete device successfully");
         } catch (\Exception $exception) {
@@ -847,11 +864,10 @@ class AdminController extends BaseApiController
                 return $this->responseErrorValidator($validator, 422);
             }
 
-            $checkNutrient = Nutrients::where(['id' => $request->nutrientId])->first();
-            if (!$checkNutrient) {
-                //
-                return $this->responseErrorCustom("notification_id_not_found", 404);
-            }
+            $checkNutrientId = Nutrients::where(['id' => $request->nutrientId])->first();
+            if (!$checkNutrientId) {
+                return $this->responseErrorCustom("nutrient_id_not_found", 404);
+            } 
 
             $checkNutrient->delete();
             return $this->responseSuccess("Delete nutrient successfully");

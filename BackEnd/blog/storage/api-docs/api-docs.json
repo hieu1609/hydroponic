@@ -1309,6 +1309,55 @@
                 ]
             }
         },
+        "/user/controlPump": {
+            "post": {
+                "tags": [
+                    "Pump manual"
+                ],
+                "summary": "Control pump via mqtt",
+                "description": "Control pump via mqtt",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Control pump via mqtt",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "devicesId": {
+                                    "type": "integer"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
         "/user/sendMsgViaMqtt": {
             "post": {
                 "tags": [
@@ -1492,13 +1541,13 @@
                 "tags": [
                     "Pump auto"
                 ],
-                "summary": "Send msg via mqtt",
-                "description": "Send msg via mqtt",
+                "summary": "Turn on pump auto mode",
+                "description": "Turn on pump auto mode",
                 "parameters": [
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "Send msg via mqtt",
+                        "description": "Turn on pump auto mode",
                         "required": true,
                         "schema": {
                             "properties": {

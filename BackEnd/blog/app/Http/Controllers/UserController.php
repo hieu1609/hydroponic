@@ -143,6 +143,78 @@ class UserController extends BaseApiController
 
     /**
      * @SWG\Post(
+     *     path="/user/controlPump",
+     *     description="Control pump via mqtt",
+     *     tags={"Pump manual"},
+     *     summary="Control pump via mqtt",
+     *     security={{"jwt":{}}},
+     *
+     *      @SWG\Parameter(
+     *          name="body",
+     *          description="Control pump via mqtt",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(
+     *              @SWG\property(
+     *                  property="devicesId",
+     *                  type="integer",
+     *              ),
+     *              @SWG\property(
+     *                  property="message",
+     *                  type="string",
+     *              ),
+     *          ),
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @SWG\Response(response=403, description="Forbidden"),
+     *      @SWG\Response(response=422, description="Unprocessable Entity"),
+     *      @SWG\Response(response=500, description="Internal Server Error"),
+     * )
+     */
+    public function controlPump(Request $request)
+    {
+        try {
+            $validator = Notification::validate($request->all(), 'Control_Pump');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            $checkDevices = Devices::where(['id' => $request->devicesId])->first();
+            if (!$checkDevices) {
+                return $this->responseErrorCustom("devices_id_not_found", 404);
+            }
+            else {
+                if($checkDevices->user_id != $request->user->id) {
+                    return $this->responseErrorCustom("permission_denied", 403); //Forbidden
+                }
+                else {
+                    $checkAuto = PumpAutomatic::where(['device_id' => $request->devicesId])->first();
+                    if (!$checkAuto) {
+                        return $this->responseErrorCustom("devices_id_not_found", 404);
+                    }
+
+                    if ($checkAuto->auto == 1) {
+                        $checkAuto->auto = 0;
+                        $checkAuto->save();
+                        sleep(1);
+                    }
+
+                    $mqtt = new Mqtt();
+                    $topic = $request->devicesId."=pumpManual";
+                    $output = $mqtt->ConnectAndPublish($topic, $request->message);
+                    if ($output === true) {
+                        return $this->responseSuccess("Seen pump control via mqtt successfully");
+                    } 
+                }
+            }
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    /**
+     * @SWG\Post(
      *     path="/user/sendMsgViaMqtt",
      *     description="Send msg via mqtt",
      *     tags={"MQTT"},
