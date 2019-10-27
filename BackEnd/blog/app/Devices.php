@@ -8,7 +8,7 @@ class Devices extends BaseModel
 {
     protected $table = 'devices';
     protected $fillable = [
-        'user_id', 'temperature', 'humidity', 'light', 'EC', 'PPM', 'water', 'pump', 'type', 'day'
+        'user_id', 'temperature', 'humidity', 'light', 'EC', 'PPM', 'water', 'pump'
     ];
 
     public static $rules = array(
@@ -41,5 +41,10 @@ class Devices extends BaseModel
     public static function getData($idUser) {
         return Devices::where('user_id', $idUser)
         ->get();
+    }
+    public static function getIdNewDevice() {
+        return Devices::orderBy('id', 'desc')
+        ->limit(1)
+        ->get('id');
     }
 }

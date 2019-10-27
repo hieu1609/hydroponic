@@ -40,6 +40,8 @@ Route::group(['prefix' => 'user'], function () {
         Route::post('postFeedback', 'UserController@postFeedback');
         Route::put('seenNotification', 'UserController@seenNotification');
 
+        //MQTT
+        Route::post('controlPump', 'UserController@controlPump');
         Route::post('sendMsgViaMqtt', 'UserController@sendMsgViaMqtt');
         Route::post('subscribetoTopic', 'UserController@subscribetoTopic');
 

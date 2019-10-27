@@ -23,8 +23,6 @@ class DevicesTableSeeder extends Seeder
                 'PPM' => 465,
                 'water' => 56.45,
                 'pump' => 0,
-                'type' => 'xa lach',
-                'day' => 5,
                 "created_at"=> "2019-08-28 03:12:33",
                 "updated_at"=> "2019-08-28 03:12:33"
             ],
@@ -37,8 +35,6 @@ class DevicesTableSeeder extends Seeder
                 'PPM' => 501,
                 'water' => 58.95,
                 'pump' => 0,
-                'type' => 'cai ngot',
-                'day' => 8,
                 "created_at"=> "2019-08-28 03:12:34",
                 "updated_at"=> "2019-08-28 03:12:34"
             ],
@@ -51,8 +47,6 @@ class DevicesTableSeeder extends Seeder
                 'PPM' => 1632,
                 'water' => 78.57,
                 'pump' => 0,
-                'type' => 'muong',
-                'day' => 14,
                 "created_at"=> "2019-08-28 03:12:35",
                 "updated_at"=> "2019-08-28 03:12:35"
             ],
@@ -65,8 +59,6 @@ class DevicesTableSeeder extends Seeder
                 'PPM' => 763,
                 'water' => 86.08,
                 'pump' => 0,
-                'type' => 'hanh tay',
-                'day' => 21,
                 "created_at"=> "2019-08-28 03:12:36",
                 "updated_at"=> "2019-08-28 03:12:36"
             ],
@@ -79,8 +71,6 @@ class DevicesTableSeeder extends Seeder
                 'PPM' => 465,
                 'water' => 56.45,
                 'pump' => 0,
-                'type' => 'xa lach',
-                'day' => 5,
                 "created_at"=> "2019-08-28 03:12:37",
                 "updated_at"=> "2019-08-28 03:12:37"
             ],
@@ -93,8 +83,6 @@ class DevicesTableSeeder extends Seeder
                 'PPM' => 751,
                 'water' => 26.40,
                 'pump' => 0,
-                'type' => 'rau den',
-                'day' => 7,
                 "created_at"=> "2019-08-28 03:12:38",
                 "updated_at"=> "2019-08-28 03:12:38"
             ],
@@ -107,8 +95,6 @@ class DevicesTableSeeder extends Seeder
                 'PPM' => 1036,
                 'water' => 78.09,
                 'pump' => 0,
-                'type' => 'tia to',
-                'day' => 13,
                 "created_at"=> "2019-08-28 03:12:39",
                 "updated_at"=> "2019-08-28 03:12:39"
             ]
