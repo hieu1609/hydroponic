@@ -195,6 +195,28 @@ $ApiErrorMessages = array(
     'day_integer' => 'Day must be integer',
     'type_string' => 'Type must be string',
     'permission_denied' => 'Permission denied',
+
+    'topic_required' => 'Topic id is required',
+    'topic_string' => 'Topic must be string',
+    'message_required' => 'Message id is required',
+    'message_string' => 'Message must be string',
+
+    'ppmMax_must_be_greater_than_ppmMin_50' => 'ppm Max must be greater than ppm Min 50ppm',
+    'user_id_not_found' => 'User id not found',
+    'nutrient_id_not_found' => 'Nutrient id not found',
+    'plant_name_required' => 'Plant name is required',
+    'plant_name_string' => 'Plant name must be string',
+    'ppm_min_required' => 'ppm Min is required',
+    'ppm_min_integer' => 'ppm Min must be integer',
+    'ppm_max_required' => 'ppm Max is required',
+    'ppm_max_integer' => 'ppm Max must be integer',
+    'nutrient_id_required' => 'Nutrient id is required',
+    'nutrient_id_integer' => 'Nutrient id must be integer',
+    'time_must_be_greater_than_0' => 'Time must be greater than 0',
+    'time_on_required' => 'Time on is required',
+    'time_on_integer' => 'Time on must be integer',
+    'time_off_required' => 'Time off is required',
+    'time_off_integer' => 'Time off must be integer',
 );
 
 $ApiErrorCodes = array(
@@ -393,6 +415,28 @@ $ApiErrorCodes = array(
     'type_string' => 8048,
 
     'permission_denied' => 8050,
+
+    'topic_required' => 8051,
+    'topic_string' => 8052,
+    'message_required' => 8053,
+    'message_string' => 8054,
+
+    'ppmMax_must_be_greater_than_ppmMin_50' => 8055,
+    'user_id_not_found' => 8056,
+    'nutrient_id_not_found' => 8057,
+    'plant_name_required' => 8058,
+    'plant_name_string' => 8059,
+    'ppm_min_required' => 8060,
+    'ppm_min_integer' => 8061,
+    'ppm_max_required' => 8062,
+    'ppm_max_integer' => 8063,
+    'nutrient_id_required' => 8064,
+    'nutrient_id_integer' => 8065,
+    'time_must_be_greater_than_0' => 8066,
+    'time_on_required' => 8067,
+    'time_on_integer' => 8068,
+    'time_off_required' => 8069,
+    'time_off_integer' => 8070,
 );
 
 $ApiCodes['ApiErrorMessages'] = $ApiErrorMessages;

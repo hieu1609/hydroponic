@@ -40,8 +40,18 @@ Route::group(['prefix' => 'user'], function () {
         Route::post('postFeedback', 'UserController@postFeedback');
         Route::put('seenNotification', 'UserController@seenNotification');
 
+        //MQTT
+        Route::post('controlPump', 'UserController@controlPump');
         Route::post('sendMsgViaMqtt', 'UserController@sendMsgViaMqtt');
         Route::post('subscribetoTopic', 'UserController@subscribetoTopic');
+
+        //Pump automatic
+        Route::post('pumpAutoOn', 'UserController@pumpAutoOn');
+        Route::post('pumpAutoOff', 'UserController@pumpAutoOff');
+
+        //Nutrients
+        Route::get('getNutrients', 'UserController@getNutrients');
+        Route::post('postNutrient', 'UserController@postNutrient');
     });
 });
 
@@ -68,5 +78,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('addDevices', 'AdminController@addDevices');
         Route::put('devices/{devicesId}', 'AdminController@editDevices');
         Route::delete('devices/{devicesId}', 'AdminController@deleteDevices');
+
+        //Nutrients
+        Route::get('getAllNutrients', 'AdminController@getAllNutrients');
+        Route::put('nutrient/{nutrientId}', 'AdminController@editNutrient');
+        Route::delete('nutrient/{nutrientId}', 'AdminController@deleteNutrient');
     });
 });

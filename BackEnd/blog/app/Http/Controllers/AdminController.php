@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Devices;
 use App\Notification;
+use App\Nutrients;
+use App\PpmAutomatic;
+use App\PumpAutomatic;
 use Illuminate\Http\Request;
 use Mockery\CountValidator\Exception;
 use JWTAuth;
@@ -544,6 +547,17 @@ class AdminController extends BaseApiController
             $devices = new Devices;
             $devices->user_id = $request->userId;
             $devices->save();
+
+            $devicesID = Devices::getIdNewDevice();
+
+            $ppmAuto = new PpmAutomatic;
+            $ppmAuto->device_id = $devicesID[0]->id;
+            $ppmAuto->nutrient_id = 2;
+            $ppmAuto->save();
+
+            $pumpAuto = new PumpAutomatic;
+            $pumpAuto->device_id = $devicesID[0]->id;
+            $pumpAuto->save();
             return $this->responseSuccess("Add device successfully");
         } catch (\Exception $exception) {
             return $this->responseErrorException($exception->getMessage(), 99999, 500);
@@ -697,9 +711,166 @@ class AdminController extends BaseApiController
             if (!$checkDevices) {
                 return $this->responseErrorCustom("devices_id_not_found", 404);
             }
+            $checkPpmDevices = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+            $checkPumpDevices = PumpAutomatic::where(['device_id' => $request->devicesId])->first();
 
+            $checkPpmDevices->delete();
+            $checkPumpDevices->delete();
             $checkDevices->delete();
             return $this->responseSuccess("Delete device successfully");
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    public function getAllNutrients(Request $request)
+    {
+        /**
+         * @SWG\Get(
+         *     path="/admin/getAllNutrients",
+         *     description="get all nutrients",
+         *     tags={"Admin"},
+         *     summary="get all nutrients",
+         *     security={{"jwt":{}}},
+         *
+         *      @SWG\Response(response=200, description="Successful operation"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $dataNutrients = Nutrients::getAllNutrients();
+            return $this->responseSuccess($dataNutrients);
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), $exception->getCode(), 500);
+        }
+    }
+
+    public function editNutrient(Request $request)
+    {
+        /**
+         * @SWG\Put(
+         *     path="/admin/nutrient/{nutrientId}",
+         *     description="Edit nutrient",
+         *     tags={"Admin"},
+         *     summary="Edit nutrient",
+         *     security={{"jwt":{}}},
+         *      @SWG\Parameter(
+         *         description="ID nutrient to edit",
+         *         in="path",
+         *         name="nutrientId",
+         *         required=true,
+         *         type="integer",
+         *         format="int64"
+         *     ),
+         *      @SWG\Parameter(
+         *          name="body",
+         *          description="Edit nutrient",
+         *          required=true,
+         *          in="body",
+         *          @SWG\Schema(
+         *              @SWG\Property(
+         *                  property="userId",
+         *                  type="integer",
+         *              ),
+         *              @SWG\Property(
+         *                  property="plantName",
+         *                  type="string",
+         *              ),
+         *              @SWG\Property(
+         *                  property="ppmMin",
+         *                  type="integer",
+         *              ),
+         *              @SWG\Property(
+         *                  property="ppmMax",
+         *                  type="integer",
+         *              ),
+         *          ),
+         *      ),
+         *      @SWG\Response(response=200, description="Successful"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=403, description="Forbidden"),
+         *      @SWG\Response(response=404, description="Not Found"),
+         *      @SWG\Response(response=422, description="Unprocessable Entity"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $input = $request->all();
+            $input['nutrientId'] = $request->nutrientId;
+            $validator = Nutrients::validate($input, 'Edit_Nutrient');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            if ($request->ppmMax - $request->ppmMin < 50) {
+                return $this->responseErrorCustom("ppmMax_must_be_greater_than_ppmMin_50", 403); //Forbidden
+            }
+
+            $checkUserId = User::where(['id' => $request->userId])->first();
+            if (!$checkUserId) {
+                return $this->responseErrorCustom("user_id_not_found", 404);
+            }
+
+            $checkNutrientId = Nutrients::where(['id' => $request->nutrientId])->first();
+            if (!$checkNutrientId) {
+                return $this->responseErrorCustom("nutrient_id_not_found", 404);
+            } 
+
+            $checkNutrientId->user_id = $request->userId;
+            $checkNutrientId->plant_name = $request->plantName;
+            $checkNutrientId->ppm_min = $request->ppmMin;
+            $checkNutrientId->ppm_max = $request->ppmMax;
+            $checkNutrientId->save();
+            return $this->responseSuccess($checkNutrientId);
+
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    public function deleteNutrient(Request $request)
+    {
+        /**
+         * @SWG\Delete(
+         *     path="/admin/nutrient/{nutrientId}",
+         *     description="Delete nutrient",
+         *     tags={"Admin"},
+         *     summary="Delete nutrient",
+         *     security={{"jwt":{}}},
+         *      @SWG\Parameter(
+         *         description="ID nutrient to delete",
+         *         in="path",
+         *         name="nutrientId",
+         *         required=true,
+         *         type="integer",
+         *         format="int64"
+         *     ),
+         *      @SWG\Response(response=200, description="Successful"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=403, description="Forbidden"),
+         *      @SWG\Response(response=404, description="Not Found"),
+         *      @SWG\Response(response=422, description="Unprocessable Entity"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $input['nutrientId'] = $request->nutrientId;
+            $validator = Nutrients::validate($input, 'Delete_Nutrient');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            $checkNutrientId = Nutrients::where(['id' => $request->nutrientId])->first();
+            if (!$checkNutrientId) {
+                return $this->responseErrorCustom("nutrient_id_not_found", 404);
+            } 
+
+            $checkNutrient->delete();
+            return $this->responseSuccess("Delete nutrient successfully");
         } catch (\Exception $exception) {
             return $this->responseErrorException($exception->getMessage(), 99999, 500);
         }

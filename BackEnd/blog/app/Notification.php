@@ -35,6 +35,19 @@ class Notification extends BaseModel
         'Delete_Notification' => [
             'notificationId' => 'required|integer'
         ],
+        'Control_Pump' => [
+            'devicesId' => 'required|integer',
+            'message' => 'required|string'
+        ],
+        'Send_Msg_Via_Mqtt' => [
+            'devicesId' => 'required|integer',
+            'topic' => 'required|string',
+            'message' => 'required|string'
+        ],
+        'Subscribe_To_Topic' => [
+            'devicesId' => 'required|integer',
+            'topic' => 'required|string'
+        ],
     );
 
     public static function getAllNotifications() {
