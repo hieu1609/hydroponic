@@ -368,6 +368,38 @@ return [
         'type' => [
             'string' => 'type_string'
         ],
+        'topic' => [
+            'required' => 'topic_required',
+            'string' => 'topic_string'
+        ],
+        'message' => [
+            'required' => 'message_required',
+            'string' => 'message_string'
+        ],
+        'plantName' => [
+            'required' => 'plant_name_required',
+            'string' => 'plant_name_string'
+        ],
+        'ppmMin' => [
+            'required' => 'ppm_min_required',
+            'integer' => 'ppm_min_integer'
+        ],
+        'ppmMax' => [
+            'required' => 'ppm_max_required',
+            'integer' => 'ppm_max_integer'
+        ],
+        'nutrientId' => [
+            'required' => 'nutrient_id_required',
+            'integer' => 'nutrient_id_integer'
+        ],
+        'timeOn' => [
+            'required' => 'time_on_required',
+            'integer' => 'time_on_integer'
+        ],
+        'timeOff' => [
+            'required' => 'time_off_required',
+            'integer' => 'time_off_integer'
+        ],
     ],
 
     /*
