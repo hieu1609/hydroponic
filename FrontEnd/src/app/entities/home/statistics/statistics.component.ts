@@ -58,7 +58,7 @@ export class StatisticsComponent implements OnInit {
 
   PumpAutoOn() {
     this.statusPumpAuto = true;
-    this.pumpStatusHTML = "ON";
+    this.pumpAutoStatusHTML = "ON";
     const uri = "user/sendMsgViaMqtt";
     const message = {
       topic: "1=PumpAuto",
@@ -77,7 +77,7 @@ export class StatisticsComponent implements OnInit {
   }
   PumpAutoOff() {
     this.statusPumpAuto = false;
-    this.pumpStatusHTML = "OFF";
+    this.pumpAutoStatusHTML = "OFF";
     const uri = "user/sendMsgViaMqtt";
     const message = {
       topic: "1=PumpAuto",
