@@ -118,14 +118,14 @@
                 </div>
                 <div class="col-sm-6 col-lg-4 col-md-6 mb-4 ">
 
-                    <div class="card stat-box on">
+                    <div class="card stat-box" [ngClass]="{on:statusPump,off:!statusPump}">
                         <span></span>
                         <span></span>
                         <span></span>
                         <span></span>
                         <div class="card-body">
                             <img src="../../../../assets/images/icons/pump-icon-1.jpg" alt="">
-                            <h2>Pump: ON</h2>
+                            <h2>Pump: {{pumpStatusHTML}}</h2>
                         </div>
                     </div>
                 </div>
@@ -139,14 +139,14 @@
                     </div>
                 </div>
                 <div class="col-sm-6 col-lg-4 col-md-6 mb-4">
-                    <div class="card stat-box off">
+                    <div class="card stat-box" [ngClass]="{on:statusPumpAuto,off:!statusPumpAuto}">
                         <span></span>
                         <span></span>
                         <span></span>
                         <span></span>
                         <div class="card-body">
                             <i class="fab fa-whmcs"></i>
-                            <h2>Auto : OFF</h2>
+                            <h2>Auto : {{pumpAutoStatusHTML}}</h2>
                         </div>
                     </div>
                 </div>
@@ -160,7 +160,40 @@
             <img src="./../../../../assets/images/Capture.PNG" alt="">
         </div>
         <div class="col-lg-6 right">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td scope="row"></td>
+                        <td>
+                            <h3>Bơm tay</h3>
+                        </td>
+                        <td>
+                            <div *ngIf="!statusPump; else ElseContent">
+                                <button style="width: 50px" class="btn btn-success" (click)="PumpOn()">On</button>
 
+                            </div>
+                            <ng-template #ElseContent>
+                                <button style="width: 50px" class="btn btn-danger" (click)="PumpOff()">Off</button>
+                            </ng-template>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row"></td>
+                        <td>
+                            <h3>Bơm tự động</h3>
+                        </td>
+                        <td>
+                            <div *ngIf="!statusPumpAuto; else ElseContent1">
+                                <button style="width: 50px" class="btn btn-success" (click)="PumpAutoOn()">On</button>
+
+                            </div>
+                            <ng-template #ElseContent1>
+                                <button style="width: 50px" class="btn btn-danger" (click)="PumpAutoOff()">Off</button>
+                            </ng-template>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

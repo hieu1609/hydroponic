@@ -8,6 +8,8 @@ import { HomeModule } from "./entities/home/home.module";
 import { AdminModule } from "./entities/admin/admin.module";
 import { EntitiesModule } from "./entities/entities.module";
 
+import { AuthInterceptor } from "./common/guards/jwt";
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -18,7 +20,9 @@ import { EntitiesModule } from "./entities/entities.module";
     EntitiesModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

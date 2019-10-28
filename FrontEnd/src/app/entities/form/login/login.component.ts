@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     if (this.formSignIn.valid) console.log(this.formSignIn);
     this._dataService.post(uri, this.formSignIn.value).subscribe(
       (data: any) => {
-        //console.log(data)
+        console.log(data);
         alert("Đăng nhập thành công !");
         localStorage.setItem("user", JSON.stringify(data));
         this.router.navigate(["home"]);
