@@ -201,7 +201,7 @@ class UserController extends BaseApiController
                     }
 
                     $mqtt = new Mqtt();
-                    $topic = $request->devicesId."=pumpManual";
+                    $topic = $request->devicesId."=pump";
                     $output = $mqtt->ConnectAndPublish($topic, $request->message);
                     if ($output === true) {
                         return $this->responseSuccess("Seen pump control via mqtt successfully");
@@ -476,7 +476,7 @@ class UserController extends BaseApiController
             }
 
             $Temp = PumpAutomatic::getAuto($request->devicesId);
-            $topic = $request->devicesId."=pumpAuto";
+            $topic = $request->devicesId."=pump";
             $message = 1;
             $mqtt = new Mqtt();
             while($Temp[0]->auto == 1){   
