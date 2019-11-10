@@ -16,8 +16,8 @@ class PpmAutomaticTableSeeder extends Seeder
             [
                 'device_id' => 1,
                 'nutrient_id' => 1,
-                'auto_mode' => 0,
-                'auto_status' => 1,
+                'auto_mode' => 1,
+                'auto_status' => 0,
                 "created_at"=> "2019-08-28 03:12:33",
                 "updated_at"=> "2019-08-28 03:12:33"
             ],
@@ -25,7 +25,7 @@ class PpmAutomaticTableSeeder extends Seeder
                 'device_id' => 2,
                 'nutrient_id' => 3,
                 'auto_mode' => 0,
-                'auto_status' => 1,
+                'auto_status' => 0,
                 "created_at"=> "2019-08-28 03:12:34",
                 "updated_at"=> "2019-08-28 03:12:34"
 
@@ -52,7 +52,7 @@ class PpmAutomaticTableSeeder extends Seeder
                 'device_id' => 5,
                 'nutrient_id' => 8,
                 'auto_mode' => 1,
-                'auto_status' => 1,
+                'auto_status' => 0,
                 "created_at"=> "2019-08-28 03:12:37",
                 "updated_at"=> "2019-08-28 03:12:37"
 

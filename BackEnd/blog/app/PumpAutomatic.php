@@ -26,5 +26,4 @@ class PumpAutomatic extends BaseModel
         return PumpAutomatic::where('device_id', $devicesId)
         ->get('auto');
     }
-
 }

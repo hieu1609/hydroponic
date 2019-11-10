@@ -28,8 +28,9 @@ Route::group(['prefix' => 'auth'], function () {
 //Route Devices
 Route::group(['prefix' => 'devices'], function () {
     Route::group(['middleware' => ['jwt']], function () {
-        Route::get('getData', 'DevicesController@getData');
-        Route::put('/{devicesId}', 'DevicesController@pumpDevices');
+        Route::get('getDeviceIdForUser', 'DevicesController@getDeviceIdForUser');
+        Route::post('getSensorData', 'DevicesController@getSensorData');
+        Route::post('getSensorDataChart', 'DevicesController@getSensorDataChart');
     });
 });
 
@@ -52,6 +53,10 @@ Route::group(['prefix' => 'user'], function () {
         //Nutrients
         Route::get('getNutrients', 'UserController@getNutrients');
         Route::post('postNutrient', 'UserController@postNutrient');
+
+        //Ppm automatic
+        Route::post('ppmAutoOn', 'UserController@ppmAutoOn');
+        Route::post('ppmAutoOff', 'UserController@ppmAutoOff');
     });
 });
 

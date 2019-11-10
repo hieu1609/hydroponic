@@ -8,7 +8,7 @@ class Devices extends BaseModel
 {
     protected $table = 'devices';
     protected $fillable = [
-        'user_id', 'temperature', 'humidity', 'light', 'EC', 'PPM', 'water', 'pump'
+        'user_id'
     ];
 
     public static $rules = array(
@@ -18,11 +18,6 @@ class Devices extends BaseModel
         'Edit_Devices' => [
             'devicesId' => 'required|integer',
             'userId' => 'required|integer',
-            'light' => 'integer',
-            'PPM' => 'integer',
-            'pump' => 'boolean',
-            'type' => 'string',
-            'day' => 'integer',
         ],
         'Delete_Devices' => [
             'devicesId' => 'required|integer'
@@ -38,13 +33,15 @@ class Devices extends BaseModel
         ->get();
     }
 
-    public static function getData($idUser) {
-        return Devices::where('user_id', $idUser)
+    public static function getDeviceIdForUser($userId) {
+        return Devices::where('user_id', $userId)
         ->get();
     }
+
     public static function getIdNewDevice() {
         return Devices::orderBy('id', 'desc')
         ->limit(1)
         ->get('id');
     }
+
 }

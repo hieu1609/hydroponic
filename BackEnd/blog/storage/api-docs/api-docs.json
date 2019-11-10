@@ -504,33 +504,6 @@
                             "properties": {
                                 "userId": {
                                     "type": "integer"
-                                },
-                                "temperature": {
-                                    "type": "number"
-                                },
-                                "humidity": {
-                                    "type": "number"
-                                },
-                                "light": {
-                                    "type": "integer"
-                                },
-                                "EC": {
-                                    "type": "number"
-                                },
-                                "PPM": {
-                                    "type": "integer"
-                                },
-                                "water": {
-                                    "type": "number"
-                                },
-                                "pump": {
-                                    "type": "boolean"
-                                },
-                                "type": {
-                                    "type": "string"
-                                },
-                                "day": {
-                                    "type": "integer"
                                 }
                             }
                         }
@@ -1003,7 +976,7 @@
                 }
             }
         },
-        "/devices/getData": {
+        "/devices/getDeviceIdForUser": {
             "get": {
                 "tags": [
                     "Devices"
@@ -1028,31 +1001,72 @@
                 ]
             }
         },
-        "/devices/{devicesId}": {
-            "put": {
+        "/devices/getSensorData": {
+            "post": {
                 "tags": [
                     "Devices"
                 ],
-                "summary": "Turn on/off pump devices",
-                "description": "Turn on/off pump devices",
+                "summary": "get sensor data",
+                "description": "get sensor data",
                 "parameters": [
-                    {
-                        "name": "devicesId",
-                        "in": "path",
-                        "description": "ID device",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    },
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "Edit devices",
+                        "description": "get sensor data by device id",
                         "required": true,
                         "schema": {
                             "properties": {
-                                "pump": {
-                                    "type": "boolean"
+                                "devicesId": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/devices/getSensorDataChart": {
+            "post": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "get sensor data for chart",
+                "description": "get sensor data for chart",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "get sensor data by device id",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "devicesId": {
+                                    "type": "integer"
                                 }
                             }
                         }
@@ -1600,6 +1614,101 @@
                         "name": "body",
                         "in": "body",
                         "description": "Turn off pump auto mode",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "devicesId": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/user/ppmAutoOn": {
+            "post": {
+                "tags": [
+                    "Ppm auto"
+                ],
+                "summary": "Turn on ppm auto mode",
+                "description": "Turn on ppm auto mode",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Turn on ppm auto mode",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "devicesId": {
+                                    "type": "integer"
+                                },
+                                "nutrientId": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/user/ppmAutoOff": {
+            "post": {
+                "tags": [
+                    "Ppm auto"
+                ],
+                "summary": "Turn off ppm auto mode",
+                "description": "Turn off ppm auto mode",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Turn off ppm auto mode",
                         "required": true,
                         "schema": {
                             "properties": {

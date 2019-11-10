@@ -591,42 +591,6 @@ class AdminController extends BaseApiController
          *                  property="userId",
          *                  type="integer",
          *              ),
-         *              @SWG\Property(
-         *                  property="temperature",
-         *                  type="number",
-         *              ),
-         *              @SWG\Property(
-         *                  property="humidity",
-         *                  type="number",
-         *              ),
-         *              @SWG\Property(
-         *                  property="light",
-         *                  type="integer",
-         *              ),
-         *              @SWG\Property(
-         *                  property="EC",
-         *                  type="number",
-         *              ),
-         *              @SWG\Property(
-         *                  property="PPM",
-         *                  type="integer",
-         *              ),
-         *              @SWG\Property(
-         *                  property="water",
-         *                  type="number",
-         *              ),
-         *              @SWG\Property(
-         *                  property="pump",
-         *                  type="boolean",
-         *              ),
-         *              @SWG\Property(
-         *                  property="type",
-         *                  type="string",
-         *              ),
-         *              @SWG\Property(
-         *                  property="day",
-         *                  type="integer",
-         *              ),
          *          ),
          *      ),
          *      @SWG\Response(response=200, description="Successful"),
@@ -657,15 +621,6 @@ class AdminController extends BaseApiController
             }
 
             $checkDevices->user_id = $request->userId;
-            $checkDevices->temperature = $request->temperature;
-            $checkDevices->humidity = $request->humidity;
-            $checkDevices->light = $request->light;
-            $checkDevices->EC = $request->EC;
-            $checkDevices->PPM = $request->PPM;
-            $checkDevices->water = $request->water;
-            $checkDevices->pump = $request->pump;
-            $checkDevices->type = $request->type;
-            $checkDevices->day = $request->day;
             $checkDevices->save();
             return $this->responseSuccess($checkDevices);
 
@@ -806,7 +761,7 @@ class AdminController extends BaseApiController
             }
 
             if ($request->ppmMax - $request->ppmMin < 50) {
-                return $this->responseErrorCustom("ppmMax_must_be_greater_than_ppmMin_50", 403); //Forbidden
+                return $this->responseErrorCustom("ppmMax_must_be_greater_than_ppmMin_100", 403); //Forbidden
             }
 
             $checkUserId = User::where(['id' => $request->userId])->first();

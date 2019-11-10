@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePumpAutomaticTable extends Migration
+class CreateSensorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,16 @@ class CreatePumpAutomaticTable extends Migration
      */
     public function up()
     {
-        Schema::create('pump_automatic', function (Blueprint $table) {
+        Schema::create('sensors', function (Blueprint $table) {
             $table->increments('id')->unique();
             $table->integer('device_id')->unsigned()->index();
-            $table->integer('time_on')->default(5);
-            $table->integer('time_off')->default(10);
-            $table->boolean('auto')->default(0);
+            $table->float('temperature')->default(0);
+            $table->float('humidity')->default(0);
+            $table->integer('light')->default(0);
+            $table->float('EC')->default(0);
+            $table->integer('PPM')->default(0);
+            $table->float('water')->default(0);
+            $table->boolean('pump')->default(0);
             $table->timestamps();
             $table->foreign('device_id')->references('id')->on('devices');
         });
@@ -31,6 +35,6 @@ class CreatePumpAutomaticTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pump_automatic');
+        Schema::dropIfExists('sensors');
     }
 }
