@@ -12,6 +12,17 @@ class PpmAutomatic extends BaseModel
     ];
 
     public static $rules = array(
-
+        'Ppm_Auto_On' => [
+            'devicesId' => 'required|integer',
+            'nutrientId' => 'required|integer'
+        ],
+        'Ppm_Auto_Off' => [
+            'devicesId' => 'required|integer'
+        ],
     );
+
+    public static function getAuto($devicesId) {
+        return PpmAutomatic::where('device_id', $devicesId)
+        ->get('auto_mode');
+    }
 }

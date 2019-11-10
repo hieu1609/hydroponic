@@ -14,7 +14,7 @@ class CreatePpmAutomaticTable extends Migration
     public function up()
     {
         Schema::create('ppm_automatic', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->unique();
             $table->integer('device_id')->unsigned()->index();
             $table->integer('nutrient_id')->unsigned()->index();
             $table->boolean('auto_mode')->default(0);
