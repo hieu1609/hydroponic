@@ -4,7 +4,13 @@
             <div class="box">
                 <div class="content row">
                     <div class="content-spec">
-                        <h1>Hồ Chí Minh</h1>
+                        <div *ngIf="weather.city; else ElseContentName">
+                            <h1>{{weather.city.name}}</h1>
+                        </div>
+                        <ng-template #ElseContentName>
+                            <h1>Ha Noi</h1>
+                        </ng-template>
+
                     </div>
                     <div class="weather-stat-icon content-spec">
 
@@ -50,9 +56,17 @@
                         </div> -->
                     </div>
                     <div class="content-spec">
-                        <h3>TEMP :25°C</h3>
-                        <h3>WIND :5.7 Km/h</h3>
-                        <h3>HUM :75% </h3>
+                        <div *ngIf="weather.city; else ElseContentName">
+                            <h3>TEMP :{{weather.temperature.now.value}}°C</h3>
+                            <h3>WIND :{{weather.wind.speed.value}} m/s</h3>
+                            <h3>HUM :{{weather.humidity.value}}% </h3>
+                        </div>
+                        <ng-template #ElseContentName>
+                            <h3>TEMP :25°C</h3>
+                            <h3>WIND :5.7 Km/h</h3>
+                            <h3>HUM :75% </h3>
+                        </ng-template>
+
 
                     </div>
                     <div class="week-container row">
@@ -181,6 +195,9 @@
                         <td scope="row"></td>
                         <td>
                             <h3>Bơm tự động</h3>
+                            <input type="text">
+                            <br>
+                            <input type="text">
                         </td>
                         <td>
                             <div *ngIf="!statusPumpAuto; else ElseContent1">

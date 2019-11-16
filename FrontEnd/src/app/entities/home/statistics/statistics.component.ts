@@ -13,6 +13,7 @@ export class StatisticsComponent implements OnInit {
   statusPumpAuto: boolean = false;
   pumpStatusHTML: string = "OFF";
   pumpAutoStatusHTML: string = "OFF";
+  weather: any = [];
   ngOnInit() {
     this.getCurrentWeather();
   }
@@ -20,9 +21,11 @@ export class StatisticsComponent implements OnInit {
   PumpOn() {
     this.statusPump = true;
     this.pumpStatusHTML = "ON";
-    const uri = "user/sendMsgViaMqtt";
+    this.statusPumpAuto = false;
+    this.pumpAutoStatusHTML = "OFF";
+    const uri = "user/controlPump";
     const message = {
-      topic: "1=Pump",
+      devicesId: 2,
       message: "1"
     };
     this._dataService.post(uri, message).subscribe(
@@ -39,9 +42,9 @@ export class StatisticsComponent implements OnInit {
   PumpOff() {
     this.statusPump = false;
     this.pumpStatusHTML = "OFF";
-    const uri = "user/sendMsgViaMqtt";
+    const uri = "user/controlPump";
     const message = {
-      topic: "1=Pump",
+      devicesId: 2,
       message: "0"
     };
     this._dataService.post(uri, message).subscribe(
@@ -59,10 +62,11 @@ export class StatisticsComponent implements OnInit {
   PumpAutoOn() {
     this.statusPumpAuto = true;
     this.pumpAutoStatusHTML = "ON";
-    const uri = "user/sendMsgViaMqtt";
+    const uri = "user/pumpAutoOn";
     const message = {
-      topic: "1=PumpAuto",
-      message: "1"
+      devicesId: 2,
+      timeOn: 3,
+      timeOff: 2
     };
     this._dataService.post(uri, message).subscribe(
       (data: any) => {
@@ -78,10 +82,9 @@ export class StatisticsComponent implements OnInit {
   PumpAutoOff() {
     this.statusPumpAuto = false;
     this.pumpAutoStatusHTML = "OFF";
-    const uri = "user/sendMsgViaMqtt";
+    const uri = "user/pumpAutoOff";
     const message = {
-      topic: "1=PumpAuto",
-      message: "0"
+      devicesId: 2
     };
     this._dataService.post(uri, message).subscribe(
       (data: any) => {
@@ -99,6 +102,8 @@ export class StatisticsComponent implements OnInit {
     this._dataService.post(uri, "").subscribe(
       (data: any) => {
         console.log(data);
+        this.weather = data.data;
+
         // alert("Đăng nhập thành công !");
         // localStorage.setItem("user", JSON.stringify(data));
       },
@@ -107,4 +112,20 @@ export class StatisticsComponent implements OnInit {
       }
     );
   }
+
+  // getWeatherForecast() {
+  //   const uri = "weather/currentweather";
+  //   this._dataService.post(uri, "").subscribe(
+  //     (data: any) => {
+  //       console.log(data);
+  //       this.weather = data.data;
+
+  //       // alert("Đăng nhập thành công !");
+  //       // localStorage.setItem("user", JSON.stringify(data));
+  //     },
+  //     (err: any) => {
+  //       console.log(err);
+  //     }
+  //   );
+  // }
 }
