@@ -8,12 +8,12 @@ use Mockery\CountValidator\Exception;
 use App\Notification;
 use App\Nutrients;
 use App\PumpAutomatic;
+use App\PpmAutomatic;
 use App\Devices;
+use App\Sensors;
 
 class UserController extends BaseApiController
 {
-    public $abc = 1;
-    public $flag = 1;
     public function getNotifications(Request $request)
     {
         /**
@@ -310,8 +310,8 @@ class UserController extends BaseApiController
             $msg = "";
             $mqtt->ConnectAndSubscribe($topic, function($topic, $message){
                 if($message != "") {
-                    $abc = $topic."=".$message;
-                    exit($abc);
+                    $newTopic = $topic."=".$message;
+                    exit($newTopic);
                 }
             });
         } catch (\Exception $exception) {
@@ -388,8 +388,8 @@ class UserController extends BaseApiController
                 return $this->responseErrorValidator($validator, 422);
             }
 
-            if ($request->ppmMax - $request->ppmMin < 50) {
-                return $this->responseErrorCustom("ppmMax_must_be_greater_than_ppmMin_50", 403); //Forbidden
+            if ($request->ppmMax - $request->ppmMin < 100) {
+                return $this->responseErrorCustom("ppmMax_must_be_greater_than_ppmMin_100", 403); //Forbidden
             }
 
             $nutrient = new Nutrients;
@@ -475,18 +475,18 @@ class UserController extends BaseApiController
                 }
             }
 
-            $Temp = PumpAutomatic::getAuto($request->devicesId);
             $topic = $request->devicesId."=pump";
             $message = 1;
             $mqtt = new Mqtt();
-            while($Temp[0]->auto == 1){   
+            $getAutoPump = PumpAutomatic::getAuto($request->devicesId);
+            while($getAutoPump[0]->auto == 1){   
                 $output = $mqtt->ConnectAndPublish($topic, $message);
                 if($message == 1) {
                     $message = 0;
                     $n = 1;
                     for($i = 0; $i < $n; $i++) { 
-                        $Temp = PumpAutomatic::getAuto($request->devicesId);
-                        if($Temp[0]->auto == 1 and $n <= $request->timeOn) {
+                        $getAutoPump = PumpAutomatic::getAuto($request->devicesId);
+                        if($getAutoPump[0]->auto == 1 and $n <= $request->timeOn) {
                             $n++;
                             sleep(1);
                         }
@@ -496,8 +496,8 @@ class UserController extends BaseApiController
                     $message = 1;
                     $n = 1;
                     for($i = 0; $i < $n; $i++) { 
-                        $Temp = PumpAutomatic::getAuto($request->devicesId);
-                        if($Temp[0]->auto == 1 and $n <= $request->timeOff) {
+                        $getAutoPump = PumpAutomatic::getAuto($request->devicesId);
+                        if($getAutoPump[0]->auto == 1 and $n <= $request->timeOff) {
                             $n++;
                             sleep(1);
                         }
@@ -563,6 +563,311 @@ class UserController extends BaseApiController
                     }
                     else {
                         $checkAuto->auto = 0;
+                        $checkAuto->save();
+                    }
+                }
+            }
+            return $this->responseSuccess("Seen turn off auto mode successfully");
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    /**
+     * @SWG\Post(
+     *     path="/user/ppmAutoOn",
+     *     description="Turn on ppm auto mode",
+     *     tags={"Ppm auto"},
+     *     summary="Turn on ppm auto mode",
+     *     security={{"jwt":{}}},
+     *
+     *      @SWG\Parameter(
+     *          name="body",
+     *          description="Turn on ppm auto mode",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(
+     *              @SWG\property(
+     *                  property="devicesId",
+     *                  type="integer",
+     *              ),
+     *              @SWG\property(
+     *                  property="nutrientId",
+     *                  type="integer",
+     *              ),
+     *          ),
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @SWG\Response(response=403, description="Forbidden"),
+     *      @SWG\Response(response=422, description="Unprocessable Entity"),
+     *      @SWG\Response(response=500, description="Internal Server Error"),
+     * )
+     */
+    public function ppmAutoOn(Request $request)
+    {
+        try {
+            set_time_limit(0);
+            $validator = PpmAutomatic::validate($request->all(), 'Ppm_Auto_On');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            $checkDevices = Devices::where(['id' => $request->devicesId])->first();
+            if (!$checkDevices) {
+                return $this->responseErrorCustom("devices_id_not_found", 404);
+            }
+            else {
+                $checkNutrients = Nutrients::where(['id' => $request->nutrientId])->first();
+                if (!$checkNutrients) {
+                    return $this->responseErrorCustom("nutrients_id_not_found", 404);
+                }
+                else {
+                    if($checkDevices->user_id != $request->user->id) {
+                        return $this->responseErrorCustom("permission_denied", 403); //Forbidden
+                    }
+                    else {
+                        $checkAuto = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+                        if (!$checkAuto) {
+                            return $this->responseErrorCustom("devices_id_not_found", 404);
+                        }
+                        else {
+                            $checkAuto->nutrient_id = $request->nutrientId;
+                            $checkAuto->auto_mode = 1;
+                            $checkAuto->save();
+
+                            //Get nutrient by id
+                            $nutri = Nutrients::getNutrientById($request->nutrientId);
+                            $ppmMax = $nutri[0]->ppm_max;
+                            $ppmMin = $nutri[0]->ppm_min;
+
+                            $topic = $request->devicesId."=";
+                            $mqtt = new Mqtt();
+                            $getAutoPpm = PpmAutomatic::getAuto($request->devicesId);
+                            $ppmForDevice = 0;
+                            $case = 0;
+
+                            while($getAutoPpm[0]->auto_mode == 1){   
+                                //get good ppm
+                                $ppmNow = Sensors::getSensorData($request->devicesId);
+                                if($ppmNow[0]->temperature <= 25) {
+                                    $ppmForDevice = $ppmMax;
+                                }
+                                else if($ppmNow[0]->temperature >= 45) {
+                                    $ppmForDevice = $ppmMin;
+                                }
+                                else {
+                                    $ppmForDevice = $ppmMax - (($ppmNow[0]->temperature - 25)*0.05)*($ppmMax - $ppmMin);
+                                }
+
+                                //mix nutrients
+                                //Nồng độ đúng
+                                if(abs($ppmForDevice - $ppmNow[0]->PPM) <= 50) {
+                                    //Lượng nước dưới 30%, bơm nước(rất ít) để tránh cháy máy bơm
+                                    if($ppmNow[0]->water <= 30) {
+                                        if($case != 1) {
+                                            if($case == 2 or $case == 0) {
+                                                $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+                                                $checkAuto->auto_status = 1;
+                                                $checkAuto->save();
+                                            }
+                                            $topicPpm = $topic."ppm";
+                                            $messagePpm = 0;
+                                            $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
+                                            $topicWaterIn = $topic."waterIn";
+                                            $messageWaterIn = 1;
+                                            $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
+                                            sleep(1);
+                                        }
+                                        $case = 1;
+                                    }
+                                    //Lượng nước trên 30%, dừng quá trình thêm nước
+                                    else {
+                                        if($case != 2) {
+                                            $topicWaterIn = $topic."waterIn";
+                                            $messageWaterIn = 0;
+                                            $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
+                                            $topicPpm = $topic."ppm";
+                                            $messagePpm = 0;
+                                            $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
+                                            $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+                                            $checkAuto->auto_status = 0;
+                                            $checkAuto->save();
+                                            sleep(1);
+                                        }
+                                        $case = 2;
+                                    }
+                                }
+                                //Nồng độ thiếu so với chuẩn: bơm lên trên 70 rồi mới pha
+                                else if($ppmForDevice - $ppmNow[0]->PPM > 50) {
+                                    //Bơm nước lên 70%
+                                    if($ppmNow[0]->water < 70) {
+                                        if($case != 3) {
+                                            if($case == 2 or $case == 0) {
+                                                $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+                                                $checkAuto->auto_status = 1;
+                                                $checkAuto->save();
+                                            }
+                                            $topicPpm = $topic."ppm";
+                                            $messagePpm = 0;
+                                            $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
+                                            $topicWaterIn = $topic."waterIn";
+                                            $messageWaterIn = 1;
+                                            $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
+                                            sleep(1);
+                                        }
+                                        $case = 3;
+                                    }
+                                    //Thêm dinh dưỡng
+                                    else if($ppmNow[0]->water >= 70) {
+                                        if($case != 4) {
+                                            if($case == 2 or $case == 0) {
+                                                $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+                                                $checkAuto->auto_status = 1;
+                                                $checkAuto->save();
+                                            }
+                                            $topicWaterIn = $topic."waterIn";
+                                            $messageWaterIn = 0;
+                                            $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
+                                            $topicPpm = $topic."ppm";
+                                            $messagePpm = 1;
+                                            $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
+                                            sleep(1);
+                                        }
+                                        $case = 4;
+                                    }
+                                }
+                                //Nồng độ dư so với chuẩn
+                                else if($ppmNow[0]->PPM - $ppmForDevice > 50) {
+                                    //Nếu lượng nước nhỏ hơn 70% thì thêm nước
+                                    if($ppmNow[0]->water < 70) {
+                                        if($case != 5) {
+                                            if($case == 2 or $case == 0) {
+                                                $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+                                                $checkAuto->auto_status = 1;
+                                                $checkAuto->save();
+                                            }
+                                            $topicPpm = $topic."ppm";
+                                            $messagePpm = 0;
+                                            $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
+                                            $topicWaterIn = $topic."waterIn";
+                                            $messageWaterIn = 1;
+                                            $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
+                                            sleep(1);
+                                        }
+                                        $case = 5;
+                                    }
+                                    //Nếu lượng nước lơn hơn 70% và chênh lệnh < 400 ppm
+                                    else if($ppmNow[0]->water >= 70 and $ppmNow[0]->PPM - $ppmForDevice <= 400) {
+                                        if($case != 6) {
+                                            if($case == 2 or $case == 0) {
+                                                $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+                                                $checkAuto->auto_status = 1;
+                                                $checkAuto->save();
+                                            }
+                                            $topicPpm = $topic."ppm";
+                                            $messagePpm = 0;
+                                            $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
+                                            $topicWaterIn = $topic."waterIn";
+                                            $messageWaterIn = 1;
+                                            $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
+                                            sleep(1);
+                                        }
+                                        $case = 6;
+                                    }
+                                    //Nếu lượng nước lơn hơn 70% và chênh lệnh > 400 ppm
+                                    //Bơm nước ra trong vòng 20s vào thùng thứ 2
+                                    else if($ppmNow[0]->water >= 70 and $ppmNow[0]->PPM - $ppmForDevice > 400) {
+                                        if($case == 2 or $case == 0) {
+                                            $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+                                            $checkAuto->auto_status = 1;
+                                            $checkAuto->save();
+                                        }
+                                        $topicWaterIn = $topic."waterIn";
+                                        $messageWaterIn = 0;
+                                        $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
+                                        $topicPpm = $topic."ppm";
+                                        $messagePpm = 0;
+                                        $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
+                                        $topicWaterOut = $topic."waterOut";
+                                        $messageWaterOut = 1;
+                                        $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
+                                        sleep(20);
+                                        $messageWaterOut = 0;
+                                        $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
+                                        $case = 7;
+                                    }
+                                }
+                                //Kiểm tra chế độ tự pha dinh dưỡng
+                                $getAutoPpm = PpmAutomatic::getAuto($request->devicesId);
+                            }
+                            $topicWaterIn = $topic."waterIn";
+                            $topicWaterOut = $topic."waterOut";
+                            $topicPpm = $topic."ppm";
+                            $message = 0;
+                            $mqtt->ConnectAndPublish($topicWaterIn, $message);
+                            $mqtt->ConnectAndPublish($topicWaterOut, $message);
+                            $mqtt->ConnectAndPublish($topicPpm, $message);
+                        }
+                    }
+                }
+            }
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    /**
+     * @SWG\Post(
+     *     path="/user/ppmAutoOff",
+     *     description="Turn off ppm auto mode",
+     *     tags={"Ppm auto"},
+     *     summary="Turn off ppm auto mode",
+     *     security={{"jwt":{}}},
+     *
+     *      @SWG\Parameter(
+     *          name="body",
+     *          description="Turn off ppm auto mode",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(
+     *              @SWG\property(
+     *                  property="devicesId",
+     *                  type="integer",
+     *              ),
+     *          ),
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @SWG\Response(response=403, description="Forbidden"),
+     *      @SWG\Response(response=422, description="Unprocessable Entity"),
+     *      @SWG\Response(response=500, description="Internal Server Error"),
+     * )
+     */
+    public function ppmAutoOff(Request $request)
+    {
+        try {
+            $validator = PpmAutomatic::validate($request->all(), 'Ppm_Auto_Off');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            $checkDevices = Devices::where(['id' => $request->devicesId])->first();
+            if (!$checkDevices) {
+                return $this->responseErrorCustom("devices_id_not_found", 404);
+            }
+            else {
+                if($checkDevices->user_id != $request->user->id) {
+                    return $this->responseErrorCustom("permission_denied", 403); //Forbidden
+                }
+                else {
+                    $checkAuto = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+                    if (!$checkAuto) {
+                        return $this->responseErrorCustom("devices_id_not_found", 404);
+                    }
+                    else {
+                        $checkAuto->auto_mode = 0;
+                        $checkAuto->auto_status = 0;
                         $checkAuto->save();
                     }
                 }

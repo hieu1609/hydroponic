@@ -40,4 +40,9 @@ class Nutrients extends BaseModel
         return Nutrients::orderBy('id', 'asc')
         ->get();
     }
+
+    public static function getNutrientById($id) {
+        return Nutrients::where('id', $id)
+        ->get();
+    }
 }
