@@ -21,6 +21,10 @@ class Notification extends BaseModel
             'notificationTitle' => 'required|string|max:50',
             'notificationContent' => 'required|string|max:2000'
         ],
+        'Send_Notification_All_Users' => [
+            'notificationTitle' => 'required|string|max:50',
+            'notificationContent' => 'required|string|max:2000'
+        ],
         'Seen_Notification' => [
             'notificationId' => 'required|integer'
         ],

@@ -69,16 +69,20 @@ Route::group(['middleware' => ['jwt']], function () {
 //Route Admin
 Route::group(['prefix' => 'admin'], function () {
     Route::middleware(['jwt', 'admin'])->group(function () {
+        //User
         Route::get('all-user', 'AdminController@getAllUser');
         Route::get('statistic', 'AdminController@getStatistic');
         Route::put('/{id}', 'AdminController@editUser');
         Route::delete('/{id}', 'AdminController@deleteUser');
 
+        //Notification
         Route::get('getAllNotifications', 'AdminController@getAllNotifications');
         Route::post('sendNotification', 'AdminController@sendNotification');
+        Route::post('sendNotificationForAllUsers', 'AdminController@sendNotificationForAllUsers');
         Route::put('notification/{notificationId}', 'AdminController@editNotification');
         Route::delete('notification/{notificationId}', 'AdminController@deleteNotification');
 
+        //Devices
         Route::get('getAllDevices', 'AdminController@getAllDevices');
         Route::post('addDevices', 'AdminController@addDevices');
         Route::put('devices/{devicesId}', 'AdminController@editDevices');
