@@ -9,94 +9,29 @@ import { Router } from "@angular/router";
 })
 export class StatisticsComponent implements OnInit {
   constructor(private _dataService: DataService, private router: Router) {}
-  statusPump: boolean = false;
-  statusPumpAuto: boolean = false;
-  pumpStatusHTML: string = "OFF";
-  pumpAutoStatusHTML: string = "OFF";
+
   weather: any = [];
+  devices: any = [];
+  nutrients: any = [];
+  nutrient: any = {};
+  veGetType: any = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
   ngOnInit() {
     this.getCurrentWeather();
+    this.getDeviceID();
+    this.getNutrients();
   }
 
-  PumpOn() {
-    this.statusPump = true;
-    this.pumpStatusHTML = "ON";
-    this.statusPumpAuto = false;
-    this.pumpAutoStatusHTML = "OFF";
-    const uri = "user/controlPump";
-    const message = {
-      devicesId: 2,
-      message: "1"
-    };
-    this._dataService.post(uri, message).subscribe(
-      (data: any) => {
-        console.log(data);
-        // alert("Đăng nhập thành công !");
-        // localStorage.setItem("user", JSON.stringify(data));
-      },
-      (err: any) => {
-        console.log(err);
-      }
-    );
-  }
-  PumpOff() {
-    this.statusPump = false;
-    this.pumpStatusHTML = "OFF";
-    const uri = "user/controlPump";
-    const message = {
-      devicesId: 2,
-      message: "0"
-    };
-    this._dataService.post(uri, message).subscribe(
-      (data: any) => {
-        console.log(data);
-        // alert("Đăng nhập thành công !");
-        // localStorage.setItem("user", JSON.stringify(data));
-      },
-      (err: any) => {
-        console.log(err);
-      }
-    );
-  }
-
-  PumpAutoOn() {
-    this.statusPumpAuto = true;
-    this.pumpAutoStatusHTML = "ON";
-    const uri = "user/pumpAutoOn";
-    const message = {
-      devicesId: 2,
-      timeOn: 3,
-      timeOff: 2
-    };
-    this._dataService.post(uri, message).subscribe(
-      (data: any) => {
-        console.log(data);
-        // alert("Đăng nhập thành công !");
-        // localStorage.setItem("user", JSON.stringify(data));
-      },
-      (err: any) => {
-        console.log(err);
-      }
-    );
-  }
-  PumpAutoOff() {
-    this.statusPumpAuto = false;
-    this.pumpAutoStatusHTML = "OFF";
-    const uri = "user/pumpAutoOff";
-    const message = {
-      devicesId: 2
-    };
-    this._dataService.post(uri, message).subscribe(
-      (data: any) => {
-        console.log(data);
-        // alert("Đăng nhập thành công !");
-        // localStorage.setItem("user", JSON.stringify(data));
-      },
-      (err: any) => {
-        console.log(err);
-      }
-    );
-  }
   getCurrentWeather() {
     const uri = "weather/currentweather";
     this._dataService.post(uri, "").subscribe(
@@ -112,7 +47,51 @@ export class StatisticsComponent implements OnInit {
       }
     );
   }
+  getDeviceID() {
+    const uri = "devices/getDeviceIdForUser";
+    this._dataService.get(uri).subscribe(
+      (data: any) => {
+        console.log(data);
+        this.devices = data.data;
 
+        // alert("Đăng nhập thành công !");
+        // localStorage.setItem("user", JSON.stringify(data));
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
+  }
+
+  getNutrients() {
+    const uri = "user/getNutrients";
+    this._dataService.get(uri).subscribe(
+      (data: any) => {
+        console.log("aaa");
+        this.nutrients = data.data;
+        this.nutrient = this.nutrients[0];
+        for (let index = 0; index < this.nutrients.length; index++) {
+          console.log(this.nutrients[index]);
+        }
+
+        // alert("Đăng nhập thành công !");
+        // localStorage.setItem("user", JSON.stringify(data));
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
+  }
+
+  ShowVegetInfo(type) {
+    console.log("ssss");
+
+    for (let i = 0; i < 10; i++) {
+      this.veGetType[i] = false;
+    }
+    this.veGetType[type] = true;
+    this.nutrient = this.nutrients[type];
+  }
   // getWeatherForecast() {
   //   const uri = "weather/currentweather";
   //   this._dataService.post(uri, "").subscribe(

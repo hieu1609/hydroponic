@@ -425,118 +425,91 @@ p {
   visibility: visible;
   transform: translateY(40%);
 }
-
-.device-statistics {
-  background-color: #161616;
-}
-.container {
-  padding: 100px;
-}
-.device-statistics p {
-  color: black;
-}
-.card-body {
-  text-align: center;
-}
-.on {
-  color: green;
-}
-.off {
-  color: crimson;
-}
-.card-body h2 {
-  margin-top: 40px;
-}
-.device-statistics i {
-  font-size: 100px;
-  color: black;
-}
-.device-statistics img {
-  width: 120px;
-  height: 100px;
-}
-.card {
-  width: 250px;
-  height: 250px;
-  padding-top: 20px;
-  border: 0px;
-  border-radius: 0px;
-}
-.stat-box span {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-  box-sizing: border-box;
-}
-
-.stat-box span:nth-child(1) {
-  transform: rotate(0deg);
-}
-
-.stat-box span:nth-child(2) {
-  transform: rotate(90deg);
-}
-
-.stat-box span:nth-child(3) {
-  transform: rotate(180deg);
-}
-
-.stat-box span:nth-child(4) {
-  transform: rotate(270deg);
-}
-
-.stat-box.on span::before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 10px;
-  background: green;
-  animation: snake 4s linear infinite;
-}
-.stat-box.off span::before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 10px;
-  background: crimson;
-  animation: snake 4s linear infinite;
-}
-
-@keyframes snake {
-  0% {
-    transform: scaleX(0);
-    transform-origin: left;
-  }
-  50% {
-    transform: scaleX(1);
-    transform-origin: left;
-  }
-  50.1% {
-    transform: scaleX(1);
-    transform-origin: right;
-  }
-  100% {
-    transform: scaleX(0);
-    transform-origin: right;
-  }
-}
-
-.stat-box span:nth-child(2)::before {
-  animation-delay: -2s;
-}
-
-.stat-box span:nth-child(4)::before {
-  animation-delay: -2s;
-}
 .left {
-  background-image: url(./../../../../assets/images/IMG_20190515_180605.jpg);
-  background-size: cover;
+  background-image: url(./../../../../assets/img/hungque.jpg);
+  background-size: 100%;
   background-repeat: no-repeat;
+  height: 700px;
+  padding: 0;
 }
-.left img {
-  padding: 50px;
-  padding-top: 80px;
+.hungque {
+  background-image: url(./../../../../assets/img/hungque.jpg);
+}
+.bacha {
+  background-image: url(./../../../../assets/img/bacha.jpg);
+}
+.bapcai {
+  background-image: url(./../../../../assets/img/bapcai.jpg);
+}
+.boxoi {
+  background-image: url(./../../../../assets/img/caiboxoi.jpg);
+}
+.hunglui {
+  background-image: url(./../../../../assets/img/hunglui.jpg);
+}
+.raumuong {
+  background-image: url(./../../../../assets/img/raumuong.jpg);
+}
+.tiato {
+  background-image: url(./../../../../assets/img/tiato.jpg);
+}
+.cantay {
+  background-image: url(./../../../../assets/img/cantay.jpg);
+}
+.caixoong {
+  background-image: url(./../../../../assets/img/caixoong.jpg);
+}
+.caixanh {
+  background-image: url(./../../../../assets/img/caixanh.jpg);
+}
+.left .row {
+  width: 100%;
+  position: relative;
+  padding: 0;
+  margin: 0;
+  justify-content: center;
+  padding-left: 30px;
+}
+.vegetType {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  margin: 10px;
+}
+.vegetType img:hover {
+  z-index: 5;
+  width: 130px;
+  height: 130px;
+  margin-top: -130px;
+  margin-left: -130px;
+  top: 85%;
+  left: 85%;
+}
+.vegetType img {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  left: 0;
+  top: 0;
+  z-index: 0;
+}
+.veget {
+  position: relative;
+}
+.vegetPPM {
+  width: 100%;
+  text-align: center;
+  margin-top: 110px;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.582);
+  padding-top: 50px;
+  padding-bottom: 50px;
+  bottom: 0;
+  right: 0;
+  h2 {
+    font-weight: bolder;
+    color: rgb(20, 220, 53);
+  }
 }

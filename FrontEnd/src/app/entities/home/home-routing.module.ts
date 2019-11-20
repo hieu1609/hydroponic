@@ -14,10 +14,6 @@ const routes: Routes = [
       {
         path: "stat",
         loadChildren: "./statistics/statistics.module#StatisticsModule"
-      },
-      {
-        path: "control",
-        loadChildren: "./control/control.module#ControlModule"
       }
     ]
   }

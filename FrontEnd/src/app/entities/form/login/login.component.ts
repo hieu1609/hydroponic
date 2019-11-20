@@ -21,8 +21,10 @@ export class LoginComponent implements OnInit {
   }
   _handleOnSubmit() {
     const uri = "auth/login";
-    if (this.formSignIn.valid) console.log(this.formSignIn);
+    if (this.formSignIn.valid) console.log(this.formSignIn.value);
+  
     this._dataService.post(uri, this.formSignIn.value).subscribe(
+      
       (data: any) => {
         console.log(data);
         alert("Đăng nhập thành công !");

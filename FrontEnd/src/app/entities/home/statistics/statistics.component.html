@@ -4,10 +4,10 @@
             <div class="box">
                 <div class="content row">
                     <div class="content-spec">
-                        <div *ngIf="weather.city; else ElseContentName">
+                        <div *ngIf="weather.city; else ElseContentName3">
                             <h1>{{weather.city.name}}</h1>
                         </div>
-                        <ng-template #ElseContentName>
+                        <ng-template #ElseContentName3>
                             <h1>Ha Noi</h1>
                         </ng-template>
 
@@ -100,117 +100,59 @@
             </div>
         </div>
     </div>
-    <div class="device-statistics">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6 col-lg-4 col-md-6 mb-4">
-                    <div class="card">
-
-                        <div class="card-body">
-                            <i class="fa fa-water"></i>
-                            <h2>W-level: 75%</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-4 col-md-6 mb-4">
-                    <div class="card">
-
-                        <div class="card-body">
-                            <i class="fa fa-bolt"></i>
-                            <h2>EC: 2.1 mS/cm</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-4 col-md-6 mb-4">
-                    <div class="card">
-
-                        <div class="card-body">
-                            <i class="fa fa-temperature-low"></i>
-                            <h2>Temp: 31°C</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-4 col-md-6 mb-4 ">
-
-                    <div class="card stat-box" [ngClass]="{on:statusPump,off:!statusPump}">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <div class="card-body">
-                            <img src="../../../../assets/images/icons/pump-icon-1.jpg" alt="">
-                            <h2>Pump: {{pumpStatusHTML}}</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-4 col-md-6 mb-4">
-                    <div class="card ">
-
-                        <div class="card-body">
-                            <img src="../../../../assets/images/icons/download.png" alt="">
-                            <h2>TDS: 500ppm</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-4 col-md-6 mb-4">
-                    <div class="card stat-box" [ngClass]="{on:statusPumpAuto,off:!statusPumpAuto}">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <div class="card-body">
-                            <i class="fab fa-whmcs"></i>
-                            <h2>Auto : {{pumpAutoStatusHTML}}</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div *ngFor="let item of devices">
+        <app-device-statistics [stat]="item"></app-device-statistics>
     </div>
+
 </div>
 <div class="recommend">
     <div class="row">
-        <div class="col-lg-6 left">
-            <img src="./../../../../assets/images/Capture.PNG" alt="">
+        <div class="col-lg-7 left veget " [ngClass]="{hungque:veGetType[0],            
+                bapcai:veGetType[1],
+                cantay:veGetType[2],
+                caixoong:veGetType[3],
+                caixanh:veGetType[4],
+                tiato:veGetType[5],
+                bacha:veGetType[6],
+                boxoi:veGetType[7],
+                hunglui:veGetType[8],
+                raumuong:veGetType[9]}">
+            <div class="row">
+                <div (click)="ShowVegetInfo(0)" class="vegetType"><img src="./../../../../assets/img/hungque.jpg"
+                        alt="">
+                </div>
+                <div (click)="ShowVegetInfo(1)" class="vegetType"><img src="./../../../../assets/img/bapcai.jpg" alt="">
+                </div>
+                <div (click)="ShowVegetInfo(2)" class="vegetType"><img src="./../../../../assets/img/cantay.jpg" alt="">
+                </div>
+                <div (click)="ShowVegetInfo(3)" class="vegetType"><img src="./../../../../assets/img/caixoong.jpg"
+                        alt=""></div>
+                <div (click)="ShowVegetInfo(4)" class="vegetType"><img src="./../../../../assets/img/caixanh.jpg"
+                        alt="">
+                </div>
+            </div>
+            <div class="row">
+                <div (click)="ShowVegetInfo(5)" class="vegetType"><img src="./../../../../assets/img/tiato.jpg" alt="">
+                </div>
+                <div (click)="ShowVegetInfo(6)" class="vegetType"><img src="./../../../../assets/img/bacha.jpg" alt="">
+                </div>
+                <div (click)="ShowVegetInfo(7)" class="vegetType"><img src="./../../../../assets/img/caiboxoi.jpg"
+                        alt=""></div>
+                <div (click)="ShowVegetInfo(8)" class="vegetType"><img src="./../../../../assets/img/hunglui.jpg"
+                        alt="">
+                </div>
+                <div (click)="ShowVegetInfo(9)" class="vegetType"><img src="./../../../../assets/img/raumuong.jpg"
+                        alt=""></div>
+            </div>
+            <div class="vegetPPM">
+                <h2>{{nutrient.plant_name}}</h2>
+                <h2>TDS: {{nutrient.ppm_min}} - {{nutrient.ppm_max}} ppm</h2>
+            </div>
         </div>
-        <div class="col-lg-6 right">
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td scope="row"></td>
-                        <td>
-                            <h3>Bơm tay</h3>
-                        </td>
-                        <td>
-                            <div *ngIf="!statusPump; else ElseContent">
-                                <button style="width: 50px" class="btn btn-success" (click)="PumpOn()">On</button>
-
-                            </div>
-                            <ng-template #ElseContent>
-                                <button style="width: 50px" class="btn btn-danger" (click)="PumpOff()">Off</button>
-                            </ng-template>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row"></td>
-                        <td>
-                            <h3>Bơm tự động</h3>
-                            <input type="text">
-                            <br>
-                            <input type="text">
-                        </td>
-                        <td>
-                            <div *ngIf="!statusPumpAuto; else ElseContent1">
-                                <button style="width: 50px" class="btn btn-success" (click)="PumpAutoOn()">On</button>
-
-                            </div>
-                            <ng-template #ElseContent1>
-                                <button style="width: 50px" class="btn btn-danger" (click)="PumpAutoOff()">Off</button>
-                            </ng-template>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="col-lg-5 right">
+            <div *ngFor="let item of devices">
+                <app-device-control [device]="item"></app-device-control>
+            </div>
         </div>
     </div>
 </div>
