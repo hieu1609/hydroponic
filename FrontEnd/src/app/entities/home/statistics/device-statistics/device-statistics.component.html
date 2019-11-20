@@ -1,0 +1,68 @@
+<div class="device-statistics">
+    <div class="container">
+        <h2 style="color: azure;">Device {{stat.id}}</h2>
+        <div class="row">
+            <div class="col-sm-6 col-lg-4 col-md-6 mb-4">
+                <div class="card">
+
+                    <div class="card-body">
+                        <i class="fa fa-water"></i>
+                        <h2>W-level: {{sensorObj.water}}%</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-md-6 mb-4">
+                <div class="card">
+
+                    <div class="card-body">
+                        <i class="fa fa-bolt"></i>
+                        <h2>EC: {{sensorObj.EC}} mS/cm</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-md-6 mb-4">
+                <div class="card">
+
+                    <div class="card-body">
+                        <i class="fa fa-temperature-low"></i>
+                        <h2>Temp: {{sensorObj.temperature}}°C</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-md-6 mb-4 ">
+
+                <div class="card stat-box" [ngClass]="{on:statusPump,off:!statusPump}">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <div class="card-body">
+                        <img src="../../../../assets/images/icons/pump-icon-1.jpg" alt="">
+                        <h2>Pump: {{pumpStatusHTML}}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-md-6 mb-4">
+                <div class="card ">
+
+                    <div class="card-body">
+                        <img src="../../../../assets/images/icons/download.png" alt="">
+                        <h2>TDS: {{sensorObj.PPM}}ppm</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-md-6 mb-4">
+                <div class="card stat-box" [ngClass]="{on:statusPumpAuto,off:!statusPumpAuto}">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <div class="card-body">
+                        <i class="fab fa-whmcs"></i>
+                        <h2>Auto : {{pumpAutoStatusHTML}}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
