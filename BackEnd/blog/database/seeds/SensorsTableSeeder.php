@@ -307,7 +307,7 @@ class SensorsTableSeeder extends Seeder
                 'temperature' => 26.11,
                 'humidity' => 42.35,
                 'light' => 558,
-                'EC' => 1.39,
+                'EC' => 1.40,
                 'PPM' => 753,
                 'water' => 56.20,
                 'pump' => 0,

@@ -88,7 +88,7 @@ class NutrientsTableSeeder extends Seeder
             ],
             [
                 'user_id' => 1,
-                'plant_name' => 'Muống',
+                'plant_name' => 'Rau muống',
                 'ppm_min' => 400,
                 'ppm_max' => 850,
                 "created_at"=> "2019-08-28 03:12:35",
