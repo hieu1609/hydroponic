@@ -21,8 +21,10 @@ class Sensors extends BaseModel
     );
 
     public static function getSensorData($devicesId) {
-        return Sensors::where('device_id', $devicesId)
-        ->orderBy('id', 'desc')
+        return Sensors::where('sensors.device_id', $devicesId)
+        ->join('pump_automatic', 'sensors.device_id', '=', 'pump_automatic.device_id')
+        ->join('ppm_automatic', 'sensors.device_id', '=', 'ppm_automatic.device_id')
+        ->orderBy('sensors.id', 'desc')
         ->limit(1)
         ->get();
     }
