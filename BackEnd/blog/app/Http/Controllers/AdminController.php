@@ -345,6 +345,60 @@ class AdminController extends BaseApiController
         }
     }
 
+    public function sendNotificationForAllUsers(Request $request)
+    {
+        /**
+         * @SWG\Post(
+         *     path="/admin/sendNotificationForAllUsers",
+         *     description="Send notification for all users",
+         *     tags={"Admin"},
+         *     summary="Send notification",
+         *     security={{"jwt":{}}},
+         *
+         *      @SWG\Parameter(
+         *          name="body",
+         *          description="Send notification for all users",
+         *          required=true,
+         *          in="body",
+         *          @SWG\Schema(
+         *              @SWG\property(
+         *                  property="notificationTitle",
+         *                  type="string",
+         *              ),
+         *              @SWG\property(
+         *                  property="notificationContent",
+         *                  type="string",
+         *              ),
+         *          ),
+         *      ),
+         *      @SWG\Response(response=200, description="Successful operation"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=403, description="Forbidden"),
+         *      @SWG\Response(response=422, description="Unprocessable Entity"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $validator = Notification::validate($request->all(), 'Send_Notification_All_Users');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+            $allUserId = User::getUserId();
+            for ($i = 0; $i < count($allUserId); $i++) {
+                $notification = new Notification;
+                $notification->user_id_send = 1;
+                $notification->user_id_receive = $allUserId[$i]->id;
+                $notification->title = $request->notificationTitle;
+                $notification->content = $request->notificationContent;
+                $notification->save();
+            }
+            return $this->responseSuccess("Send notification for all users successfully");
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
     public function editNotification(Request $request)
     {
         /**

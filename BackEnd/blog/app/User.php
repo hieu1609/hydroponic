@@ -131,4 +131,9 @@ class User extends BaseModel  implements JWTSubject, Authenticatable
             'admin' => 'boolean'
         ],
     );
+
+    public static function getUserId() {
+        return User::where('admin', 0)
+        ->get('id');
+    }
 }

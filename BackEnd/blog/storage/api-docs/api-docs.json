@@ -297,6 +297,55 @@
                 ]
             }
         },
+        "/admin/sendNotificationForAllUsers": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Send notification",
+                "description": "Send notification for all users",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Send notification for all users",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "notificationTitle": {
+                                    "type": "string"
+                                },
+                                "notificationContent": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
         "/admin/notification/{notificationId}": {
             "put": {
                 "tags": [
