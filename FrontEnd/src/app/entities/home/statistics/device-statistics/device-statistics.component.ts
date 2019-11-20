@@ -9,13 +9,14 @@ import { Observable, timer } from "rxjs";
 export class DeviceStatisticsComponent implements OnInit {
   @Input() stat;
   constructor(private _dataService: DataService) {
-    const source = timer(1000, 10000);
+    const source = timer(1000, 5000);
     const subscribe = source.subscribe(() => this.getSensor());
   }
   sensorObj: any = {};
 
   pumpStatusHTML: string = "OFF";
   pumpAutoStatusHTML: string = "OFF";
+  statusPump: boolean = false;
   ngOnInit() {
     this.getSensor();
     console.log(this.sensorObj);
@@ -34,7 +35,11 @@ export class DeviceStatisticsComponent implements OnInit {
         this.sensorObj = data.data[0];
         if (this.sensorObj.pump === 0) {
           this.pumpStatusHTML = "OFF";
-        } else this.pumpStatusHTML = "ON";
+          this.statusPump = false;
+        } else {
+          this.pumpStatusHTML = "ON";
+          this.statusPump = true;
+        }
       },
       (err: any) => {
         console.log(err);
