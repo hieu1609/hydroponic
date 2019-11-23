@@ -163,7 +163,7 @@ class AuthController extends BaseApiController
             $user->username = $request->username;
             $user->password = bcrypt($request->password);
             $user->save();
-            return $this->responseSuccess("Register_Successfully");
+            return $this->responseSuccess("Register successfully");
         } catch (\Exception $exception) {
             return $this->responseErrorException($exception->getMessage(), $exception->getCode(), 500);
         }
