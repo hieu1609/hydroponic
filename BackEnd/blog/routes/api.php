@@ -72,6 +72,7 @@ Route::group(['prefix' => 'admin'], function () {
         //User
         Route::get('all-user', 'AdminController@getAllUser');
         Route::get('statistic', 'AdminController@getStatistic');
+        Route::post('addUser', 'AdminController@addUser');
         Route::put('/{id}', 'AdminController@editUser');
         Route::delete('/{id}', 'AdminController@deleteUser');
 
