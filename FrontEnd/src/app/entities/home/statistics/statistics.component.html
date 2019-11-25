@@ -100,8 +100,8 @@
             </div>
         </div>
     </div>
-    <div *ngFor="let item of devices">
-        <app-device-statistics [stat]="item"></app-device-statistics>
+    <div *ngFor="let item of devices, let i = index">
+        <app-device-statistics [index]="i" [stat]="item"> </app-device-statistics>
     </div>
 
 </div>

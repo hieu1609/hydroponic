@@ -8,6 +8,7 @@ import { Observable, timer } from "rxjs";
 })
 export class DeviceStatisticsComponent implements OnInit {
   @Input() stat;
+  @Input() index;
   constructor(private _dataService: DataService) {
     const source = timer(1000, 5000);
     const subscribe = source.subscribe(() => this.getSensor());
@@ -19,19 +20,15 @@ export class DeviceStatisticsComponent implements OnInit {
   statusPump: boolean = false;
   ngOnInit() {
     this.getSensor();
-    console.log(this.sensorObj);
   }
 
   getSensor() {
-    console.log("test real-time");
-
     const message = {
       devicesId: this.stat.id
     };
     const uri = "devices/getSensorData";
     this._dataService.post(uri, message).subscribe(
       (data: any) => {
-        console.log(data);
         this.sensorObj = data.data[0];
         if (this.sensorObj.pump === 0) {
           this.pumpStatusHTML = "OFF";
