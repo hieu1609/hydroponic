@@ -121,6 +121,12 @@ class User extends BaseModel  implements JWTSubject, Authenticatable
             'admin' => 'required|boolean',
             'username' => 'required|min:3|max:30|string',
         ],
+        'Rule_AddUser' => [
+            'username' => 'required|min:3|max:30|string',
+            'email' => 'required|unique:users,email|regex:/^[a-z][a-z0-9_\.]{2,}@[a-z0-9]{2,}(\.[a-z0-9]{2,}){1,2}$/',
+            'password' => 'required|string|min:6|max:16',
+            'admin' => 'required|boolean',
+        ],
         'Rule_Change_UserAvatar' => [
             'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ],

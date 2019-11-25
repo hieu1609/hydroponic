@@ -16,6 +16,146 @@ use Carbon\Carbon;
 
 class AdminController extends BaseApiController
 {
+    public function addUser(Request $request)
+    {
+        /**
+         * @SWG\Post(
+         *     path="/admin/addUser",
+         *     description="Add user",
+         *     tags={"Admin"},
+         *     summary="Add user",
+         *     security={{"jwt":{}}},
+         *      @SWG\Parameter(
+         *          name="body",
+         *          description="Add user",
+         *          required=true,
+         *          in="body",
+         *          @SWG\Schema(
+         *              @SWG\Property(
+         *                  property="username",
+         *                  type="string",
+         *              ),
+         *          @SWG\Property(
+         *                  property="email",
+         *                  type="string",
+         *              ),
+         *          @SWG\Property(
+         *                  property="password",
+         *                  type="string",
+         *              ),
+         *          @SWG\Property(
+         *                  property="city",
+         *                  type="string",
+         *              ),
+         *              @SWG\Property(
+         *                  property="admin",
+         *                  type="boolean",
+         *              ),
+         *          ),
+         *      ),
+         *      @SWG\Response(response=200, description="Successful"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=403, description="Forbidden"),
+         *      @SWG\Response(response=404, description="Not Found"),
+         *      @SWG\Response(response=422, description="Unprocessable Entity"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $validator = User::validate($request->all(), 'Rule_AddUser');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            $city = $request->city;
+            if($request->city === null) {
+                $city = "Ho Chi Minh City";
+            }
+
+            $user = new User;
+            $user->email = $request->email;
+            $user->username = $request->username;
+            $user->password = bcrypt($request->password);
+            $user->city = $city;
+            $user->admin = $request->admin;
+            $user->save();
+            return $this->responseSuccess("Add User successfully");
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    public function editUser(Request $request)
+    {
+        /**
+         * @SWG\Put(
+         *     path="/admin/{id}",
+         *     description="Edit user",
+         *     tags={"Admin"},
+         *     summary="Edit user",
+         *     security={{"jwt":{}}},
+         *      @SWG\Parameter(
+         *         description="ID user to edit",
+         *         in="path",
+         *         name="id",
+         *         required=true,
+         *         type="integer",
+         *         format="int64"
+         *     ),
+         *      @SWG\Parameter(
+         *          name="body",
+         *          description="Edit user",
+         *          required=true,
+         *          in="body",
+         *          @SWG\Schema(
+         *              @SWG\Property(
+         *                  property="admin",
+         *                  type="boolean",
+         *              ),
+         *              @SWG\Property(
+         *                  property="username",
+         *                  type="string",
+         *              ),
+         *          ),
+         *      ),
+         *      @SWG\Response(response=200, description="Successful"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=403, description="Forbidden"),
+         *      @SWG\Response(response=404, description="Not Found"),
+         *      @SWG\Response(response=422, description="Unprocessable Entity"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $input = $request->all();
+            $input['userId'] = $request->id;
+
+            $validator = User::validate($input, 'Rule_EditUser');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            $userId = $request->id;
+            $user = User::where(['id' => $userId])->first();
+            if (!$user) {
+                return $this->responseErrorCustom("users_not_found", 404);
+            }
+
+            $countAdmin = User::where(['admin' => 1])->count();
+            if ($countAdmin <= 1 && $request->admin == false && $user->admin == true) {
+                return $this->responseErrorCustom("can_not_edit_user", 403); //min number of admin is 1
+            }
+
+            $request->admin ?  $user->admin = 1 : $user->admin = 0;
+            $user->username = $request->username;
+            $user->save();
+            return $this->responseSuccess($user);
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
 
     public function deleteUser(Request $request)
     {
@@ -180,77 +320,6 @@ class AdminController extends BaseApiController
             ];
 
             return $this->responseSuccess($result);
-        } catch (\Exception $exception) {
-            return $this->responseErrorException($exception->getMessage(), 99999, 500);
-        }
-    }
-
-    public function editUser(Request $request)
-    {
-        /**
-         * @SWG\Put(
-         *     path="/admin/{id}",
-         *     description="Edit user",
-         *     tags={"Admin"},
-         *     summary="Edit user",
-         *     security={{"jwt":{}}},
-         *      @SWG\Parameter(
-         *         description="ID user to edit",
-         *         in="path",
-         *         name="id",
-         *         required=true,
-         *         type="integer",
-         *         format="int64"
-         *     ),
-         *      @SWG\Parameter(
-         *          name="body",
-         *          description="Edit user",
-         *          required=true,
-         *          in="body",
-         *          @SWG\Schema(
-         *              @SWG\Property(
-         *                  property="admin",
-         *                  type="boolean",
-         *              ),
-         *              @SWG\Property(
-         *                  property="username",
-         *                  type="string",
-         *              ),
-         *          ),
-         *      ),
-         *      @SWG\Response(response=200, description="Successful"),
-         *      @SWG\Response(response=401, description="Unauthorized"),
-         *      @SWG\Response(response=403, description="Forbidden"),
-         *      @SWG\Response(response=404, description="Not Found"),
-         *      @SWG\Response(response=422, description="Unprocessable Entity"),
-         *      @SWG\Response(response=500, description="Internal Server Error"),
-         * )
-         */
-
-        try {
-            $input = $request->all();
-            $input['userId'] = $request->id;
-
-            $validator = User::validate($input, 'Rule_EditUser');
-            if ($validator) {
-                return $this->responseErrorValidator($validator, 422);
-            }
-
-            $userId = $request->id;
-            $user = User::where(['id' => $userId])->first();
-            if (!$user) {
-                return $this->responseErrorCustom("users_not_found", 404);
-            }
-
-            $countAdmin = User::where(['admin' => 1])->count();
-            if ($countAdmin <= 1 && $request->admin == false && $user->admin == true) {
-                return $this->responseErrorCustom("can_not_edit_user", 403); //min number of admin is 1
-            }
-
-            $request->admin ?  $user->admin = 1 : $user->admin = 0;
-            $user->username = $request->username;
-            $user->save();
-            return $this->responseSuccess($user);
         } catch (\Exception $exception) {
             return $this->responseErrorException($exception->getMessage(), 99999, 500);
         }
