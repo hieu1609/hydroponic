@@ -7,7 +7,7 @@ import { AppComponent } from "./app.component";
 import { HomeModule } from "./entities/home/home.module";
 import { AdminModule } from "./entities/admin/admin.module";
 import { EntitiesModule } from "./entities/entities.module";
-
+import { ChartsModule } from "ng2-charts";
 import { AuthInterceptor } from "./common/guards/jwt";
 
 @NgModule({
@@ -18,7 +18,8 @@ import { AuthInterceptor } from "./common/guards/jwt";
     HomeModule,
     AdminModule,
     EntitiesModule,
-    HttpClientModule
+    HttpClientModule,
+    ChartsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

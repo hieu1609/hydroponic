@@ -1,0 +1,20 @@
+<div class="margintop"></div>
+<div class="container mt-lg-3">
+    <!-- <form class="form-inline" (submit)="showChart()" #f="ngForm">
+        <div class="select">
+            <select class="form-control col-lg-8" ngModel option="ngModel" name="option">
+                <option selected *ngFor="let item of devices; let i = index" value={{item.id}}>
+                    Thiết bị {{i +1 }} </option>
+            </select>
+         
+            <button class="btn btn-outline-secondary" type="submit">Button</button>
+        </div>
+    </form> -->
+
+
+    <div *ngFor="let item of devices; let i = index">
+        <app-chart [id]="item.id" [index]="i"></app-chart>
+    </div>
+
+
+</div>

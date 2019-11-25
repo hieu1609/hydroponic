@@ -3,6 +3,7 @@ import { environment } from "../../environments/environment";
 import { HttpHeaders, HttpClient } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { tap, catchError } from "rxjs/operators";
+import { Router } from "@angular/router";
 let urlApi;
 const httpOptions = {
   headers: new HttpHeaders({
@@ -13,7 +14,7 @@ const httpOptions = {
   providedIn: "root"
 })
 export class DataService {
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     urlApi = environment.urlApi;
   }
   HandleError(errCode) {
@@ -26,7 +27,8 @@ export class DataService {
         console.log(errCode.error);
         break;
       case 401:
-        console.log(errCode.error);
+        console.log(errCode.error.status);
+        this.router.navigate([""]);
         break;
       default:
         break;
@@ -35,9 +37,7 @@ export class DataService {
   }
   get(uri: string): Observable<any> {
     return this.http.get(urlApi + "/" + uri).pipe(
-      tap((data: any) => {
-        console.log(data);
-      }),
+      tap((data: any) => {}),
       catchError(error => {
         return this.HandleError(error);
       })
@@ -45,9 +45,7 @@ export class DataService {
   }
   post(uri: string, data?: any): Observable<any> {
     return this.http.post(urlApi + "/" + uri, data, httpOptions).pipe(
-      tap((data: any) => {
-        console.log(data);
-      }),
+      tap((data: any) => {}),
       catchError(error => {
         return this.HandleError(error);
       })
