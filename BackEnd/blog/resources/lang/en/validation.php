@@ -400,6 +400,10 @@ return [
             'required' => 'time_off_required',
             'integer' => 'time_off_integer'
         ],
+        'page' => [
+            'required' => 'page_required',
+            'integer' => 'page_integer',
+        ],
     ],
 
     /*

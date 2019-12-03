@@ -145,7 +145,7 @@ class UserController extends BaseApiController
      * @SWG\Post(
      *     path="/user/controlPump",
      *     description="Control pump via mqtt",
-     *     tags={"Pump manual"},
+     *     tags={"Pump"},
      *     summary="Control pump via mqtt",
      *     security={{"jwt":{}}},
      *
@@ -398,7 +398,7 @@ class UserController extends BaseApiController
             $nutrient->ppm_min = $request->ppmMin;
             $nutrient->ppm_max = $request->ppmMax;
             $nutrient->save();
-            return $this->responseSuccess("Post nutrient successfully");
+            return $this->responseSuccess($nutrient);
 
         } catch (\Exception $exception) {
             return $this->responseErrorException($exception->getMessage(), 99999, 500);
@@ -409,7 +409,7 @@ class UserController extends BaseApiController
      * @SWG\Post(
      *     path="/user/pumpAutoOn",
      *     description="Turn on pump auto mode",
-     *     tags={"Pump auto"},
+     *     tags={"Pump"},
      *     summary="Turn on pump auto mode",
      *     security={{"jwt":{}}},
      *
@@ -517,7 +517,7 @@ class UserController extends BaseApiController
      * @SWG\Post(
      *     path="/user/pumpAutoOff",
      *     description="Turn off pump auto mode",
-     *     tags={"Pump auto"},
+     *     tags={"Pump"},
      *     summary="Turn off pump auto mode",
      *     security={{"jwt":{}}},
      *
@@ -757,8 +757,8 @@ class UserController extends BaseApiController
                                         }
                                         $case = 5;
                                     }
-                                    //Nếu lượng nước lơn hơn 70% và chênh lệnh < 400 ppm
-                                    else if($ppmNow[0]->water >= 70 and $ppmNow[0]->PPM - $ppmForDevice <= 400) {
+                                    //Nếu lượng nước lớn hơn 70% và chênh lệnh < 400 ppm
+                                    else if($ppmNow[0]->water >= 70 and $ppmNow[0]->water <= 95 and $ppmNow[0]->PPM - $ppmForDevice <= 400) {
                                         if($case != 6) {
                                             if($case == 2 or $case == 0) {
                                                 $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
@@ -774,6 +774,27 @@ class UserController extends BaseApiController
                                             sleep(1);
                                         }
                                         $case = 6;
+                                    }
+                                    //Nếu lượng nước lớn hơn 95%
+                                    else if($ppmNow[0]->water >= 95) {
+                                        if($case == 2 or $case == 0) {
+                                            $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+                                            $checkAuto->auto_status = 1;
+                                            $checkAuto->save();
+                                        }
+                                        $topicWaterIn = $topic."waterIn";
+                                        $messageWaterIn = 0;
+                                        $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
+                                        $topicPpm = $topic."ppm";
+                                        $messagePpm = 0;
+                                        $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
+                                        $topicWaterOut = $topic."waterOut";
+                                        $messageWaterOut = 1;
+                                        $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
+                                        sleep(20);
+                                        $messageWaterOut = 0;
+                                        $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
+                                        $case = 7;
                                     }
                                     //Nếu lượng nước lơn hơn 70% và chênh lệnh > 400 ppm
                                     //Bơm nước ra trong vòng 20s vào thùng thứ 2
@@ -795,7 +816,7 @@ class UserController extends BaseApiController
                                         sleep(20);
                                         $messageWaterOut = 0;
                                         $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
-                                        $case = 7;
+                                        $case = 8;
                                     }
                                 }
                                 //Kiểm tra chế độ tự pha dinh dưỡng

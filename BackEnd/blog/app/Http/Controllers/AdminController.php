@@ -16,6 +16,49 @@ use Carbon\Carbon;
 
 class AdminController extends BaseApiController
 {
+    public function getUserAdmin(Request $request)
+    {
+        /**
+         * @SWG\Post(
+         *     path="/admin/getUserAdmin",
+         *     description="Get user",
+         *     tags={"Admin"},
+         *     summary="Get user",
+         *     security={{"jwt":{}}},
+         *      @SWG\Parameter(
+         *          name="body",
+         *          description="Get user",
+         *          required=true,
+         *          in="body",
+         *          @SWG\Schema(
+         *              @SWG\property(
+         *                  property="page",
+         *                  type="integer",
+         *              ),
+         *          ),
+         *      ),
+         *      @SWG\Response(response=200, description="Successful operation"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=403, description="Forbidden"),
+         *      @SWG\Response(response=422, description="Unprocessable Entity"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $validator = User::validate($request->all(), 'Get_User_Admin');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+            $result['data'] = User::getUserAdmin($request->page);
+            $result['numPage'] = ceil(User::count()/10);
+            $result['total'] = User::count();
+            return $this->responseSuccess($result);
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), $exception->getCode(), 500);
+        }
+    }
+
     public function addUser(Request $request)
     {
         /**
@@ -35,15 +78,15 @@ class AdminController extends BaseApiController
          *                  property="username",
          *                  type="string",
          *              ),
-         *          @SWG\Property(
+         *              @SWG\Property(
          *                  property="email",
          *                  type="string",
          *              ),
-         *          @SWG\Property(
+         *              @SWG\Property(
          *                  property="password",
          *                  type="string",
          *              ),
-         *          @SWG\Property(
+         *              @SWG\Property(
          *                  property="city",
          *                  type="string",
          *              ),
@@ -296,16 +339,28 @@ class AdminController extends BaseApiController
         }
     }
 
-    public function getStatistic()
+    public function getNotificationsAdmin(Request $request)
     {
         /**
-         * @SWG\Get(
-         *     path="/admin/statistic",
-         *     description="Get Statistic",
+         * @SWG\Post(
+         *     path="/admin/getNotificationsAdmin",
+         *     description="Get notifications",
          *     tags={"Admin"},
-         *     summary="Get Statistic",
+         *     summary="Get notifications",
          *     security={{"jwt":{}}},
-         *      @SWG\Response(response=200, description="Successful"),
+         *      @SWG\Parameter(
+         *          name="body",
+         *          description="Get notifications",
+         *          required=true,
+         *          in="body",
+         *          @SWG\Schema(
+         *              @SWG\property(
+         *                  property="page",
+         *                  type="integer",
+         *              ),
+         *          ),
+         *      ),
+         *      @SWG\Response(response=200, description="Successful operation"),
          *      @SWG\Response(response=401, description="Unauthorized"),
          *      @SWG\Response(response=403, description="Forbidden"),
          *      @SWG\Response(response=422, description="Unprocessable Entity"),
@@ -314,36 +369,14 @@ class AdminController extends BaseApiController
          */
 
         try {
-            $result = [
-                'account' => User::count(),
-                'devices' =>  Devices::count(),
-            ];
-
+            $validator = Notification::validate($request->all(), 'Get_Notifications_Admin');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+            $result['data'] = Notification::getNotificationsAdmin($request->page);
+            $result['numPage'] = ceil(Notification::count()/10);
+            $result['total'] = Notification::count();
             return $this->responseSuccess($result);
-        } catch (\Exception $exception) {
-            return $this->responseErrorException($exception->getMessage(), 99999, 500);
-        }
-    }
-
-    public function getAllNotifications(Request $request)
-    {
-        /**
-         * @SWG\Get(
-         *     path="/admin/getAllNotifications",
-         *     description="get all notifications",
-         *     tags={"Admin"},
-         *     summary="get all notifications",
-         *     security={{"jwt":{}}},
-         *
-         *      @SWG\Response(response=200, description="Successful operation"),
-         *      @SWG\Response(response=401, description="Unauthorized"),
-         *      @SWG\Response(response=500, description="Internal Server Error"),
-         * )
-         */
-
-        try {
-            $dataNotifications = Notification::getAllNotifications();
-            return $this->responseSuccess($dataNotifications);
         } catch (\Exception $exception) {
             return $this->responseErrorException($exception->getMessage(), $exception->getCode(), 500);
         }
@@ -602,35 +635,54 @@ class AdminController extends BaseApiController
         }
     }
 
-    public function getAllDevices(Request $request)
+    public function getDevicesAdmin(Request $request)
     {
         /**
-         * @SWG\Get(
-         *     path="/admin/getAllDevices",
-         *     description="get all devices",
+         * @SWG\Post(
+         *     path="/admin/getDevicesAdmin",
+         *     description="Get devices",
          *     tags={"Admin"},
-         *     summary="get all devices",
+         *     summary="Get devices",
          *     security={{"jwt":{}}},
-         *
+         *      @SWG\Parameter(
+         *          name="body",
+         *          description="Get devices",
+         *          required=true,
+         *          in="body",
+         *          @SWG\Schema(
+         *              @SWG\property(
+         *                  property="page",
+         *                  type="integer",
+         *              ),
+         *          ),
+         *      ),
          *      @SWG\Response(response=200, description="Successful operation"),
          *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=403, description="Forbidden"),
+         *      @SWG\Response(response=422, description="Unprocessable Entity"),
          *      @SWG\Response(response=500, description="Internal Server Error"),
          * )
          */
 
         try {
-            $dataDevices = Devices::getAllDevices();
-            return $this->responseSuccess($dataDevices);
+            $validator = Devices::validate($request->all(), 'Get_Devices_Admin');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+            $result['data'] = Devices::getDevicesAdmin($request->page);
+            $result['numPage'] = ceil(Devices::count()/10);
+            $result['total'] = Devices::count();
+            return $this->responseSuccess($result);
         } catch (\Exception $exception) {
             return $this->responseErrorException($exception->getMessage(), $exception->getCode(), 500);
         }
     }
 
-    public function addDevices(Request $request)
+    public function addDevice(Request $request)
     {
         /**
          * @SWG\Post(
-         *     path="/admin/addDevices",
+         *     path="/admin/addDevice",
          *     description="Add devices for user",
          *     tags={"Admin"},
          *     summary="Add devices",
@@ -801,27 +853,111 @@ class AdminController extends BaseApiController
         }
     }
 
-    public function getAllNutrients(Request $request)
+    public function getNutrientsAdmin(Request $request)
     {
         /**
-         * @SWG\Get(
-         *     path="/admin/getAllNutrients",
-         *     description="get all nutrients",
+         * @SWG\Post(
+         *     path="/admin/getNutrientsAdmin",
+         *     description="Get nutrients",
          *     tags={"Admin"},
-         *     summary="get all nutrients",
+         *     summary="Get nutrients",
          *     security={{"jwt":{}}},
-         *
+         *      @SWG\Parameter(
+         *          name="body",
+         *          description="Get nutrients",
+         *          required=true,
+         *          in="body",
+         *          @SWG\Schema(
+         *              @SWG\property(
+         *                  property="page",
+         *                  type="integer",
+         *              ),
+         *          ),
+         *      ),
          *      @SWG\Response(response=200, description="Successful operation"),
          *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=403, description="Forbidden"),
+         *      @SWG\Response(response=422, description="Unprocessable Entity"),
          *      @SWG\Response(response=500, description="Internal Server Error"),
          * )
          */
 
         try {
-            $dataNutrients = Nutrients::getAllNutrients();
-            return $this->responseSuccess($dataNutrients);
+            $validator = Nutrients::validate($request->all(), 'Get_Nutrients_Admin');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+            $result['data'] = Nutrients::getNutrientsAdmin($request->page);
+            $result['numPage'] = ceil(Nutrients::count()/10);
+            $result['total'] = Nutrients::count();
+            return $this->responseSuccess($result);
         } catch (\Exception $exception) {
             return $this->responseErrorException($exception->getMessage(), $exception->getCode(), 500);
+        }
+    }
+
+    public function addNutrient(Request $request)
+    {
+        /**
+         * @SWG\Post(
+         *     path="/admin/addNutrient",
+         *     description="Add nutrient",
+         *     tags={"Admin"},
+         *     summary="Add nutrient",
+         *     security={{"jwt":{}}},
+         *
+         *      @SWG\Parameter(
+         *          name="body",
+         *          description="Add nutrient",
+         *          required=true,
+         *          in="body",
+         *          @SWG\Schema(
+         *              @SWG\property(
+         *                  property="userId",
+         *                  type="integer",
+         *              ),
+         *              @SWG\property(
+         *                  property="plantName",
+         *                  type="string",
+         *              ),
+         *              @SWG\property(
+         *                  property="ppmMin",
+         *                  type="integer",
+         *              ),
+         *              @SWG\property(
+         *                  property="ppmMax",
+         *                  type="integer",
+         *              ),
+         *          ),
+         *      ),
+         *      @SWG\Response(response=200, description="Successful operation"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=403, description="Forbidden"),
+         *      @SWG\Response(response=422, description="Unprocessable Entity"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $validator = Nutrients::validate($request->all(), 'Add_Nutrient');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            if ($request->ppmMax - $request->ppmMin < 100) {
+                return $this->responseErrorCustom("ppmMax_must_be_greater_than_ppmMin_100", 403); //Forbidden
+            }
+
+            $nutrient = new Nutrients;
+            $nutrient->user_id = $request->userId;
+            $nutrient->plant_name = $request->plantName;
+            $nutrient->ppm_min = $request->ppmMin;
+            $nutrient->ppm_max = $request->ppmMax;
+            $nutrient->save();
+
+            return $this->responseSuccess($nutrient);
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
         }
     }
 

@@ -11,6 +11,52 @@
         "https"
     ],
     "paths": {
+        "/admin/getUserAdmin": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get user",
+                "description": "Get user",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Get user",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "page": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
         "/admin/addUser": {
             "post": {
                 "tags": [
@@ -250,16 +296,31 @@
                 ]
             }
         },
-        "/admin/statistic": {
-            "get": {
+        "/admin/getNotificationsAdmin": {
+            "post": {
                 "tags": [
                     "Admin"
                 ],
-                "summary": "Get Statistic",
-                "description": "Get Statistic",
+                "summary": "Get notifications",
+                "description": "Get notifications",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Get notifications",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "page": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Successful"
+                        "description": "Successful operation"
                     },
                     "401": {
                         "description": "Unauthorized"
@@ -269,31 +330,6 @@
                     },
                     "422": {
                         "description": "Unprocessable Entity"
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    }
-                },
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ]
-            }
-        },
-        "/admin/getAllNotifications": {
-            "get": {
-                "tags": [
-                    "Admin"
-                ],
-                "summary": "get all notifications",
-                "description": "get all notifications",
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
                     },
                     "500": {
                         "description": "Internal Server Error"
@@ -518,19 +554,40 @@
                 ]
             }
         },
-        "/admin/getAllDevices": {
-            "get": {
+        "/admin/getDevicesAdmin": {
+            "post": {
                 "tags": [
                     "Admin"
                 ],
-                "summary": "get all devices",
-                "description": "get all devices",
+                "summary": "Get devices",
+                "description": "Get devices",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Get devices",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "page": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation"
                     },
                     "401": {
                         "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
                     },
                     "500": {
                         "description": "Internal Server Error"
@@ -543,7 +600,7 @@
                 ]
             }
         },
-        "/admin/addDevices": {
+        "/admin/addDevice": {
             "post": {
                 "tags": [
                     "Admin"
@@ -688,19 +745,95 @@
                 ]
             }
         },
-        "/admin/getAllNutrients": {
-            "get": {
+        "/admin/getNutrientsAdmin": {
+            "post": {
                 "tags": [
                     "Admin"
                 ],
-                "summary": "get all nutrients",
-                "description": "get all nutrients",
+                "summary": "Get nutrients",
+                "description": "Get nutrients",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Get nutrients",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "page": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation"
                     },
                     "401": {
                         "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/admin/addNutrient": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Add nutrient",
+                "description": "Add nutrient",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Add nutrient",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "userId": {
+                                    "type": "integer"
+                                },
+                                "plantName": {
+                                    "type": "string"
+                                },
+                                "ppmMin": {
+                                    "type": "integer"
+                                },
+                                "ppmMax": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
                     },
                     "500": {
                         "description": "Internal Server Error"
@@ -1436,7 +1569,7 @@
         "/user/controlPump": {
             "post": {
                 "tags": [
-                    "Pump manual"
+                    "Pump"
                 ],
                 "summary": "Control pump via mqtt",
                 "description": "Control pump via mqtt",
@@ -1663,7 +1796,7 @@
         "/user/pumpAutoOn": {
             "post": {
                 "tags": [
-                    "Pump auto"
+                    "Pump"
                 ],
                 "summary": "Turn on pump auto mode",
                 "description": "Turn on pump auto mode",
@@ -1715,7 +1848,7 @@
         "/user/pumpAutoOff": {
             "post": {
                 "tags": [
-                    "Pump auto"
+                    "Pump"
                 ],
                 "summary": "Turn off pump auto mode",
                 "description": "Turn off pump auto mode",

@@ -217,6 +217,8 @@ $ApiErrorMessages = array(
     'time_on_integer' => 'Time on must be integer.',
     'time_off_required' => 'Time off is required.',
     'time_off_integer' => 'Time off must be integer.',
+    'page_required' => 'The page is required.',
+    'page_integer' => 'The page must be integer.',
 
     'nutrients_id_not_found' => 'Nutrient id not found.',
 );
@@ -364,6 +366,10 @@ $ApiErrorCodes = array(
     'TypeSort_in' => 3361,
     'fieldSearch_string' => 3371,
     'keySearch_string' => 3381,
+
+    //
+    'page_required' => 3382,
+    'page_integer' => 3383,
 
     //custom error
     'email_password_invalid' => 8000,
