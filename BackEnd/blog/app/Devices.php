@@ -26,10 +26,17 @@ class Devices extends BaseModel
             'devicesId' => 'required|integer',
             'pump' => 'boolean',
         ],
+        'Get_Devices_Admin' => [
+            'page' => 'required|integer'
+        ],
     );
 
-    public static function getAllDevices() {
+    public static function getDevicesAdmin($page) {
+        $limit = 10;
+        $space = ($page - 1) * $limit;
         return Devices::orderBy('id', 'asc')
+        ->limit($limit)
+        ->offset($space)
         ->get();
     }
 

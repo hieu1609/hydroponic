@@ -27,17 +27,30 @@ class Nutrients extends BaseModel
         'Delete_Nutrient' => [
             'nutrientId' => 'required|integer'
         ],
+        'Get_Nutrients_Admin' => [
+            'page' => 'required|integer'
+        ],
+        'Add_Nutrient' => [
+            'userId' => 'required|integer',
+            'plantName' => 'required|string',
+            'ppmMin' => 'required|integer',
+            'ppmMax' => 'required|integer'
+        ],
     );
+
+    public static function getNutrientsAdmin($page) {
+        $limit = 10;
+        $space = ($page - 1) * $limit;
+        return Nutrients::orderBy('id', 'asc')
+        ->limit($limit)
+        ->offset($space)
+        ->get();
+    }
 
     public static function getNutrients($idUser) {
         return Nutrients::where('user_id', 1)
         ->orWhere('user_id', $idUser)
         ->orderBy('id', 'asc')
-        ->get();
-    }
-
-    public static function getAllNutrients() {
-        return Nutrients::orderBy('id', 'asc')
         ->get();
     }
 
