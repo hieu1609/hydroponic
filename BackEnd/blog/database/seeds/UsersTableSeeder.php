@@ -68,6 +68,15 @@ class UsersTableSeeder extends Seeder
                 "admin" => 0,
                 "created_at"=> "2019-08-28 03:12:35",
                 "updated_at"=> "2019-08-28 03:12:35"
+            ], 
+            [
+                "username" => "giahieua2",
+                "email" => "giahieua2ltv@gmail.com",
+                'password' => bcrypt('string'),
+                'city' => 'Vung Tau',
+                "admin" => 0,
+                "created_at"=> "2019-08-28 03:12:36",
+                "updated_at"=> "2019-08-28 03:12:36"
             ]
         ];
         

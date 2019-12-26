@@ -221,6 +221,7 @@ $ApiErrorMessages = array(
     'page_integer' => 'The page must be integer.',
 
     'nutrients_id_not_found' => 'Nutrient id not found.',
+    'exists_in_ppm_automatic_table' => 'Nutrient id exists in ppm automatic table',
 );
 
 $ApiErrorCodes = array(
@@ -429,7 +430,7 @@ $ApiErrorCodes = array(
     'message_required' => 8053,
     'message_string' => 8054,
 
-    'ppmMax_must_be_greater_than_ppmMin_50' => 8055,
+    'ppmMax_must_be_greater_than_ppmMin_100' => 8055,
     'user_id_not_found' => 8056,
     'nutrient_id_not_found' => 8057,
     'plant_name_required' => 8058,
@@ -447,6 +448,7 @@ $ApiErrorCodes = array(
     'time_off_integer' => 8070,
 
     'nutrients_id_not_found' => 8071,
+    'exists_in_ppm_automatic_table' => 8072,
 );
 
 $ApiCodes['ApiErrorMessages'] = $ApiErrorMessages;

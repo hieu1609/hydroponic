@@ -11,6 +11,37 @@
         "https"
     ],
     "paths": {
+        "/admin/getAllUserAdmin": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get all user",
+                "description": "Get all user",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
         "/admin/getUserAdmin": {
             "post": {
                 "tags": [
@@ -220,61 +251,31 @@
                 ]
             }
         },
-        "/admin/all-user": {
-            "get": {
+        "/admin/getFeedbackAdmin": {
+            "post": {
                 "tags": [
                     "Admin"
                 ],
-                "summary": "Get list users",
-                "description": "Get list users",
+                "summary": "Get feedback",
+                "description": "Get feedback",
                 "parameters": [
                     {
-                        "name": "page",
-                        "in": "query",
-                        "description": "Query page",
+                        "name": "body",
+                        "in": "body",
+                        "description": "Get feedback",
                         "required": true,
-                        "type": "number"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "Query limit records per page",
-                        "type": "number"
-                    },
-                    {
-                        "name": "searchBy",
-                        "in": "query",
-                        "description": "Query searchBy column",
-                        "type": "string"
-                    },
-                    {
-                        "name": "keyword",
-                        "in": "query",
-                        "description": "Query search",
-                        "type": "string"
-                    },
-                    {
-                        "name": "sortBy",
-                        "in": "query",
-                        "description": "Query sortBy column",
-                        "type": "string"
-                    },
-                    {
-                        "name": "sort",
-                        "in": "query",
-                        "description": "Query sort",
-                        "type": "string"
-                    },
-                    {
-                        "name": "admin",
-                        "in": "query",
-                        "description": "Query admin",
-                        "type": "boolean"
+                        "schema": {
+                            "properties": {
+                                "page": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful"
+                        "description": "Successful operation"
                     },
                     "401": {
                         "description": "Unauthorized"
@@ -806,9 +807,6 @@
                         "required": true,
                         "schema": {
                             "properties": {
-                                "userId": {
-                                    "type": "integer"
-                                },
                                 "plantName": {
                                     "type": "string"
                                 },

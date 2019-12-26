@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Devices;
+use App\Sensors;
 use App\Notification;
 use App\Nutrients;
 use App\PpmAutomatic;
@@ -16,6 +17,32 @@ use Carbon\Carbon;
 
 class AdminController extends BaseApiController
 {
+    public function getAllUserAdmin(Request $request)
+    {
+        /**
+         * @SWG\Get(
+         *     path="/admin/getAllUserAdmin",
+         *     description="Get all user",
+         *     tags={"Admin"},
+         *     summary="Get all user",
+         *     security={{"jwt":{}}},
+         * 
+         *      @SWG\Response(response=200, description="Successful operation"),
+         *      @SWG\Response(response=401, description="Unauthorized"),
+         *      @SWG\Response(response=403, description="Forbidden"),
+         *      @SWG\Response(response=422, description="Unprocessable Entity"),
+         *      @SWG\Response(response=500, description="Internal Server Error"),
+         * )
+         */
+
+        try {
+            $result = User::get();
+            return $this->responseSuccess($result);
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), $exception->getCode(), 500);
+        }
+    }
+
     public function getUserAdmin(Request $request)
     {
         /**
@@ -238,6 +265,29 @@ class AdminController extends BaseApiController
                 return $this->responseErrorCustom("users_not_found", 404);
             }
 
+            $notificationUserDelete = Notification::getNotificationsUserDelete($userId);
+            if ($notificationUserDelete) {
+                for($i = 0; $i < $notificationUserDelete->count(); $i++){
+                    $notificationUserDelete[$i]->delete();
+                }
+            }
+
+            $nutrientsUserDelete = Nutrients::getNutrientsUserDelete($userId);
+            if ($nutrientsUserDelete) {
+                for($i = 0; $i < $nutrientsUserDelete->count(); $i++){
+                    $nutrientsUserDelete[$i]->user_id = null;
+                    $nutrientsUserDelete[$i]->save();
+                }
+            }
+
+            $devicesUserDelete = Devices::getDevicesUserDelete($userId);
+            if ($devicesUserDelete) {
+                for($i = 0; $i < $devicesUserDelete->count(); $i++){
+                    $devicesUserDelete[$i]->user_id = null;
+                    $devicesUserDelete[$i]->save();
+                }
+            }
+
             $countAdmin = User::where(['admin' => 1])->count();
             if ($countAdmin <= 1 && $user->admin == true) {
                 return $this->responseErrorCustom("can_not_delete_user", 403); //Forbidden
@@ -250,65 +300,28 @@ class AdminController extends BaseApiController
         }
     }
 
-    public function getAllUser(Request $request)
+    public function getFeedbackAdmin(Request $request)
     {
         /**
-         * @SWG\Get(
-         *     path="/admin/all-user",
-         *     description="Get list users",
+         * @SWG\Post(
+         *     path="/admin/getFeedbackAdmin",
+         *     description="Get feedback",
          *     tags={"Admin"},
-         *     summary="Get list users",
+         *     summary="Get feedback",
          *     security={{"jwt":{}}},
-         *       @SWG\Parameter(
-         *          name="page",
-         *          description="Query page",
-         *          in="query",
-         *          type="number",
-         *          required=true
-         *      ),
-         *       @SWG\Parameter(
-         *          name="limit",
-         *          description="Query limit records per page",
-         *          in="query",
-         *          type="number"
-         *      ),
-         *
          *      @SWG\Parameter(
-         *          name="searchBy",
-         *          description="Query searchBy column",
-         *          in="query",
-         *          type="string"
+         *          name="body",
+         *          description="Get feedback",
+         *          required=true,
+         *          in="body",
+         *          @SWG\Schema(
+         *              @SWG\property(
+         *                  property="page",
+         *                  type="integer",
+         *              ),
+         *          ),
          *      ),
-         *
-         *      @SWG\Parameter(
-         *          name="keyword",
-         *          description="Query search",
-         *          in="query",
-         *          type="string"
-         *      ),
-         *
-         *      @SWG\Parameter(
-         *          name="sortBy",
-         *          description="Query sortBy column",
-         *          in="query",
-         *          type="string"
-         *      ),
-         *
-         *       @SWG\Parameter(
-         *          name="sort",
-         *          description="Query sort",
-         *          in="query",
-         *          type="string"
-         *      ),
-         *
-         *       @SWG\Parameter(
-         *          name="admin",
-         *          description="Query admin",
-         *          in="query",
-         *          type="boolean"
-         *      ),
-         *
-         *      @SWG\Response(response=200, description="Successful"),
+         *      @SWG\Response(response=200, description="Successful operation"),
          *      @SWG\Response(response=401, description="Unauthorized"),
          *      @SWG\Response(response=403, description="Forbidden"),
          *      @SWG\Response(response=422, description="Unprocessable Entity"),
@@ -317,25 +330,17 @@ class AdminController extends BaseApiController
          */
 
         try {
-            $input = $request->all();
-            if (isset($input['admin'])) {
-                $input['admin'] == 'true' ? $input['admin'] = 1 : $input['admin'] = 0;
-            }
-
-            $validator = User::validate($input, 'Rule_Get_All_User');
+            $validator = Notification::validate($request->all(), 'Get_Notifications_Admin');
             if ($validator) {
                 return $this->responseErrorValidator($validator, 422);
             }
-
-            $results = User::funcGetAllUser($input);
-
-            if ($results['error']) {
-                return $this->responseErrorCustom($results['errorCode']);
-            }
-            return $this->responseSuccess($results['data']);
-
+            $total = Notification::where(['user_id_receive' => 1])->count();
+            $result['data'] = Notification::getFeedbackAdmin($request->page);
+            $result['numPage'] = ceil($total/10);
+            $result['total'] = $total;
+            return $this->responseSuccess($result);
         } catch (\Exception $exception) {
-            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+            return $this->responseErrorException($exception->getMessage(), $exception->getCode(), 500);
         }
     }
 
@@ -436,7 +441,7 @@ class AdminController extends BaseApiController
             }
 
             $notification = new Notification;
-            $notification->user_id_send = 1;
+            $notification->user_id_send = $request->user->id;
             $notification->user_id_receive = $request->userId;
             $notification->title = $request->notificationTitle;
             $notification->content = $request->notificationContent;
@@ -842,10 +847,20 @@ class AdminController extends BaseApiController
                 return $this->responseErrorCustom("devices_id_not_found", 404);
             }
             $checkPpmDevices = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
-            $checkPumpDevices = PumpAutomatic::where(['device_id' => $request->devicesId])->first();
+            if ($checkPpmDevices)
+                $checkPpmDevices->delete();
 
-            $checkPpmDevices->delete();
-            $checkPumpDevices->delete();
+            $checkPumpDevices = PumpAutomatic::where(['device_id' => $request->devicesId])->first();
+            if ($checkPumpDevices)
+                $checkPumpDevices->delete();
+
+            $checkSensors = Sensors::getSensorDelete($request->devicesId);
+            if ($checkSensors) {
+                for($i = 0; $i < $checkSensors->count(); $i++){
+                    $checkSensors[$i]->delete();
+                }
+            }
+
             $checkDevices->delete();
             return $this->responseSuccess("Delete device successfully");
         } catch (\Exception $exception) {
@@ -913,10 +928,6 @@ class AdminController extends BaseApiController
          *          in="body",
          *          @SWG\Schema(
          *              @SWG\property(
-         *                  property="userId",
-         *                  type="integer",
-         *              ),
-         *              @SWG\property(
          *                  property="plantName",
          *                  type="string",
          *              ),
@@ -949,7 +960,7 @@ class AdminController extends BaseApiController
             }
 
             $nutrient = new Nutrients;
-            $nutrient->user_id = $request->userId;
+            $nutrient->user_id = $request->user->id;
             $nutrient->plant_name = $request->plantName;
             $nutrient->ppm_min = $request->ppmMin;
             $nutrient->ppm_max = $request->ppmMax;
@@ -1077,13 +1088,18 @@ class AdminController extends BaseApiController
             if ($validator) {
                 return $this->responseErrorValidator($validator, 422);
             }
-
+            
             $checkNutrientId = Nutrients::where(['id' => $request->nutrientId])->first();
             if (!$checkNutrientId) {
                 return $this->responseErrorCustom("nutrient_id_not_found", 404);
             } 
-
-            $checkNutrient->delete();
+            
+            $checkPpm = PpmAutomatic::where(['nutrient_id' => $request->nutrientId])->first();
+            if ($checkPpm) {
+                return $this->responseErrorCustom("exists_in_ppm_automatic_table", 403);
+            }
+            
+            $checkNutrientId->delete();
             return $this->responseSuccess("Delete nutrient successfully");
         } catch (\Exception $exception) {
             return $this->responseErrorException($exception->getMessage(), 99999, 500);

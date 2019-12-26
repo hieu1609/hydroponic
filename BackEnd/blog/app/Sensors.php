@@ -20,6 +20,11 @@ class Sensors extends BaseModel
         ],
     );
 
+    public static function getSensorDelete($devicesId) {
+        return Sensors::where('device_id', $devicesId)
+        ->get();
+    }
+
     public static function getSensorData($devicesId) {
         return Sensors::where('sensors.device_id', $devicesId)
         ->join('pump_automatic', 'sensors.device_id', '=', 'pump_automatic.device_id')
