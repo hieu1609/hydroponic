@@ -60,15 +60,34 @@ class Notification extends BaseModel
     public static function getNotificationsAdmin($page) {
         $limit = 10;
         $space = ($page - 1) * $limit;
-        return Notification::orderBy('id', 'desc')
+        return Notification::join('users', 'notification.user_id_receive', '=', 'users.id')
+        ->orderBy('notification.id', 'desc')
+        ->where('notification.user_id_send', 1)
         ->limit($limit)
         ->offset($space)
-        ->get();
+        ->get(['notification.*', 'users.username', 'users.admin']);
+    }
+
+    public static function getFeedbackAdmin($page) {
+        $limit = 10;
+        $space = ($page - 1) * $limit;
+        return Notification::join('users', 'notification.user_id_send', '=', 'users.id')
+        ->orderBy('notification.seen', 'asc')
+        ->where('notification.user_id_receive', 1)
+        ->limit($limit)
+        ->offset($space)
+        ->get(['notification.*', 'users.username', 'users.admin']);
     }
 
     public static function getNotifications($idUser) {
         return Notification::where('user_id_receive', $idUser)
         ->orderBy('id', 'desc')
+        ->get();
+    }
+
+    public static function getNotificationsUserDelete($idUser) {
+        return Notification::where('user_id_receive', $idUser)
+        ->orWhere('user_id_send', $idUser)
         ->get();
     }
 }

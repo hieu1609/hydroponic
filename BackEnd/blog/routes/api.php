@@ -70,13 +70,14 @@ Route::group(['middleware' => ['jwt']], function () {
 Route::group(['prefix' => 'admin'], function () {
     Route::middleware(['jwt', 'admin'])->group(function () {
         //User
+        Route::get('getAllUserAdmin', 'AdminController@getAllUserAdmin');
         Route::post('getUserAdmin', 'AdminController@getUserAdmin');
-        Route::get('all-user', 'AdminController@getAllUser');
         Route::post('addUser', 'AdminController@addUser');
         Route::put('/{id}', 'AdminController@editUser');
         Route::delete('/{id}', 'AdminController@deleteUser');
 
         //Notification
+        Route::post('getFeedbackAdmin', 'AdminController@getFeedbackAdmin');
         Route::post('getNotificationsAdmin', 'AdminController@getNotificationsAdmin');
         Route::post('sendNotification', 'AdminController@sendNotification');
         Route::post('sendNotificationForAllUsers', 'AdminController@sendNotificationForAllUsers');

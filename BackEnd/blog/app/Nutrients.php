@@ -31,7 +31,6 @@ class Nutrients extends BaseModel
             'page' => 'required|integer'
         ],
         'Add_Nutrient' => [
-            'userId' => 'required|integer',
             'plantName' => 'required|string',
             'ppmMin' => 'required|integer',
             'ppmMax' => 'required|integer'
@@ -41,11 +40,13 @@ class Nutrients extends BaseModel
     public static function getNutrientsAdmin($page) {
         $limit = 10;
         $space = ($page - 1) * $limit;
-        return Nutrients::orderBy('id', 'asc')
+        return Nutrients::join('users', 'nutrients.user_id', '=', 'users.id')
+        ->orderBy('nutrients.id', 'asc')
         ->limit($limit)
         ->offset($space)
-        ->get();
+        ->get(['nutrients.*', 'users.username', 'users.admin']);
     }
+
 
     public static function getNutrients($idUser) {
         return Nutrients::where('user_id', 1)
@@ -56,6 +57,11 @@ class Nutrients extends BaseModel
 
     public static function getNutrientById($id) {
         return Nutrients::where('id', $id)
+        ->get();
+    }
+
+    public static function getNutrientsUserDelete($idUser) {
+        return Nutrients::where('user_id', $idUser)
         ->get();
     }
 }

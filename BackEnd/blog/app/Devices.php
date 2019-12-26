@@ -34,10 +34,11 @@ class Devices extends BaseModel
     public static function getDevicesAdmin($page) {
         $limit = 10;
         $space = ($page - 1) * $limit;
-        return Devices::orderBy('id', 'asc')
+        return Devices::join('users', 'devices.user_id', '=', 'users.id')
+        ->orderBy('devices.id', 'asc')
         ->limit($limit)
         ->offset($space)
-        ->get();
+        ->get(['devices.*', 'users.username', 'users.admin']);
     }
 
     public static function getDeviceIdForUser($userId) {
@@ -51,4 +52,8 @@ class Devices extends BaseModel
         ->get('id');
     }
 
+    public static function getDevicesUserDelete($idUser) {
+        return Devices::where('user_id', $idUser)
+        ->get();
+    }
 }

@@ -15,7 +15,7 @@ class CreateDevices extends Migration
     {
         Schema::create('devices', function (Blueprint $table) {
             $table->increments('id')->unique();
-            $table->integer('user_id')->unsigned()->index();
+            $table->integer('user_id')->unsigned()->index()->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
         });
