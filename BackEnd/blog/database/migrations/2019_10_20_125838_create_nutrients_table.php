@@ -15,7 +15,7 @@ class CreateNutrientsTable extends Migration
     {
         Schema::create('nutrients', function (Blueprint $table) {
             $table->increments('id')->unique();
-            $table->integer('user_id')->unsigned()->index();
+            $table->integer('user_id')->unsigned()->index()->nullable();
             $table->string('plant_name', 255);
             $table->integer('ppm_min');
             $table->integer('ppm_max');

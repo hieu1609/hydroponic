@@ -70,27 +70,29 @@ Route::group(['middleware' => ['jwt']], function () {
 Route::group(['prefix' => 'admin'], function () {
     Route::middleware(['jwt', 'admin'])->group(function () {
         //User
-        Route::get('all-user', 'AdminController@getAllUser');
-        Route::get('statistic', 'AdminController@getStatistic');
+        Route::get('getAllUserAdmin', 'AdminController@getAllUserAdmin');
+        Route::post('getUserAdmin', 'AdminController@getUserAdmin');
         Route::post('addUser', 'AdminController@addUser');
         Route::put('/{id}', 'AdminController@editUser');
         Route::delete('/{id}', 'AdminController@deleteUser');
 
         //Notification
-        Route::get('getAllNotifications', 'AdminController@getAllNotifications');
+        Route::post('getFeedbackAdmin', 'AdminController@getFeedbackAdmin');
+        Route::post('getNotificationsAdmin', 'AdminController@getNotificationsAdmin');
         Route::post('sendNotification', 'AdminController@sendNotification');
         Route::post('sendNotificationForAllUsers', 'AdminController@sendNotificationForAllUsers');
         Route::put('notification/{notificationId}', 'AdminController@editNotification');
         Route::delete('notification/{notificationId}', 'AdminController@deleteNotification');
 
         //Devices
-        Route::get('getAllDevices', 'AdminController@getAllDevices');
-        Route::post('addDevices', 'AdminController@addDevices');
+        Route::post('getDevicesAdmin', 'AdminController@getDevicesAdmin');
+        Route::post('addDevice', 'AdminController@addDevice');
         Route::put('devices/{devicesId}', 'AdminController@editDevices');
         Route::delete('devices/{devicesId}', 'AdminController@deleteDevices');
 
         //Nutrients
-        Route::get('getAllNutrients', 'AdminController@getAllNutrients');
+        Route::post('getNutrientsAdmin', 'AdminController@getNutrientsAdmin');
+        Route::post('addNutrient', 'AdminController@addNutrient');
         Route::put('nutrient/{nutrientId}', 'AdminController@editNutrient');
         Route::delete('nutrient/{nutrientId}', 'AdminController@deleteNutrient');
     });
