@@ -3,7 +3,7 @@ import * as CanvasJS from "./../../../../../assets/canvasjs.min.js";
 import * as $ from "jquery";
 import { DataService } from "src/app/shared/data.service.js";
 import { Router } from "@angular/router";
-import { timer } from "rxjs";
+import { timer, SubscriptionLike } from "rxjs";
 import { takeWhile } from "rxjs/operators";
 import { ChartDataSets } from "chart.js";
 import { Label, Color } from "ng2-charts";
@@ -14,14 +14,18 @@ import { Label, Color } from "ng2-charts";
   styleUrls: ["./chart.component.scss"]
 })
 export class ChartComponent implements OnInit {
-  alive = true;
+  source: any;
+  subscription: SubscriptionLike;
   constructor(private _dataService: DataService, private router: Router) {
-    const source = timer(5000, 5000);
+    this.source = timer(5000, 5000);
 
-    source.subscribe(() => this.getSensor(this.id));
+    this.subscription = this.source.subscribe(() => this.getSensor(this.id));
   }
   @Input() index;
   @Input() id;
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
   dataArrayTemp: any = [];
   dataLabelArrayTemp: any = [];
 

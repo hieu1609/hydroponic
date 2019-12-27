@@ -22,11 +22,12 @@ export class DeviceControlComponent implements OnInit {
   nutrients: any = [];
   today: number;
   ngOnInit() {
-    this.getNutrients();
-    // let dateFormat = require("dateformat");
-    this.today = Date.now();
-    let now = formatDate(this.today, "hh:mm:ss", "en-ES");
-    console.log(now);
+    if (sessionStorage.getItem("nutrients")) {
+      let data = JSON.parse(sessionStorage.getItem("nutrients"));
+      this.nutrients = data.data;
+    } else {
+      this.getNutrients();
+    }
   }
   PumpOn() {
     const uri = "user/controlPump";

@@ -1,0 +1,28 @@
+<div class="container1" onclick="onclick">
+    <div class="top"></div>
+    <div class="bottom"></div>
+    <div class="center">
+        <h2>Đăng nhập</h2>
+        <form #formSignIn="ngForm" (submit)="_handleOnSubmit(formSignIn)">
+
+            <input placeholder="Email" type="email" name="email" required #email="ngModel"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" ngModel>
+
+            <p class="alert alert-danger mt-2" *ngIf="email?.errors?.required && (email.dirty || email.touched)">
+                Vui lòng nhập email </p>
+            <p class="alert alert-danger mt-2" *ngIf="email?.errors?.pattern"> Email phải đúng định dạng </p>
+            <input placeholder="Password" type="password" #password="ngModel" required minlength="6" maxlength="16"
+                name="password" ngModel>
+
+            <p class="alert alert-danger mt-2"
+                *ngIf="password?.errors?.required && (password.dirty || password.touched)">
+                Vui lòng nhập mật khẩu </p>
+            <p class="alert alert-danger mt-2" *ngIf="password?.errors?.minlength || password?.errors?.maxlength"> Mật
+                khẩu phải có từ 6 tới 16 kí tự </p>
+            <button class="btn btn-success ml-3 mt-3" type="submit">Đăng Nhập</button>
+        </form>
+
+
+
+    </div>
+</div>
