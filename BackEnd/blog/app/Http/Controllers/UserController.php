@@ -662,7 +662,7 @@ class UserController extends BaseApiController
 
                                 //mix nutrients
                                 //Nồng độ đúng
-                                if(abs($ppmForDevice - $ppmNow[0]->PPM) <= 50) {
+                                if(abs($ppmForDevice - $ppmNow[0]->PPM) <= 100) {
                                     //Lượng nước dưới 30%, bơm nước(rất ít) để tránh cháy máy bơm
                                     if($ppmNow[0]->water <= 30) {
                                         if($case != 1) {
@@ -670,6 +670,14 @@ class UserController extends BaseApiController
                                                 $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
                                                 $checkAuto->auto_status = 1;
                                                 $checkAuto->save();
+                                                $topicMix = $topic."mix";
+                                                $messageMix = 1;
+                                                $mqtt->ConnectAndPublish($topicMix, $messageMix);
+                                            }
+                                            else {
+                                                $topicMix = $topic."mix";
+                                                $messageMix = 0;
+                                                $mqtt->ConnectAndPublish($topicMix, $messageMix);
                                             }
                                             $topicPpm = $topic."ppm";
                                             $messagePpm = 0;
@@ -696,6 +704,9 @@ class UserController extends BaseApiController
                                             $topicWaterOut = $topic."waterOut";
                                             $messageWaterOut = 0;
                                             $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
+                                            $topicMix = $topic."mix";
+                                            $messageMix = 0;
+                                            $mqtt->ConnectAndPublish($topicMix, $messageMix);
                                             $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
                                             $checkAuto->auto_status = 0;
                                             $checkAuto->save();
@@ -705,7 +716,7 @@ class UserController extends BaseApiController
                                     }
                                 }
                                 //Nồng độ thiếu so với chuẩn: bơm lên trên 70 rồi mới pha
-                                else if($ppmForDevice - $ppmNow[0]->PPM > 50) {
+                                else if($ppmForDevice - $ppmNow[0]->PPM > 100) {
                                     //Bơm nước lên 70%
                                     if($ppmNow[0]->water < 70) {
                                         if($case != 3) {
@@ -713,6 +724,14 @@ class UserController extends BaseApiController
                                                 $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
                                                 $checkAuto->auto_status = 1;
                                                 $checkAuto->save();
+                                                $topicMix = $topic."mix";
+                                                $messageMix = 1;
+                                                $mqtt->ConnectAndPublish($topicMix, $messageMix);
+                                            }
+                                            else {
+                                                $topicMix = $topic."mix";
+                                                $messageMix = 0;
+                                                $mqtt->ConnectAndPublish($topicMix, $messageMix);
                                             }
                                             $topicPpm = $topic."ppm";
                                             $messagePpm = 0;
@@ -729,28 +748,34 @@ class UserController extends BaseApiController
                                     }
                                     //Thêm dinh dưỡng
                                     else if($ppmNow[0]->water >= 70) {
-                                        if($case != 4) {
-                                            if($case == 2 or $case == 0) {
-                                                $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
-                                                $checkAuto->auto_status = 1;
-                                                $checkAuto->save();
-                                            }
-                                            $topicWaterIn = $topic."waterIn";
-                                            $messageWaterIn = 0;
-                                            $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
-                                            $topicPpm = $topic."ppm";
-                                            $messagePpm = 1;
-                                            $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
-                                            $topicWaterOut = $topic."waterOut";
-                                            $messageWaterOut = 0;
-                                            $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
-                                            sleep(5);
+                                        if($case == 2 or $case == 0) {
+                                            $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+                                            $checkAuto->auto_status = 1;
+                                            $checkAuto->save();
+                                            $topicMix = $topic."mix";
+                                            $messageMix = 1;
+                                            $mqtt->ConnectAndPublish($topicMix, $messageMix);
                                         }
+                                        else {
+                                            $topicMix = $topic."mix";
+                                            $messageMix = 0;
+                                            $mqtt->ConnectAndPublish($topicMix, $messageMix);
+                                        }
+                                        $topicWaterIn = $topic."waterIn";
+                                        $messageWaterIn = 0;
+                                        $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
+                                        $topicPpm = $topic."ppm";
+                                        $messagePpm = 1;
+                                        $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
+                                        $topicWaterOut = $topic."waterOut";
+                                        $messageWaterOut = 0;
+                                        $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
+                                        sleep(30);
                                         $case = 4;
                                     }
                                 }
                                 //Nồng độ dư so với chuẩn
-                                else if($ppmNow[0]->PPM - $ppmForDevice > 50) {
+                                else if($ppmNow[0]->PPM - $ppmForDevice > 100) {
                                     //Nếu lượng nước nhỏ hơn 70% thì thêm nước
                                     //1
                                     if($ppmNow[0]->water < 70) {
@@ -759,6 +784,14 @@ class UserController extends BaseApiController
                                                 $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
                                                 $checkAuto->auto_status = 1;
                                                 $checkAuto->save();
+                                                $topicMix = $topic."mix";
+                                                $messageMix = 1;
+                                                $mqtt->ConnectAndPublish($topicMix, $messageMix);
+                                            }
+                                            else {
+                                                $topicMix = $topic."mix";
+                                                $messageMix = 0;
+                                                $mqtt->ConnectAndPublish($topicMix, $messageMix);
                                             }
                                             $topicPpm = $topic."ppm";
                                             $messagePpm = 0;
@@ -781,6 +814,14 @@ class UserController extends BaseApiController
                                                 $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
                                                 $checkAuto->auto_status = 1;
                                                 $checkAuto->save();
+                                                $topicMix = $topic."mix";
+                                                $messageMix = 1;
+                                                $mqtt->ConnectAndPublish($topicMix, $messageMix);
+                                            }
+                                            else {
+                                                $topicMix = $topic."mix";
+                                                $messageMix = 0;
+                                                $mqtt->ConnectAndPublish($topicMix, $messageMix);
                                             }
                                             $topicPpm = $topic."ppm";
                                             $messagePpm = 0;
@@ -802,6 +843,14 @@ class UserController extends BaseApiController
                                             $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
                                             $checkAuto->auto_status = 1;
                                             $checkAuto->save();
+                                            $topicMix = $topic."mix";
+                                            $messageMix = 1;
+                                            $mqtt->ConnectAndPublish($topicMix, $messageMix);
+                                        }
+                                        else {
+                                            $topicMix = $topic."mix";
+                                            $messageMix = 0;
+                                            $mqtt->ConnectAndPublish($topicMix, $messageMix);
                                         }
                                         $topicWaterIn = $topic."waterIn";
                                         $messageWaterIn = 0;
@@ -825,6 +874,14 @@ class UserController extends BaseApiController
                                             $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
                                             $checkAuto->auto_status = 1;
                                             $checkAuto->save();
+                                            $topicMix = $topic."mix";
+                                            $messageMix = 1;
+                                            $mqtt->ConnectAndPublish($topicMix, $messageMix);
+                                        }
+                                        else {
+                                            $topicMix = $topic."mix";
+                                            $messageMix = 0;
+                                            $mqtt->ConnectAndPublish($topicMix, $messageMix);
                                         }
                                         $topicWaterIn = $topic."waterIn";
                                         $messageWaterIn = 0;
@@ -835,7 +892,7 @@ class UserController extends BaseApiController
                                         $topicWaterOut = $topic."waterOut";
                                         $messageWaterOut = 1;
                                         $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
-                                        sleep(20);
+                                        sleep(10);
                                         $messageWaterOut = 0;
                                         $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
                                         $case = 8;
@@ -847,10 +904,12 @@ class UserController extends BaseApiController
                             $topicWaterIn = $topic."waterIn";
                             $topicWaterOut = $topic."waterOut";
                             $topicPpm = $topic."ppm";
+                            $topicMix = $topic."mix";
                             $message = 0;
                             $mqtt->ConnectAndPublish($topicWaterIn, $message);
                             $mqtt->ConnectAndPublish($topicWaterOut, $message);
                             $mqtt->ConnectAndPublish($topicPpm, $message);
+                            $mqtt->ConnectAndPublish($topicMix, $message);
                         }
                     }
                 }
