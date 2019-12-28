@@ -1,0 +1,110 @@
+.typeUser {
+  display: flex;
+  justify-content: center;
+  .user {
+    font-size: 12px;
+    background-color: greenyellow;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 8px;
+    width: 87px;
+    margin-top: 15px;
+  }
+  .admin {
+    font-size: 12px;
+    background-color: crimson;
+    color: white;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 8px;
+    width: 87px;
+    margin-top: 15px;
+  }
+}
+img.smallImage {
+  width: 200px;
+  height: 200px;
+}
+td.content {
+  width: 450px;
+}
+input {
+  width: 100%;
+  padding: 15px;
+  margin: 5px;
+  padding-right: 20px;
+  border-radius: 1px;
+  border: 1px solid #ccc;
+  font-family: inherit;
+}
+textarea {
+  width: 100%;
+  padding: 15px;
+  margin: 5px;
+  padding-right: 20px;
+  border-radius: 1px;
+  border: 1px solid #ccc;
+  font-family: "Tomorrow", sans-serif;
+}
+#myModal {
+  header {
+    h2 {
+      font-family: "Baskervville", serif;
+      margin-left: 30px;
+      margin-top: 30px;
+    }
+  }
+}
+#myModal1 {
+  header {
+    h2 {
+      font-family: "Baskervville", serif;
+      margin-left: 30px;
+      margin-top: 30px;
+    }
+  }
+}
+h3,
+a,
+th,
+span,
+td,
+input {
+  font-family: "Tomorrow", sans-serif;
+}
+::ng-deep button {
+  font-family: "Solway", serif;
+}
+.mess-mana {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(223, 255, 253);
+  padding: 20px 0px;
+  margin: 0px;
+
+  .row {
+    margin: 0 35px;
+    background-color: rgba($color: #000000, $alpha: 0);
+    border: none;
+    i {
+      font-size: 30px;
+      padding-top: 15px;
+      color: dodgerblue;
+    }
+    .icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: rgba($color: dodgerblue, $alpha: 0.2);
+    }
+    .title {
+      font-family: "Tomorrow", sans-serif;
+      font-weight: bolder;
+      font-size: 20px;
+      padding-top: 10px;
+      margin-left: 10px;
+      color: dodgerblue;
+    }
+  }
+}

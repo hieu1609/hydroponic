@@ -27,15 +27,34 @@ export class StatisticsComponent implements OnInit {
     false
   ];
   ngOnInit() {
-    this.getCurrentWeather();
-    this.getDeviceID();
-    this.getNutrients();
+    if (sessionStorage.getItem("nutrients")) {
+      let data = JSON.parse(sessionStorage.getItem("nutrients"));
+      this.nutrients = data.data;
+      this.nutrient = this.nutrients[0];
+    } else {
+      this.getNutrients();
+    }
+    if (sessionStorage.getItem("deviceID")) {
+      let data = JSON.parse(sessionStorage.getItem("deviceID"));
+      this.devices = data.data;
+    } else {
+      this.getDeviceID();
+    }
+    if (sessionStorage.getItem("weather")) {
+      let data = JSON.parse(sessionStorage.getItem("weather"));
+      this.weather = data.data;
+    } else {
+      this.getCurrentWeather();
+    }
   }
 
   getCurrentWeather() {
     const uri = "weather/currentweather";
     this._dataService.post(uri, "").subscribe(
       (data: any) => {
+        console.log("weather");
+
+        sessionStorage.setItem("weather", JSON.stringify(data));
         this.weather = data.data;
       },
       (err: any) => {
@@ -47,6 +66,8 @@ export class StatisticsComponent implements OnInit {
     const uri = "devices/getDeviceIdForUser";
     this._dataService.get(uri).subscribe(
       (data: any) => {
+        console.log("deviceID");
+        sessionStorage.setItem("deviceID", JSON.stringify(data));
         this.devices = data.data;
       },
       (err: any) => {
@@ -59,6 +80,8 @@ export class StatisticsComponent implements OnInit {
     const uri = "user/getNutrients";
     this._dataService.get(uri).subscribe(
       (data: any) => {
+        console.log("nutrients");
+        sessionStorage.setItem("nutrients", JSON.stringify(data));
         this.nutrients = data.data;
         this.nutrient = this.nutrients[0];
       },

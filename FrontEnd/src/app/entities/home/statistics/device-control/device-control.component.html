@@ -33,13 +33,15 @@
                 </form>
             </td>
             <td>
-                <div *ngIf="!statusPumpAuto; else ElseContent1">
+                <div *ngIf="!statusPumpAuto; else ElseContent11">
                     <button style="width: 50px" type="submit" class="btn btn-success" (click)="PumpAutoOn()">On</button>
 
                 </div>
-                <ng-template #ElseContent1>
-                    <button style="width: 50px" type="submit" class="btn btn-danger"
-                        (click)="PumpAutoOff()">Off</button>
+                <ng-template #ElseContent11>
+                    <div>
+                        <button style="width: 50px" type="submit" class="btn btn-danger"
+                            (click)="PumpAutoOff()">Off</button>
+                    </div>
                 </ng-template>
             </td>
         </tr>

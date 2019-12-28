@@ -1,17 +1,18 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { DataService } from "src/app/shared/data.service";
-import { Observable, timer } from "rxjs";
+import { Observable, timer, SubscriptionLike } from "rxjs";
 @Component({
   selector: "app-device-statistics",
   templateUrl: "./device-statistics.component.html",
   styleUrls: ["./device-statistics.component.scss"]
 })
 export class DeviceStatisticsComponent implements OnInit {
+  subscription: SubscriptionLike;
   @Input() stat;
   @Input() index;
   constructor(private _dataService: DataService) {
     const source = timer(1000, 5000);
-    const subscribe = source.subscribe(() => this.getSensor());
+    this.subscription = source.subscribe(() => this.getSensor());
   }
   sensorObj: any = {};
 
@@ -21,7 +22,9 @@ export class DeviceStatisticsComponent implements OnInit {
   ngOnInit() {
     this.getSensor();
   }
-
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
   getSensor() {
     const message = {
       devicesId: this.stat.id

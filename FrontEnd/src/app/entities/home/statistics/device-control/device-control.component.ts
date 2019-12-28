@@ -3,6 +3,7 @@ import { DataService } from "src/app/shared/data.service";
 import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 import { formatDate } from "@angular/common";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-device-control",
@@ -22,11 +23,12 @@ export class DeviceControlComponent implements OnInit {
   nutrients: any = [];
   today: number;
   ngOnInit() {
-    this.getNutrients();
-    // let dateFormat = require("dateformat");
-    this.today = Date.now();
-    let now = formatDate(this.today, "hh:mm:ss", "en-ES");
-    console.log(now);
+    if (sessionStorage.getItem("nutrients")) {
+      let data = JSON.parse(sessionStorage.getItem("nutrients"));
+      this.nutrients = data.data;
+    } else {
+      this.getNutrients();
+    }
   }
   PumpOn() {
     const uri = "user/controlPump";
@@ -73,21 +75,35 @@ export class DeviceControlComponent implements OnInit {
 
   PumpAutoOn() {
     const uri = "user/pumpAutoOn";
-    this.statusPumpAuto = true;
-    const message = {
-      devicesId: this.device.id,
-      timeOn: this.formPumpAuto.value.timeOn,
-      timeOff: this.formPumpAuto.value.timeOff
-    };
-    this._dataService.post(uri, message).subscribe(
-      (data: any) => {},
-      (err: any) => {
-        console.log(err);
-      }
-    );
+
+    if (
+      this.formPumpAuto.value.timeOn !== "" &&
+      this.formPumpAuto.value.timeOff !== ""
+    ) {
+      this.statusPumpAuto = true;
+      const message = {
+        devicesId: this.device.id,
+        timeOn: this.formPumpAuto.value.timeOn,
+        timeOff: this.formPumpAuto.value.timeOff
+      };
+      this._dataService.post(uri, message).subscribe(
+        (data: any) => {},
+        (err: any) => {
+          console.log(err);
+        }
+      );
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Time on, timeoff is required",
+        showConfirmButton: false,
+        timer: 1500
+      });
+    }
   }
   PumpAutoOff() {
     const uri = "user/pumpAutoOff";
+
     const message = {
       devicesId: this.device.id
     };
