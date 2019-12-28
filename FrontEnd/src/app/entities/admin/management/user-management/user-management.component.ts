@@ -23,10 +23,12 @@ export class UserManagementComponent implements OnInit {
     this.getAllUsers(1);
   }
   getAllUsers(page) {
-    const uri = `admin/all-user?page=${page}`;
-
+    const uri = `admin/getUserAdmin`;
+    let message = {
+      page
+    };
     this.currentPage = page;
-    this._dataService.get(uri).subscribe(
+    this._dataService.post(uri, message).subscribe(
       (data: any) => {
         this.userList = data.data.data;
         if (this.userList.length === 0 && page !== 1) {

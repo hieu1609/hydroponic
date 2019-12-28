@@ -34,9 +34,15 @@ export class DataService {
         break;
       case 404:
         console.log(errCode.error);
+        Swal.fire({
+          icon: "error",
+          title: errCode.error.errors[0].errorMessage,
+          showConfirmButton: false,
+          timer: 1500
+        });
         break;
       case 401:
-        if (errCode.error.errors[0].errCode === 3002) {
+        if (errCode.error.errors[0].errorCode === 3002) {
           this.router.navigate(["admin"]);
           Swal.fire({
             icon: "error",
@@ -45,7 +51,7 @@ export class DataService {
             showConfirmButton: false,
             timer: 2500
           });
-        } else if (errCode.error.errors[0].errCode === 2076) {
+        } else if (errCode.error.errors[0].errorCode === 2076) {
           Swal.fire({
             icon: "error",
             title: "Oops...",
@@ -61,7 +67,7 @@ export class DataService {
             showConfirmButton: false,
             timer: 2500
           });
-          this.router.navigate(["admin"]);
+          // this.router.navigate(["admin"]);
         }
         break;
       case 403:

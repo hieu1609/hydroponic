@@ -105,3 +105,13 @@ body {
     font-family: inherit;
   }
 }
+
+h2 {
+  font-family: "Tomorrow", sans-serif;
+}
+::ng-deep button {
+  font-family: "Solway", serif;
+}
+button {
+  margin-left: 135px;
+}

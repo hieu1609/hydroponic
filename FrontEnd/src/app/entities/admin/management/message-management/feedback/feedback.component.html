@@ -1,0 +1,209 @@
+<div class="container">
+    <div class="card text-center">
+
+        <div class="card-header myCardHeader">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="text-left text-primary font-weight-bold">Feedbacks Management </h3>
+                </div>
+                <!-- <div class="col-md-6 text-right">
+                    <button class="btn btn-success" id="btnThem" data-toggle="modal" data-target="#myModal"
+                        (click)="AddUser()"><i class="fa fa-plus"></i> Add Ads</button>
+
+                </div> -->
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="row mb-4 mess-mana">
+                <button (click)="displayOverallList()" class="row">
+                    <div class="icon"> <i class="fa fa-comments"></i></div>
+                    <div class="title"> Overall Messages</div>
+
+                </button>
+                <button (click)="displayUnreadList()" class="row">
+                    <div class="icon"> <i class="fab fa-telegram-plane"></i></div>
+                    <div class="title"> Unread Messages</div>
+
+                </button>
+                <button (click)="displayReceiveList()" class="row">
+                    <div class="icon"> <i class="fa fa-reply-all"></i></div>
+                    <div class="title"> Received Messages</div>
+
+                </button>
+            </div>
+            <table class="table table-bordered table-hover myTable">
+                <thead class="text-primary">
+                    <tr>
+                        <th class="nowrap">
+                            <span class="mr-1">ID</span>
+
+                        </th>
+                        <th>Customer</th>
+
+                        <th>Title</th>
+                        <th>Content</th>
+                        <th><em class="fa fa-cog"></em></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <ng-container *ngFor="let item of userList">
+                            <app-user-item [user]="item">
+                            </app-user-item>
+                        </ng-container> -->
+                    <tr *ngFor="let item of feedbacksList">
+                        <td>
+                            {{item.id}}
+                        </td>
+                        <td>
+                            <div>
+                                {{item.username}}
+                            </div>
+                            <ng-container *ngIf="item.admin; else ElseContentName3">
+                                <div class="typeUser">
+                                    <div class="admin">
+                                        ADMIN
+                                    </div>
+                                </div>
+
+                            </ng-container>
+                            <ng-template #ElseContentName3>
+                                <div class="typeUser">
+                                    <div class="user">
+                                        USER
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </td>
+                        <td>
+                            {{item.title}}
+                        </td>
+                        <td class="content">
+                            {{item.content}}
+                        </td>
+
+                        <td>
+                            <button class="btn btn-info mr-1" data-toggle="modal" data-target="#myModal"
+                                (click)="ShowFeedbackDetail(item)">
+                                <i class="fa fa-comment-dots"></i>
+                            </button>
+                            <button class="btn btn-success mr-1" data-toggle="modal" (click)="ReplyFeedbacks(item)"
+                                data-target="#myModal1"><i class="fa fa-reply"></i></button>
+                            <button class="btn btn-danger" (click)="DeleteFeedbacks(item)"><i
+                                    class="fa fa-times px-1"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="card-footer myCardFooter">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <ng-container *ngFor="let item of totalPage">
+                        <li><button class="btn mr-1"
+                                [ngClass]="{'btn-secondary':item!==currentPage,'btn-info':item===currentPage}"
+                                (click)="getAllFeedbacks(item)">{{item}}</button></li>
+                    </ng-container>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
+    <!-- form edit -->
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <header class="head-form mb-0">
+                    <h2>Reply Feedback </h2>
+                </header>
+
+                <!-- Modal Header -->
+                <!-- 	<div class="modal-header">
+                        <h4 class="modal-title" id="modal-title">Modal Heading</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div> -->
+
+                <!-- Modal body -->
+                <div class="modal-body">
+
+                    <form #formEdit="ngForm">
+
+                        <span>To <input placeholder="To" type="text" name="userid" readonly required #userid="ngModel"
+                                ngModel></span>
+
+                        <p class="alert alert-danger mt-2"
+                            *ngIf="userid?.errors?.required && (userid.dirty || userid.touched)">
+                            Please enter Receiver's ID</p>
+
+
+                        <span>Title <input placeholder="Title" type="text" #title="ngModel" readonly required
+                                name="title" ngModel></span>
+                        <p class="alert alert-danger mt-2"
+                            *ngIf="title?.errors?.required &&  (title.dirty || title.touched)">
+                            Please Enter Title </p>
+                        <span>Content <textarea placeholder="Content" name="content" rows="7" cols="30"
+                                #content="ngModel" required ngModel>Content</textarea>
+                            <p class="alert alert-danger mt-2"
+                                *ngIf="content?.errors?.required && (content.dirty || content.touched)">
+                                Vui lòng nhập mô tả sản phẩm </p></span>
+                    </form>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer" id="modal-footer">
+
+                    <button id="btnCapNhat" type="button" (click)="_handleOnSubmitEditForm()"
+                        class="btn btn-success">Send</button>
+                    <button id="btnDong" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <header class="head-form mb-0">
+                    <h2>Feedback Detail</h2>
+                </header>
+
+                <!-- Modal Header -->
+                <!-- 	<div class="modal-header">
+                            <h4 class="modal-title" id="modal-title">Modal Heading</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div> -->
+
+                <!-- Modal body -->
+                <div class="modal-body">
+
+                    <form #formDetail="ngForm">
+
+                        <span>To <input placeholder="To" type="text" name="userid" readonly required #userid="ngModel"
+                                ngModel></span>
+
+                        <span>Title <input placeholder="Title" type="text" #title="ngModel" readonly required
+                                name="title" ngModel></span>
+
+                        <span>Content <textarea placeholder="Content" readonly name="content" rows="7" cols="30"
+                                #content="ngModel" required ngModel></textarea>
+                        </span>
+                    </form>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer" id="modal-footer">
+                    <button id="btnDong" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>

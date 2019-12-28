@@ -22,7 +22,7 @@ export class LoginAdminComponent implements OnInit {
         // if(data.data.)
         console.log(data.data.user.admin == 1);
         if (data.data.user.admin == 1) {
-          sessionStorage.setItem("admin", JSON.stringify(data));
+          localStorage.setItem("user", JSON.stringify(data));
           this.router.navigate(["dashboard"]);
         } else {
           alert("Bạn không có quyền truy cập trang này !");

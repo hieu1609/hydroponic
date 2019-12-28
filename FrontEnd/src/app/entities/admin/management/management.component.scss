@@ -24,6 +24,8 @@ img {
 
 #content {
   width: 100%;
+}
+.contentBackColor {
   background: #74ebd5; /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #acb6e5, #74ebd5); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
@@ -45,6 +47,14 @@ img {
 body {
   font-family: "Poppins", sans-serif;
   background: #fafafa;
+}
+h3,
+a,
+th,
+span,
+td,
+input {
+  font-family: "Tomorrow", sans-serif;
 }
 
 p {
@@ -297,5 +307,31 @@ a.article:hover {
   }
   #sidebarCollapse span {
     display: none;
+  }
+}
+li.order {
+  .submenuOrder {
+    margin-left: 30px;
+    height: 0px;
+    overflow: hidden;
+    transition: all 1s;
+  }
+  .submenuMess {
+    margin-left: 30px;
+    height: 0px;
+    overflow: hidden;
+    transition: all 1s;
+  }
+}
+li.order:hover {
+  .submenuOrder {
+    margin-left: 30px;
+    height: 183px;
+    transition: all 1s;
+  }
+  .submenuMess {
+    margin-left: 30px;
+    height: 90px;
+    transition: all 1s;
   }
 }

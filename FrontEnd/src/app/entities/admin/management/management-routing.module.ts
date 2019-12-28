@@ -26,6 +26,11 @@ const routes: Routes = [
         path: "nutrients-management",
         loadChildren:
           "./nutrients-management/nutrients-management.module#NutrientsManagementModule"
+      },
+      {
+        path: "message-management",
+        loadChildren:
+          "./message-management/message-management.module#MessageManagementModule"
       }
     ]
   }
