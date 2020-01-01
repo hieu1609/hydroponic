@@ -40,4 +40,11 @@ class Sensors extends BaseModel
         ->limit(15)
         ->get();
     }
+
+    public static function getPumpStatus($devicesId) {
+        return Sensors::where('device_id', $devicesId)
+        ->orderBy('id', 'desc')
+        ->limit(1)
+        ->get('pump');
+    }
 }
