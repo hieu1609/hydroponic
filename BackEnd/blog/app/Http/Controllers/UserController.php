@@ -858,10 +858,20 @@ class UserController extends BaseApiController
                                         $topicPpm = $topic."ppm";
                                         $messagePpm = 0;
                                         $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
+                                        //Get Pump Status
+                                        $getPumpStatus = Sensors::getPumpStatus($request->devicesId);
+                                        $topicPump = $topic."pump";
+                                        $messagePump = 1;
+                                        $mqtt->ConnectAndPublish($topicPump, $messagePump);
                                         $topicWaterOut = $topic."waterOut";
                                         $messageWaterOut = 1;
                                         $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
-                                        sleep(20);
+                                        sleep(30);
+                                        //Return Pump Status
+                                        if($getPumpStatus[0]->pump == 0) {
+                                            $messagePump = 0;
+                                            $mqtt->ConnectAndPublish($topicPump, $messagePump);
+                                        }
                                         $messageWaterOut = 0;
                                         $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
                                         $case = 7;
@@ -889,10 +899,20 @@ class UserController extends BaseApiController
                                         $topicPpm = $topic."ppm";
                                         $messagePpm = 0;
                                         $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
+                                        //Get Pump Status
+                                        $getPumpStatus = Sensors::getPumpStatus($request->devicesId);
+                                        $topicPump = $topic."pump";
+                                        $messagePump = 1;
+                                        $mqtt->ConnectAndPublish($topicPump, $messagePump);
                                         $topicWaterOut = $topic."waterOut";
                                         $messageWaterOut = 1;
                                         $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
-                                        sleep(10);
+                                        sleep(30);
+                                        //Return Pump Status
+                                        if($getPumpStatus[0]->pump == 0) {
+                                            $messagePump = 0;
+                                            $mqtt->ConnectAndPublish($topicPump, $messagePump);
+                                        }
                                         $messageWaterOut = 0;
                                         $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
                                         $case = 8;
