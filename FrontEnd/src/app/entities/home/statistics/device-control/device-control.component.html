@@ -19,18 +19,82 @@
             <td scope="row"></td>
             <td>
                 <h3>Bơm tự động</h3>
-                <input type="text">
-                <br>
-                <input type="text">
+                <form #formPumpAuto="ngForm">
+
+                    <div class="form-group">
+                        <label for="">Thời gian bật bơm (s)</label>
+                        <input type="text" #timeOn="ngModel" required name="timeOn" ngModel class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Thời gian tắt bơm (s)</label>
+                        <input type="text" #timeOff="ngModel" name="timeOff" ngModel class="form-control">
+                    </div>
+
+                </form>
             </td>
             <td>
-                <div *ngIf="!statusPumpAuto; else ElseContent1">
-                    <button style="width: 50px" class="btn btn-success" (click)="PumpAutoOn()">On</button>
+                <div *ngIf="!statusPumpAuto; else ElseContent11">
+                    <button style="width: 50px" type="submit" class="btn btn-success" (click)="PumpAutoOn()">On</button>
+
+                </div>
+                <ng-template #ElseContent11>
+                    <div>
+                        <button style="width: 50px" type="submit" class="btn btn-danger"
+                            (click)="PumpAutoOff()">Off</button>
+                    </div>
+                </ng-template>
+            </td>
+        </tr>
+        <tr>
+            <td scope="row"></td>
+            <td>
+                <h3>Pha tự động</h3>
+                <form #formPpmAuto="ngForm">
+
+                    <div class="form-group">
+                        <label for="">Chọn loại cây</label>
+                        <select class="form-control col-lg-8" ngModel option="ngModel" name="option">
+                            <option *ngFor="let item of nutrients; let i = index" value={{item.id}}>
+                                {{item.plant_name}} </option>
+                        </select>
+                    </div>
+                </form>
+            </td>
+            <td>
+                <div *ngIf="!statusPpmAuto; else ElseContent1">
+                    <button style="width: 50px" type="submit" class="btn btn-success" (click)="PpmAutoOn()">On</button>
 
                 </div>
                 <ng-template #ElseContent1>
-                    <button style="width: 50px" class="btn btn-danger" (click)="PumpAutoOff()">Off</button>
+                    <button style="width: 50px" type="submit" class="btn btn-danger" (click)="PpmAutoOff()">Off</button>
                 </ng-template>
+            </td>
+        </tr>
+        <tr>
+            <td scope="row"></td>
+            <td>
+                <h3>Thêm cây trồng mới</h3>
+                <form #formPostNutrient="ngForm">
+                    <div class="form-group">
+                        <label for="">Tên cây trồng</label>
+                        <input type="text" #plantName="ngModel" required name="plantName" ngModel class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">PPM Min</label>
+                        <input type="text" #ppmMin="ngModel" required name="ppmMin" ngModel class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">PPM Max</label>
+                        <input type="text" #ppmMax="ngModel" name="ppmMax" ngModel class="form-control">
+                    </div>
+
+                </form>
+            </td>
+            <td>
+                <div>
+                    <button style="width: 80px" type="submit" class="btn btn-success"
+                        (click)="PostNutrient()">Thêm</button>
+                </div>
             </td>
         </tr>
     </tbody>

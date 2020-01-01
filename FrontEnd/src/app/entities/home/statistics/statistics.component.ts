@@ -27,20 +27,35 @@ export class StatisticsComponent implements OnInit {
     false
   ];
   ngOnInit() {
-    this.getCurrentWeather();
-    this.getDeviceID();
-    this.getNutrients();
+    if (sessionStorage.getItem("nutrients")) {
+      let data = JSON.parse(sessionStorage.getItem("nutrients"));
+      this.nutrients = data.data;
+      this.nutrient = this.nutrients[0];
+    } else {
+      this.getNutrients();
+    }
+    if (sessionStorage.getItem("deviceID")) {
+      let data = JSON.parse(sessionStorage.getItem("deviceID"));
+      this.devices = data.data;
+    } else {
+      this.getDeviceID();
+    }
+    if (sessionStorage.getItem("weather")) {
+      let data = JSON.parse(sessionStorage.getItem("weather"));
+      this.weather = data.data;
+    } else {
+      this.getCurrentWeather();
+    }
   }
 
   getCurrentWeather() {
     const uri = "weather/currentweather";
     this._dataService.post(uri, "").subscribe(
       (data: any) => {
-        console.log(data);
-        this.weather = data.data;
+        console.log("weather");
 
-        // alert("Đăng nhập thành công !");
-        // localStorage.setItem("user", JSON.stringify(data));
+        sessionStorage.setItem("weather", JSON.stringify(data));
+        this.weather = data.data;
       },
       (err: any) => {
         console.log(err);
@@ -51,11 +66,9 @@ export class StatisticsComponent implements OnInit {
     const uri = "devices/getDeviceIdForUser";
     this._dataService.get(uri).subscribe(
       (data: any) => {
-        console.log(data);
+        console.log("deviceID");
+        sessionStorage.setItem("deviceID", JSON.stringify(data));
         this.devices = data.data;
-
-        // alert("Đăng nhập thành công !");
-        // localStorage.setItem("user", JSON.stringify(data));
       },
       (err: any) => {
         console.log(err);
@@ -67,15 +80,10 @@ export class StatisticsComponent implements OnInit {
     const uri = "user/getNutrients";
     this._dataService.get(uri).subscribe(
       (data: any) => {
-        console.log("aaa");
+        console.log("nutrients");
+        sessionStorage.setItem("nutrients", JSON.stringify(data));
         this.nutrients = data.data;
         this.nutrient = this.nutrients[0];
-        for (let index = 0; index < this.nutrients.length; index++) {
-          console.log(this.nutrients[index]);
-        }
-
-        // alert("Đăng nhập thành công !");
-        // localStorage.setItem("user", JSON.stringify(data));
       },
       (err: any) => {
         console.log(err);
@@ -84,27 +92,22 @@ export class StatisticsComponent implements OnInit {
   }
 
   ShowVegetInfo(type) {
-    console.log("ssss");
-
     for (let i = 0; i < 10; i++) {
       this.veGetType[i] = false;
     }
     this.veGetType[type] = true;
     this.nutrient = this.nutrients[type];
   }
-  // getWeatherForecast() {
-  //   const uri = "weather/currentweather";
-  //   this._dataService.post(uri, "").subscribe(
-  //     (data: any) => {
-  //       console.log(data);
-  //       this.weather = data.data;
-
-  //       // alert("Đăng nhập thành công !");
-  //       // localStorage.setItem("user", JSON.stringify(data));
-  //     },
-  //     (err: any) => {
-  //       console.log(err);
-  //     }
-  //   );
-  // }
+  getWeatherForecast() {
+    const uri = "weather/currentweather";
+    this._dataService.post(uri, "").subscribe(
+      (data: any) => {
+        console.log(data);
+        this.weather = data.data;
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
+  }
 }

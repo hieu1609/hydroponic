@@ -1,0 +1,200 @@
+<div class="container">
+    <div class="card text-center">
+
+        <div class="card-header myCardHeader">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="text-left text-primary font-weight-bold">Devices Management</h3>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button class="btn btn-success" id="btnThem" data-toggle="modal" data-target="#myModal"><i
+                            class="fa fa-user-plus"></i> Add Devices</button>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <!-- <div class="row mb-3">
+                <div class="col">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Tên nhân viên" id="searchName">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="btnTimNV"><i class="fa fa-search"></i></span>
+                        </div>
+                    </div>
+                </div> -->
+        </div>
+        <table class="table table-bordered table-hover myTable">
+            <thead class="text-primary">
+                <tr>
+                    <th class="nowrap">
+                        <span class="mr-1">ID</span>
+
+                    </th>
+                    <th>Name</th>
+                    <th>User ID</th>
+
+
+
+                    <th><em class="fa fa-cog"></em></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of devicesList">
+                    <td>
+                        {{item.id}}
+                    </td>
+                    <td>
+                        <div>
+                            {{item.username}}
+                        </div>
+                        <ng-container *ngIf="item.admin; else ElseContentName3">
+                            <div class="typeUser">
+                                <div class="admin">
+                                    ADMIN
+                                </div>
+                            </div>
+
+                        </ng-container>
+                        <ng-template #ElseContentName3>
+                            <div class="typeUser">
+                                <div class="user">
+                                    USER
+                                </div>
+                            </div>
+                        </ng-template>
+                    </td>
+                    <td>{{item.user_id}}</td>
+
+                    <td>
+                        <button class="btn btn-info mr-1" data-toggle="modal" (click)="EditDevice(item)"
+                            data-target="#myModal1"><i class="fa fa-cog"></i></button>
+                        <button class="btn btn-danger" (click)="DeleteDevice(item)"><i class="fa fa-times"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="card-footer myCardFooter">
+        <nav>
+            <ul class="pagination justify-content-center">
+                <ng-container *ngFor="let item of totalPage">
+                    <li><button class="btn mr-1"
+                            [ngClass]="{'btn-secondary':item!==currentPage,'btn-info':item===currentPage}"
+                            (click)="getAllDevices(item)">{{item}}</button></li>
+                </ng-container>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+<!-- The Modal -->
+
+
+
+<!-- form edit -->
+<!-- The Modal -->
+<div class="modal fade" id="myModal1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <header class="head-form mb-0">
+                <h2>Edit Devices</h2>
+            </header>
+
+            <!-- Modal Header -->
+            <!-- 	<div class="modal-header">
+                    <h4 class="modal-title" id="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div> -->
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <form #formEdit="ngForm">
+
+                    <span>Devices ID <input placeholder="Devices ID" type="text" name="deviceID" required
+                            #deviceID="ngModel" disabled ngModel></span>
+                    <span>User ID <input placeholder="User ID" type="text" name="userId" #userId="ngModel" required
+                            ngModel>
+                    </span>
+                    <p class="alert alert-danger mt-2"
+                        *ngIf="userId?.errors?.required && (userId.dirty || userId.touched)">
+                        User ID is required </p>
+                    <!-- 
+                    <div class="form-group">
+
+                        <select class="form-control" name="admin" ngModel>
+                            <option value=1>Admin</option>
+                            <option value=0>User</option>
+                        </select>
+                    </div> -->
+
+                </form>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer" id="modal-footer">
+
+                <button id="btnCapNhat" type="button" (click)="_handleOnSubmitEditForm()"
+                    class="btn btn-success">Update</button>
+                <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <header class="head-form mb-0">
+                <h2>Add Devices</h2>
+            </header>
+
+            <!-- Modal Header -->
+            <!-- 	<div class="modal-header">
+                        <h4 class="modal-title" id="modal-title">Modal Heading</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div> -->
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <form #formSignUp="ngForm">
+                    <span>User ID <input placeholder="User ID" type="text" #userId="ngModel" required name="userId"
+                            ngModel>
+                    </span>
+                    <p class="alert alert-danger mt-2"
+                        *ngIf="userId?.errors?.required &&  (userId.dirty || userId.touched)">
+                        User ID is required </p>
+
+
+
+
+                    <!-- <select class="form-control" name="admin" ngModel>
+                        <option value=1>Admin</option>
+                        <option selected value=0>User</option>
+                    </select> -->
+
+
+                </form>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer" id="modal-footer">
+                <button id="btnThemNV" type="submit" (click)="_handleOnSubmitAddForm()" class="btn btn-success">Add
+                    Devices</button>
+                <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>

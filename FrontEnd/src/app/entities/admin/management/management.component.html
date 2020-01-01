@@ -1,0 +1,71 @@
+<div class="wrapper">
+    <!-- Sidebar Holder -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3>Hydroponic Admin System</h3>
+            <strong>BS</strong>
+        </div>
+
+        <ul class="list-unstyled components">
+            <li class="active">
+                <a routerLink="/dashboard">
+                    <i class="fa fa-home"></i>
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                <a routerLink="/users-management">
+                    <i class="fa fa-users"></i>
+                    Users
+                </a>
+
+            </li>
+            <li>
+
+                <a routerLink="/devices-management">
+                    <i class="fab fa-whmcs"></i>
+                    Devices
+                </a>
+            </li>
+            <li>
+                <a routerLink="/nutrients-management">
+                    <i class="fa fa-flask"></i>
+                    Nutrients
+                </a>
+            </li>
+
+            <li class="order">
+
+                <a routerLink="/message-management/feedback">
+                    <i class="fa fa-envelope"></i>
+                    Messages
+                </a>
+                <div class="submenuMess">
+                    <a routerLink="/message-management/feedback">
+                        <i class="fa fa-heart"></i>
+                        Feedbacks
+                    </a>
+                    <a routerLink="/message-management/notification">
+                        <i class="fa fa-bell"></i>
+                        Notifications
+                    </a>
+                </div>
+            </li>
+            <li>
+                <a class="config-button" (click)="logOut()">
+                    <i class="fa fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </li>
+        </ul>
+
+
+    </nav>
+
+    <!-- Page Content Holder -->
+    <div id="content" class="contentBackColor">
+
+        <router-outlet></router-outlet>
+    </div>
+
+</div>

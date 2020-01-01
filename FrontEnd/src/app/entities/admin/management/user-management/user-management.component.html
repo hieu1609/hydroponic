@@ -1,0 +1,227 @@
+<div class="container">
+    <div class="card text-center">
+
+        <div class="card-header myCardHeader">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="text-left text-primary font-weight-bold">User Management</h3>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button class="btn btn-success" id="btnThem" data-toggle="modal" data-target="#myModal"><i
+                            class="fa fa-user-plus"></i> Add User</button>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <!-- <div class="row mb-3">
+                <div class="col">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Tên nhân viên" id="searchName">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="btnTimNV"><i class="fa fa-search"></i></span>
+                        </div>
+                    </div>
+                </div> -->
+        </div>
+        <table class="table table-bordered table-hover myTable">
+            <thead class="text-primary">
+                <tr>
+                    <th class="nowrap">
+                        <span class="mr-1">ID</span>
+
+                    </th>
+                    <th>Name</th>
+                    <th>Email</th>
+
+                    <th>Address</th>
+
+                    <th><em class="fa fa-cog"></em></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of userList">
+                    <td>
+                        {{item.id}}
+                    </td>
+                    <td>
+                        <div>
+                            {{item.username}}
+                        </div>
+                        <ng-container *ngIf="item.admin; else ElseContentName3">
+                            <div class="typeUser">
+                                <div class="admin">
+                                    ADMIN
+                                </div>
+                            </div>
+
+                        </ng-container>
+                        <ng-template #ElseContentName3>
+                            <div class="typeUser">
+                                <div class="user">
+                                    USER
+                                </div>
+                            </div>
+                        </ng-template>
+                    </td>
+                    <td>{{item.email}}</td>
+
+                    <td>{{item.city}}</td>
+                    <td>
+                        <button class="btn btn-info mr-1" data-toggle="modal" (click)="EditUser(item)"
+                            data-target="#myModal1"><i class="fa fa-user-cog"></i></button>
+                        <button class="btn btn-danger" (click)="DeleteUser(item)"><i
+                                class="fa fa-user-times"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="card-footer myCardFooter">
+        <nav>
+            <ul class="pagination justify-content-center">
+                <ng-container *ngFor="let item of totalPage">
+                    <li><button class="btn mr-1"
+                            [ngClass]="{'btn-secondary':item!==currentPage,'btn-info':item===currentPage}"
+                            (click)="getAllUsers(item)">{{item}}</button></li>
+                </ng-container>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+<!-- The Modal -->
+
+
+
+<!-- form edit -->
+<!-- The Modal -->
+<div class="modal fade" id="myModal1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <header class="head-form mb-0">
+                <h2>Edit User</h2>
+            </header>
+
+            <!-- Modal Header -->
+            <!-- 	<div class="modal-header">
+                    <h4 class="modal-title" id="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div> -->
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <form #formEdit="ngForm">
+
+                    <input placeholder="Email" type="email" name="email" required #email="ngModel"
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" disabled ngModel>
+
+                    <input type="text" name="username" #username="ngModel" required ngModel placeholder="Name" />
+                    <p class="alert alert-danger mt-2"
+                        *ngIf="username?.errors?.required && (username.dirty || username.touched)">
+                        Name is required </p>
+
+
+
+                    <input placeholder="Address" type="text" name="city" #city="ngModel" required ngModel>
+                    <p class="alert alert-danger mt-2" *ngIf="city?.errors?.required && (city.dirty || city.touched)">
+                        Address is required </p>
+
+                    <div class="form-group">
+
+                        <select class="form-control" name="admin" ngModel>
+                            <option value=1>Admin</option>
+                            <option value=0>User</option>
+                        </select>
+                    </div>
+
+                </form>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer" id="modal-footer">
+
+                <button id="btnCapNhat" type="button" (click)="_handleOnSubmitEditForm()"
+                    class="btn btn-success">Update</button>
+                <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <header class="head-form mb-0">
+                <h2>Add User</h2>
+            </header>
+
+            <!-- Modal Header -->
+            <!-- 	<div class="modal-header">
+                        <h4 class="modal-title" id="modal-title">Modal Heading</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div> -->
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <form #formSignUp="ngForm">
+
+
+                    <input placeholder="Email" type="email" name="email" required #email="ngModel"
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" ngModel>
+                    <p class="alert alert-danger mt-2"
+                        *ngIf="email?.errors?.required && (email.dirty || email.touched)">
+                        Email is required </p>
+                    <p class="alert alert-danger mt-2" *ngIf="email?.errors?.pattern"> Invalid email
+                    </p>
+
+                    <input placeholder="Password" type="password" #password="ngModel" required minlength="6"
+                        maxlength="16" name="password" ngModel>
+                    <p class="alert alert-danger mt-2"
+                        *ngIf="password?.errors?.required &&  (password.dirty || password.touched)">
+                        Password is required </p>
+                    <p class="alert alert-danger mt-2"
+                        *ngIf="password?.errors?.minlength || password?.errors?.maxlength"> Password must contain at
+                        least 6 or less than 16 characters </p>
+
+                    <input type="text" name="username" #username="ngModel" required ngModel placeholder="Name" />
+                    <p class="alert alert-danger mt-2"
+                        *ngIf="username?.errors?.required  && (username.dirty || username.touched)">
+                        Name is required </p>
+
+
+                    <input placeholder="Address" type="text" name="city" #city="ngModel" required ngModel>
+                    <p class="alert alert-danger mt-2" *ngIf="city?.errors?.required  && (city.dirty || city.touched)">
+                        Address is required </p>
+
+
+                    <select class="form-control" name="admin" ngModel>
+                        <option value=1>Admin</option>
+                        <option selected value=0>User</option>
+                    </select>
+
+
+                </form>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer" id="modal-footer">
+                <button id="btnThemNV" type="submit" (click)="_handleOnSubmitAddForm()" class="btn btn-success">Add
+                    User</button>
+                <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
