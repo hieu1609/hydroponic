@@ -670,14 +670,7 @@ class UserController extends BaseApiController
                                                 $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
                                                 $checkAuto->auto_status = 1;
                                                 $checkAuto->save();
-                                                $topicMix = $topic."mix";
-                                                $messageMix = 1;
-                                                $mqtt->ConnectAndPublish($topicMix, $messageMix);
-                                            }
-                                            else {
-                                                $topicMix = $topic."mix";
-                                                $messageMix = 0;
-                                                $mqtt->ConnectAndPublish($topicMix, $messageMix);
+
                                             }
                                             $topicPpm = $topic."ppm";
                                             $messagePpm = 0;
@@ -688,6 +681,9 @@ class UserController extends BaseApiController
                                             $topicWaterOut = $topic."waterOut";
                                             $messageWaterOut = 0;
                                             $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
+                                            $topicMix = $topic."mix";
+                                            $messageMix = 1;
+                                            $mqtt->ConnectAndPublish($topicMix, $messageMix);
                                             sleep(5);
                                         }
                                         $case = 1;
@@ -705,7 +701,7 @@ class UserController extends BaseApiController
                                             $messageWaterOut = 0;
                                             $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
                                             $topicMix = $topic."mix";
-                                            $messageMix = 0;
+                                            $messageMix = 1;
                                             $mqtt->ConnectAndPublish($topicMix, $messageMix);
                                             $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
                                             $checkAuto->auto_status = 0;
