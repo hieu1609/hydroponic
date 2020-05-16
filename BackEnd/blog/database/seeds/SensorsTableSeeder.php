@@ -23,6 +23,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 465,
                 'water' => 56.45,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:33",
                 "updated_at"=> "2019-08-28 03:12:33"
             ],
@@ -35,6 +38,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 501,
                 'water' => 58.95,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:34",
                 "updated_at"=> "2019-08-28 03:12:34"
             ],
@@ -47,6 +53,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 1632,
                 'water' => 78.57,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:35",
                 "updated_at"=> "2019-08-28 03:12:35"
             ],
@@ -59,6 +68,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 763,
                 'water' => 86.08,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:36",
                 "updated_at"=> "2019-08-28 03:12:36"
             ],
@@ -71,6 +83,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 465,
                 'water' => 56.45,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:37",
                 "updated_at"=> "2019-08-28 03:12:37"
             ],
@@ -83,6 +98,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 751,
                 'water' => 56.40,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:38",
                 "updated_at"=> "2019-08-28 03:12:38"
             ],
@@ -95,6 +113,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 1036,
                 'water' => 78.09,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:39",
                 "updated_at"=> "2019-08-28 03:12:39"
             ],
@@ -107,6 +128,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 744,
                 'water' => 56.40,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:39",
                 "updated_at"=> "2019-08-28 03:12:39"
             ],
@@ -119,6 +143,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 748,
                 'water' => 56.39,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:40",
                 "updated_at"=> "2019-08-28 03:12:40"
             ],
@@ -131,6 +158,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 753,
                 'water' => 56.38,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:41",
                 "updated_at"=> "2019-08-28 03:12:41"
             ],
@@ -143,6 +173,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 758,
                 'water' => 56.40,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:42",
                 "updated_at"=> "2019-08-28 03:12:42"
             ],
@@ -155,6 +188,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 751,
                 'water' => 56.41,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:43",
                 "updated_at"=> "2019-08-28 03:12:43"
             ],
@@ -167,6 +203,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 751,
                 'water' => 56.37,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:44",
                 "updated_at"=> "2019-08-28 03:12:44"
             ],
@@ -179,6 +218,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 740,
                 'water' => 56.32,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:45",
                 "updated_at"=> "2019-08-28 03:12:45"
             ],
@@ -191,6 +233,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 745,
                 'water' => 56.33,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:46",
                 "updated_at"=> "2019-08-28 03:12:46"
             ],
@@ -203,6 +248,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 756,
                 'water' => 56.32,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:47",
                 "updated_at"=> "2019-08-28 03:12:47"
             ],
@@ -215,6 +263,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 721,
                 'water' => 56.80,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:48",
                 "updated_at"=> "2019-08-28 03:12:48"
             ],
@@ -227,6 +278,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 748,
                 'water' => 56.36,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:49",
                 "updated_at"=> "2019-08-28 03:12:49"
             ],
@@ -239,6 +293,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 758,
                 'water' => 56.14,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:50",
                 "updated_at"=> "2019-08-28 03:12:50"
             ],
@@ -251,6 +308,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 746,
                 'water' => 56.23,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:51",
                 "updated_at"=> "2019-08-28 03:12:51"
             ],
@@ -263,6 +323,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 752,
                 'water' => 56.21,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:52",
                 "updated_at"=> "2019-08-28 03:12:52"
             ],
@@ -275,6 +338,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 750,
                 'water' => 56.22,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:53",
                 "updated_at"=> "2019-08-28 03:12:53"
             ],
@@ -287,6 +353,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 742,
                 'water' => 56.20,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:54",
                 "updated_at"=> "2019-08-28 03:12:54"
             ],
@@ -299,6 +368,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 751,
                 'water' => 56.22,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:55",
                 "updated_at"=> "2019-08-28 03:12:55"
             ],
@@ -311,6 +383,9 @@ class SensorsTableSeeder extends Seeder
                 'PPM' => 753,
                 'water' => 56.20,
                 'pump' => 0,
+                'water_in' => 0,
+                'water_out' => 0,
+                'mix' => 0,
                 "created_at"=> "2019-08-28 03:12:56",
                 "updated_at"=> "2019-08-28 03:12:56"
             ],
