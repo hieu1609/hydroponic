@@ -7,10 +7,10 @@
  */
 
 return [
-    'host'     => env('mqtt_host','m24.cloudmqtt.com'),
-    'password' => env('mqtt_password','7fub13-eRIeR'),
-    'username' => env('mqtt_username','tmlgemnz'),
+    'host'     => env('mqtt_host','maqiatto.com'),
+    'password' => env('mqtt_password','Lancuoi1234@'),
+    'username' => env('mqtt_username','thuycanhiot@gmail.com'),
     'certfile' => env('mqtt_cert_file',''),
-    'port'     => env('mqtt_port','15217'),
+    'port'     => env('mqtt_port','1883'),
     'debug'    => env('mqtt_debug',false) //Optional Parameter to enable debugging set it to True
 ];

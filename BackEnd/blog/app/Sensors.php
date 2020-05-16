@@ -8,7 +8,7 @@ class Sensors extends BaseModel
 {
     protected $table = 'sensors';
     protected $fillable = [
-        'device_id', 'temperature', 'humidity', 'light', 'EC', 'PPM', 'water', 'pump'
+        'device_id', 'temperature', 'humidity', 'light', 'EC', 'PPM', 'water', 'pump', 'water_in', 'water_out', 'mix'
     ];
 
     public static $rules = array(

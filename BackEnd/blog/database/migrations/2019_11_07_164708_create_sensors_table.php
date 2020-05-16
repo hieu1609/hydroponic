@@ -23,6 +23,9 @@ class CreateSensorsTable extends Migration
             $table->integer('PPM')->default(0);
             $table->float('water')->default(0);
             $table->boolean('pump')->default(0);
+            $table->boolean('water_in')->default(0);
+            $table->boolean('water_out')->default(0);
+            $table->boolean('mix')->default(0);
             $table->timestamps();
             $table->foreign('device_id')->references('id')->on('devices');
         });
