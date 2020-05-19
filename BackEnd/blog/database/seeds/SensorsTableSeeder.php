@@ -26,8 +26,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:33",
-                "updated_at"=> "2019-08-28 03:12:33"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 2,
@@ -41,8 +41,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:34",
-                "updated_at"=> "2019-08-28 03:12:34"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 3,
@@ -56,8 +56,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:35",
-                "updated_at"=> "2019-08-28 03:12:35"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 4,
@@ -71,8 +71,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:36",
-                "updated_at"=> "2019-08-28 03:12:36"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 5,
@@ -86,8 +86,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:37",
-                "updated_at"=> "2019-08-28 03:12:37"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 6,
@@ -101,8 +101,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:38",
-                "updated_at"=> "2019-08-28 03:12:38"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 7,
@@ -116,8 +116,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:39",
-                "updated_at"=> "2019-08-28 03:12:39"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 6,
@@ -131,8 +131,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:39",
-                "updated_at"=> "2019-08-28 03:12:39"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 6,
@@ -146,8 +146,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:40",
-                "updated_at"=> "2019-08-28 03:12:40"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 6,
@@ -161,8 +161,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:41",
-                "updated_at"=> "2019-08-28 03:12:41"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 6,
@@ -176,8 +176,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:42",
-                "updated_at"=> "2019-08-28 03:12:42"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 6,
@@ -191,8 +191,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:43",
-                "updated_at"=> "2019-08-28 03:12:43"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 6,
@@ -206,8 +206,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:44",
-                "updated_at"=> "2019-08-28 03:12:44"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 6,
@@ -221,8 +221,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:45",
-                "updated_at"=> "2019-08-28 03:12:45"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 6,
@@ -236,8 +236,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:46",
-                "updated_at"=> "2019-08-28 03:12:46"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 6,
@@ -251,8 +251,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:47",
-                "updated_at"=> "2019-08-28 03:12:47"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 6,
@@ -266,8 +266,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:48",
-                "updated_at"=> "2019-08-28 03:12:48"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 6,
@@ -281,8 +281,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:49",
-                "updated_at"=> "2019-08-28 03:12:49"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 6,
@@ -296,8 +296,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:50",
-                "updated_at"=> "2019-08-28 03:12:50"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 6,
@@ -311,8 +311,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:51",
-                "updated_at"=> "2019-08-28 03:12:51"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 6,
@@ -326,8 +326,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:52",
-                "updated_at"=> "2019-08-28 03:12:52"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 6,
@@ -341,8 +341,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:53",
-                "updated_at"=> "2019-08-28 03:12:53"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 6,
@@ -356,8 +356,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:54",
-                "updated_at"=> "2019-08-28 03:12:54"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 6,
@@ -371,8 +371,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:55",
-                "updated_at"=> "2019-08-28 03:12:55"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'device_id' => 6,
@@ -386,8 +386,8 @@ class SensorsTableSeeder extends Seeder
                 'water_in' => 0,
                 'water_out' => 0,
                 'mix' => 0,
-                "created_at"=> "2019-08-28 03:12:56",
-                "updated_at"=> "2019-08-28 03:12:56"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
         ];
         

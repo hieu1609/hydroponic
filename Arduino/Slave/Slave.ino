@@ -32,7 +32,7 @@ int waterInStatus=0;
 int waterOutStatus=0;
 int mixStatus=0;
 float distance1;
-int distancelast;
+float distancelast;
 int SlaveReceived=0;
 //*********** Converting to ppm [Learn to use EC it is much better**************//
 // Hana      [USA]        PPMconverion:  0.5
@@ -102,8 +102,8 @@ void loop() {
     digitalWrite(RelayPpm, LOW);
     checkppm = 0;
   }
-  int h = dht.readHumidity();    //Đọc độ ẩm
-  int temp = dht.readTemperature(); //Đọc nhiệt độ
+  float h = dht.readHumidity();    //Đọc độ ẩm
+  float temp = dht.readTemperature(); //Đọc nhiệt độ
   int lig = analogRead(Light);
   digitalWrite(TRIG_PIN, LOW);
   delayMicroseconds(2);
@@ -124,14 +124,12 @@ void loop() {
   Temperature = sensors.getTempCByIndex(0); //Stores Value in Variable
   /////////////////////////////EC PPM
   protothread1(&pt1, 5000);          //Calls Code to Go into GetEC() Loop [Below Main Loop] dont call this more than 1/5 hhz [once every five seconds] or you will polarise the water
-  // id, device_id, temperature, humidity, light, EC, PPM, water, pump
-  temp = 30;
-  h = 68;
-  lig = 1000;
-  EC25 = 0.35;
-  ppm = 1356;
+  // id, device_id, temperature, humidity, light, EC, PPM, water, pump, water_in, water_out, mix
+  temp = 30.25;
+  h = 68.36;
+  distancelast = 56.20; 
   dataSend = "6="+(String)temp+"="+(String)h+"="+(String)lig+"="+(String)EC25+"="+(String)ppm+"="+(String)distancelast+"="+(String)relayStatus+"="+(String)waterInStatus+"="+(String)waterOutStatus+"="+(String)mixStatus;
-  //dataSend = "6=26.11=42.35=558=1.40=753=56.20=1=0=0=0";
+//  dataSend = "6=26.11=42.35=558=1.40=753=56.20=1=0=0=0";
   Serial.println(dataSend); 
   delay(500); 
 }
@@ -225,8 +223,8 @@ void receiveEvent(int howMany) {
 
 // function that executes whenever data is requested from master
 void requestEvent() { /*send string on request */
-  char buffer[128];
-  dataSend.toCharArray(buffer,128);
+  char buffer[64];
+  dataSend.toCharArray(buffer,64);
   Wire.write(buffer);
 }
 
