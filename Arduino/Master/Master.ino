@@ -118,10 +118,10 @@ void loop()
 
   String s = "";
   MQTT.loop();
-  //MQTT.publish("al13","1");
+  
   Wire.beginTransmission(8); /* begin with device address 8 */
 
-  Wire.requestFrom(8, 128); /* request & read data of size 13 from slave */
+  Wire.requestFrom(8, 64); /* request & read data of size 13 from slave */
   while(Wire.available())
   {
     char c = Wire.read(); 
@@ -131,8 +131,8 @@ void loop()
 
   Serial.print(s);
   Serial.println();
-  char buffer[128];
-  s.toCharArray(buffer, 128);
+  char buffer[64];
+  s.toCharArray(buffer, 64);
 
   MQTT.publish("update",buffer);
   Wire.endTransmission();    /* stop transmitting */

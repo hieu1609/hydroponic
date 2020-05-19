@@ -16,38 +16,38 @@ class DevicesTableSeeder extends Seeder
         $devices = [
             [
                 'user_id' => 2,
-                "created_at"=> "2019-08-28 03:12:33",
-                "updated_at"=> "2019-08-28 03:12:33"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'user_id' => 2,
-                "created_at"=> "2019-08-28 03:12:34",
-                "updated_at"=> "2019-08-28 03:12:34"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'user_id' => 3,
-                "created_at"=> "2019-08-28 03:12:35",
-                "updated_at"=> "2019-08-28 03:12:35"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'user_id' => 4,
-                "created_at"=> "2019-08-28 03:12:36",
-                "updated_at"=> "2019-08-28 03:12:36"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'user_id' => 4,
-                "created_at"=> "2019-08-28 03:12:37",
-                "updated_at"=> "2019-08-28 03:12:37"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'user_id' => 5,
-                "created_at"=> "2019-08-28 03:12:38",
-                "updated_at"=> "2019-08-28 03:12:38"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'user_id' => 6,
-                "created_at"=> "2019-08-28 03:12:39",
-                "updated_at"=> "2019-08-28 03:12:39"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ]
         ];
         

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 use App\Notification;
 
 class NotificationTableSeeder extends Seeder
@@ -19,8 +20,8 @@ class NotificationTableSeeder extends Seeder
                 'title' => 'The problem',
                 'content' => 'I have a problem',
                 'seen' => 1,
-                "created_at"=> "2019-08-28 03:12:33",
-                "updated_at"=> "2019-08-28 03:12:33"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'user_id_send' => 1,
@@ -28,8 +29,8 @@ class NotificationTableSeeder extends Seeder
                 'title' => 'Reply problem',
                 'content' => 'OK I will fix it',
                 'seen' => 0,
-                "created_at"=> "2019-08-28 03:12:34",
-                "updated_at"=> "2019-08-28 03:12:34"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
 
             ],
             [
@@ -38,8 +39,8 @@ class NotificationTableSeeder extends Seeder
                 'title' => 'Hydroponic',
                 'content' => 'your service very good',
                 'seen' => 0,
-                "created_at"=> "2019-08-28 03:12:35",
-                "updated_at"=> "2019-08-28 03:12:35"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'user_id_send' => 1,
@@ -47,8 +48,8 @@ class NotificationTableSeeder extends Seeder
                 'title' => 'Hydroponic',
                 'content' => 'Thank you',
                 'seen' => 0,
-                "created_at"=> "2019-08-28 03:12:35",
-                "updated_at"=> "2019-08-28 03:12:35"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'user_id_send' => 4,
@@ -56,8 +57,8 @@ class NotificationTableSeeder extends Seeder
                 'title' => 'How to use it',
                 'content' => 'I want a timer at 7am',
                 'seen' => 0,
-                "created_at"=> "2019-08-28 03:12:35",
-                "updated_at"=> "2019-08-28 03:12:35"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'user_id_send' => 2,
@@ -65,8 +66,8 @@ class NotificationTableSeeder extends Seeder
                 'title' => 'Reply: How to use it',
                 'content' => 'Once received, tap the link sent to you in the text message to open the Google Play Store on your device.',
                 'seen' => 0,
-                "created_at"=> "2019-08-28 03:12:35",
-                "updated_at"=> "2019-08-28 03:12:35"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ]
         ];
         

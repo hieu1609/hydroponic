@@ -20,8 +20,8 @@ class UsersTableSeeder extends Seeder
                 'password' => bcrypt('string'),
                 'city' => 'Ho Chi Minh City',
                 'admin' => 1,
-                "created_at"=> "2019-08-28 03:12:33",
-                "updated_at"=> "2019-08-28 03:12:33"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 "username"=> "Duc",
@@ -29,9 +29,8 @@ class UsersTableSeeder extends Seeder
                 'password' => bcrypt('string'),
                 'city' => 'Ha Noi',
                 "admin"=> 0,
-                "created_at"=> "2019-08-28 03:12:34",
-                "updated_at"=> "2019-08-28 03:12:34"
-
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 "username" => "Hieu",
@@ -39,8 +38,8 @@ class UsersTableSeeder extends Seeder
                 'password' => bcrypt('string'),
                 'city' => 'Bien Hoa',
                 "admin" => 0,
-                "created_at"=> "2019-08-28 03:12:35",
-                "updated_at"=> "2019-08-28 03:12:35"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 "username" => "Quan",
@@ -48,8 +47,8 @@ class UsersTableSeeder extends Seeder
                 'password' => bcrypt('string'),
                 'city' => 'Hoi An',
                 "admin" => 0,
-                "created_at"=> "2019-08-28 03:12:35",
-                "updated_at"=> "2019-08-28 03:12:35"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 "username" => "String",
@@ -57,8 +56,8 @@ class UsersTableSeeder extends Seeder
                 'password' => bcrypt('string'),
                 'city' => 'Can Tho',
                 "admin" => 0,
-                "created_at"=> "2019-08-28 03:12:35",
-                "updated_at"=> "2019-08-28 03:12:35"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 "username" => "String1",
@@ -66,8 +65,8 @@ class UsersTableSeeder extends Seeder
                 'password' => bcrypt('string'),
                 'city' => 'Nha Trang',
                 "admin" => 0,
-                "created_at"=> "2019-08-28 03:12:35",
-                "updated_at"=> "2019-08-28 03:12:35"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ], 
             [
                 "username" => "giahieua2",
@@ -75,8 +74,8 @@ class UsersTableSeeder extends Seeder
                 'password' => bcrypt('string'),
                 'city' => 'Vung Tau',
                 "admin" => 0,
-                "created_at"=> "2019-08-28 03:12:36",
-                "updated_at"=> "2019-08-28 03:12:36"
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ]
         ];
         
