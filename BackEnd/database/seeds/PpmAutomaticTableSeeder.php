@@ -66,7 +66,7 @@ class PpmAutomaticTableSeeder extends Seeder
                 'device_id' => 7,
                 'nutrient_id' => 7,
                 'auto_mode' => 0,
-                'auto_status' => 1,
+                'auto_status' => 0,
                 "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
                 "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ],
