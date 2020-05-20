@@ -39,10 +39,31 @@ class Notification extends BaseModel
         'Delete_Notification' => [
             'notificationId' => 'required|integer'
         ],
+        'Control_Mix' => [
+            'devicesId' => 'required|integer',
+            'message' => 'required|string'
+        ],
+        'Control_Ppm' => [
+            'devicesId' => 'required|integer'
+        ],
         'Control_Pump' => [
             'devicesId' => 'required|integer',
             'message' => 'required|string'
         ],
+        'Control_Water_In' => [
+            'devicesId' => 'required|integer',
+            'message' => 'required|string'
+        ],
+        'Check_Water_In' => [
+            'devicesId' => 'required|integer',
+        ],     
+        'Control_Water_Out' => [
+            'devicesId' => 'required|integer',
+            'message' => 'required|string'
+        ],
+        'Check_Water_Out' => [
+            'devicesId' => 'required|integer',
+        ],   
         'Send_Msg_Via_Mqtt' => [
             'devicesId' => 'required|integer',
             'topic' => 'required|string',

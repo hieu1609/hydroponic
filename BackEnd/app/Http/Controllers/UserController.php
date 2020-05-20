@@ -201,10 +201,460 @@ class UserController extends BaseApiController
                     }
 
                     $mqtt = new Mqtt();
-                    $topic = $request->devicesId."=pump";
+                    $topic = "thuycanhiot@gmail.com/".$request->devicesId."=pump";
                     $output = $mqtt->ConnectAndPublish($topic, $request->message);
                     if ($output === true) {
                         return $this->responseSuccess("Seen pump control via mqtt successfully");
+                    } 
+                }
+            }
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    /**
+     * @SWG\Post(
+     *     path="/user/controlWaterIn",
+     *     description="Control water in via mqtt",
+     *     tags={"Water"},
+     *     summary="Control water in via mqtt",
+     *     security={{"jwt":{}}},
+     *
+     *      @SWG\Parameter(
+     *          name="body",
+     *          description="Control water in via mqtt",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(
+     *              @SWG\property(
+     *                  property="devicesId",
+     *                  type="integer",
+     *              ),
+     *              @SWG\property(
+     *                  property="message",
+     *                  type="string",
+     *              ),
+     *          ),
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @SWG\Response(response=403, description="Forbidden"),
+     *      @SWG\Response(response=422, description="Unprocessable Entity"),
+     *      @SWG\Response(response=500, description="Internal Server Error"),
+     * )
+     */
+    public function controlWaterIn(Request $request)
+    {
+        try {
+            $validator = Notification::validate($request->all(), 'Control_Water_In');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            $checkDevices = Devices::where(['id' => $request->devicesId])->first();
+            if (!$checkDevices) {
+                return $this->responseErrorCustom("devices_id_not_found", 404);
+            }
+            else {
+                if($checkDevices->user_id != $request->user->id) {
+                    return $this->responseErrorCustom("permission_denied", 403); //Forbidden
+                }
+                else {
+                    $sensorData = Sensors::getSensorData($request->devicesId);
+                    if (!$sensorData) {
+                        return $this->responseErrorCustom("devices_id_not_found_sensors_table", 404);
+                    }
+
+                    $checkAuto = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+                    if (!$checkAuto) {
+                        return $this->responseErrorCustom("devices_id_not_found", 404);
+                    }
+                    else {
+                        $checkAuto->auto_mode = 0;
+                        $checkAuto->save();
+                    }
+
+                    if($request->message == 1){
+                        if ($sensorData[0]->water < 90) {
+                            $mqtt = new Mqtt();
+                            $topic = "thuycanhiot@gmail.com/".$request->devicesId."=waterIn";
+                            $output = $mqtt->ConnectAndPublish($topic, $request->message);
+                            if ($output === true) {
+                                return $this->responseSuccess("Seen water in control via mqtt successfully");
+                            } 
+                        }
+                        else {
+                            return $this->responseSuccess("Auto off water in");
+                        }
+                    }
+                    else {
+                        $mqtt = new Mqtt();
+                        $topic = "thuycanhiot@gmail.com/".$request->devicesId."=waterIn";
+                        $output = $mqtt->ConnectAndPublish($topic, $request->message);
+                        if ($output === true) {
+                            return $this->responseSuccess("Seen water in control via mqtt successfully");
+                        } 
+                    }
+                }
+            }
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    /**
+     * @SWG\Post(
+     *     path="/user/checkWaterIn",
+     *     description="check water in after 90%",
+     *     tags={"Water"},
+     *     summary="Control water in via mqtt",
+     *     security={{"jwt":{}}},
+     *
+     *      @SWG\Parameter(
+     *          name="body",
+     *          description="Control water in via mqtt",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(
+     *              @SWG\property(
+     *                  property="devicesId",
+     *                  type="integer",
+     *              ),
+     *          ),
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @SWG\Response(response=403, description="Forbidden"),
+     *      @SWG\Response(response=422, description="Unprocessable Entity"),
+     *      @SWG\Response(response=500, description="Internal Server Error"),
+     * )
+     */
+    public function checkWaterIn(Request $request)
+    {
+        try {
+            set_time_limit(0);
+            $validator = Notification::validate($request->all(), 'Check_Water_In');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            $checkDevices = Devices::where(['id' => $request->devicesId])->first();
+            if (!$checkDevices) {
+                return $this->responseErrorCustom("devices_id_not_found", 404);
+            }
+            else {
+                if($checkDevices->user_id != $request->user->id) {
+                    return $this->responseErrorCustom("permission_denied", 403); //Forbidden
+                }
+                else {
+                    $sensorData = Sensors::getSensorData($request->devicesId);
+                    if (!$sensorData) {
+                        return $this->responseErrorCustom("devices_id_not_found_sensors_table", 404);
+                    }
+
+                    while ($sensorData[0]->water_in == 1 && $sensorData[0]->water < 90) {
+                        sleep(3);
+                        $sensorData = Sensors::getSensorData($request->devicesId);
+                    }
+                    $mqtt = new Mqtt();
+                    $topic = "thuycanhiot@gmail.com/".$request->devicesId."=waterIn";
+                    $output = $mqtt->ConnectAndPublish($topic, 0);
+                    if ($output === true) {
+                        return $this->responseSuccess("Auto off water in");
+                    } 
+                }
+            }
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    /**
+     * @SWG\Post(
+     *     path="/user/controlWaterOut",
+     *     description="Control water out via mqtt",
+     *     tags={"Water"},
+     *     summary="Control water out via mqtt",
+     *     security={{"jwt":{}}},
+     *
+     *      @SWG\Parameter(
+     *          name="body",
+     *          description="Control water out via mqtt",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(
+     *              @SWG\property(
+     *                  property="devicesId",
+     *                  type="integer",
+     *              ),
+     *              @SWG\property(
+     *                  property="message",
+     *                  type="string",
+     *              ),
+     *          ),
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @SWG\Response(response=403, description="Forbidden"),
+     *      @SWG\Response(response=422, description="Unprocessable Entity"),
+     *      @SWG\Response(response=500, description="Internal Server Error"),
+     * )
+     */
+    public function controlWaterOut(Request $request)
+    {
+        try {
+            $validator = Notification::validate($request->all(), 'Control_Water_Out');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            $checkDevices = Devices::where(['id' => $request->devicesId])->first();
+            if (!$checkDevices) {
+                return $this->responseErrorCustom("devices_id_not_found", 404);
+            }
+            else {
+                if($checkDevices->user_id != $request->user->id) {
+                    return $this->responseErrorCustom("permission_denied", 403); //Forbidden
+                }
+                else {
+                    $sensorData = Sensors::getSensorData($request->devicesId);
+                    if (!$sensorData) {
+                        return $this->responseErrorCustom("devices_id_not_found_sensors_table", 404);
+                    }
+
+                    $checkAuto = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+                    if (!$checkAuto) {
+                        return $this->responseErrorCustom("devices_id_not_found", 404);
+                    }
+                    else {
+                        $checkAuto->auto_mode = 0;
+                        $checkAuto->save();
+                    }
+
+                    if($request->message == 1){
+                        if ($sensorData[0]->water > 20) {
+                            $mqtt = new Mqtt();
+                            $topic = "thuycanhiot@gmail.com/".$request->devicesId."=waterOut";
+                            $output = $mqtt->ConnectAndPublish($topic, $request->message);
+                            if ($output === true) {
+                                return $this->responseSuccess("Seen water out control via mqtt successfully");
+                            } 
+                        }
+                        else {
+                            return $this->responseSuccess("Auto off water out");
+                        }
+                    }
+                    else {
+                        $mqtt = new Mqtt();
+                        $topic = "thuycanhiot@gmail.com/".$request->devicesId."=waterOut";
+                        $output = $mqtt->ConnectAndPublish($topic, $request->message);
+                        if ($output === true) {
+                            return $this->responseSuccess("Seen water out control via mqtt successfully");
+                        } 
+                    }
+
+                }
+            }
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    /**
+     * @SWG\Post(
+     *     path="/user/checkWaterOut",
+     *     description="check water out before 20%",
+     *     tags={"Water"},
+     *     summary="Control water out via mqtt",
+     *     security={{"jwt":{}}},
+     *
+     *      @SWG\Parameter(
+     *          name="body",
+     *          description="Control water out via mqtt",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(
+     *              @SWG\property(
+     *                  property="devicesId",
+     *                  type="integer",
+     *              ),
+     *          ),
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @SWG\Response(response=403, description="Forbidden"),
+     *      @SWG\Response(response=422, description="Unprocessable Entity"),
+     *      @SWG\Response(response=500, description="Internal Server Error"),
+     * )
+     */
+    public function checkWaterOut(Request $request)
+    {
+        try {
+            set_time_limit(0);
+            $validator = Notification::validate($request->all(), 'Check_Water_Out');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            $checkDevices = Devices::where(['id' => $request->devicesId])->first();
+            if (!$checkDevices) {
+                return $this->responseErrorCustom("devices_id_not_found", 404);
+            }
+            else {
+                if($checkDevices->user_id != $request->user->id) {
+                    return $this->responseErrorCustom("permission_denied", 403); //Forbidden
+                }
+                else {
+                    $sensorData = Sensors::getSensorData($request->devicesId);
+                    if (!$sensorData) {
+                        return $this->responseErrorCustom("devices_id_not_found_sensors_table", 404);
+                    }
+
+                    while ($sensorData[0]->water_out == 1 && $sensorData[0]->water > 20) {
+                        sleep(3);
+                        $sensorData = Sensors::getSensorData($request->devicesId);
+                    }
+                    $mqtt = new Mqtt();
+                    $topic = "thuycanhiot@gmail.com/".$request->devicesId."=waterOut";
+                    $output = $mqtt->ConnectAndPublish($topic, 0);
+                    if ($output === true) {
+                        return $this->responseSuccess("Auto off water out");
+                    } 
+                }
+            }
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    /**
+     * @SWG\Post(
+     *     path="/user/controlMix",
+     *     description="Control mix via mqtt",
+     *     tags={"Mix"},
+     *     summary="Control mix via mqtt",
+     *     security={{"jwt":{}}},
+     *
+     *      @SWG\Parameter(
+     *          name="body",
+     *          description="Control mix via mqtt",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(
+     *              @SWG\property(
+     *                  property="devicesId",
+     *                  type="integer",
+     *              ),
+     *              @SWG\property(
+     *                  property="message",
+     *                  type="string",
+     *              ),
+     *          ),
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @SWG\Response(response=403, description="Forbidden"),
+     *      @SWG\Response(response=422, description="Unprocessable Entity"),
+     *      @SWG\Response(response=500, description="Internal Server Error"),
+     * )
+     */
+    public function controlMix(Request $request)
+    {
+        try {
+            $validator = Notification::validate($request->all(), 'Control_Mix');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            $checkDevices = Devices::where(['id' => $request->devicesId])->first();
+            if (!$checkDevices) {
+                return $this->responseErrorCustom("devices_id_not_found", 404);
+            }
+            else {
+                if($checkDevices->user_id != $request->user->id) {
+                    return $this->responseErrorCustom("permission_denied", 403); //Forbidden
+                }
+                else {
+                    $sensorData = Sensors::getSensorData($request->devicesId);
+                    if (!$sensorData) {
+                        return $this->responseErrorCustom("devices_id_not_found_sensors_table", 404);
+                    }
+                    $mqtt = new Mqtt();
+                    $topic = "thuycanhiot@gmail.com/".$request->devicesId."=mix";
+                    $output = $mqtt->ConnectAndPublish($topic, $request->message);
+                    if ($output === true) {
+                        return $this->responseSuccess("Seen mix control via mqtt successfully");
+                    } 
+                }
+            }
+        } catch (\Exception $exception) {
+            return $this->responseErrorException($exception->getMessage(), 99999, 500);
+        }
+    }
+
+    /**
+     * @SWG\Post(
+     *     path="/user/controlPpm",
+     *     description="Control ppm via mqtt",
+     *     tags={"Ppm"},
+     *     summary="Send topic ppm & message 1",
+     *     security={{"jwt":{}}},
+     *
+     *      @SWG\Parameter(
+     *          name="body",
+     *          description="Control ppm via mqtt",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(
+     *              @SWG\property(
+     *                  property="devicesId",
+     *                  type="integer",
+     *              ),
+     *          ),
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @SWG\Response(response=403, description="Forbidden"),
+     *      @SWG\Response(response=422, description="Unprocessable Entity"),
+     *      @SWG\Response(response=500, description="Internal Server Error"),
+     * )
+     */
+    public function controlPpm(Request $request)
+    {
+        try {
+            $validator = Notification::validate($request->all(), 'Control_Ppm');
+            if ($validator) {
+                return $this->responseErrorValidator($validator, 422);
+            }
+
+            $checkDevices = Devices::where(['id' => $request->devicesId])->first();
+            if (!$checkDevices) {
+                return $this->responseErrorCustom("devices_id_not_found", 404);
+            }
+            else {
+                if($checkDevices->user_id != $request->user->id) {
+                    return $this->responseErrorCustom("permission_denied", 403); //Forbidden
+                }
+                else {
+                    $sensorData = Sensors::getSensorData($request->devicesId);
+                    if (!$sensorData) {
+                        return $this->responseErrorCustom("devices_id_not_found_sensors_table", 404);
+                    }
+
+                    $checkAuto = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+                    if (!$checkAuto) {
+                        return $this->responseErrorCustom("devices_id_not_found", 404);
+                    }
+                    else {
+                        $checkAuto->auto_mode = 0;
+                        $checkAuto->save();
+                    }
+                    $mqtt = new Mqtt();
+                    $topic = "thuycanhiot@gmail.com/".$request->devicesId."=ppm";
+                    $output = $mqtt->ConnectAndPublish($topic, 1);
+                    if ($output === true) {
+                        return $this->responseSuccess("Seen ppm control via mqtt successfully");
                     } 
                 }
             }
@@ -256,7 +706,7 @@ class UserController extends BaseApiController
                 return $this->responseErrorValidator($validator, 422);
             }
             $mqtt = new Mqtt();
-            $topic = $request->devicesId."=".$request->topic;
+            $topic = "thuycanhiot@gmail.com/".$request->devicesId."=".$request->topic;
             $output = $mqtt->ConnectAndPublish($topic, $request->message);
             if ($output === true) {
                 return $this->responseSuccess("Seen to mqtt successfully");
@@ -305,7 +755,7 @@ class UserController extends BaseApiController
             if ($validator) {
                 return $this->responseErrorValidator($validator, 422);
             }
-            $topic = $request->devicesId."=".$request->topic;
+            $topic = "thuycanhiot@gmail.com/".$request->devicesId."=".$request->topic;
             $mqtt = new Mqtt();
             $msg = "";
             $mqtt->ConnectAndSubscribe($topic, function($topic, $message){
@@ -475,7 +925,7 @@ class UserController extends BaseApiController
                 }
             }
 
-            $topic = $request->devicesId."=pump";
+            $topic = "thuycanhiot@gmail.com/".$request->devicesId."=pump";
             $message = 1;
             $mqtt = new Mqtt();
             $getAutoPump = PumpAutomatic::getAuto($request->devicesId);
@@ -488,7 +938,7 @@ class UserController extends BaseApiController
                         $getAutoPump = PumpAutomatic::getAuto($request->devicesId);
                         if($getAutoPump[0]->auto == 1 and $n <= $request->timeOn) {
                             $n++;
-                            sleep(5);
+                            sleep(1);
                         }
                     }
                 }
@@ -499,12 +949,12 @@ class UserController extends BaseApiController
                         $getAutoPump = PumpAutomatic::getAuto($request->devicesId);
                         if($getAutoPump[0]->auto == 1 and $n <= $request->timeOff) {
                             $n++;
-                            sleep(5);
+                            sleep(1);
                         }
                     }
                 }    
             }
-            $output = $mqtt->ConnectAndPublish($topic, 0);
+            
             if ($output === true) {
                 return $this->responseSuccess("Seen turn on auto mode successfully");
             } 
@@ -564,6 +1014,9 @@ class UserController extends BaseApiController
                     else {
                         $checkAuto->auto = 0;
                         $checkAuto->save();
+                        $mqtt = new Mqtt();
+                        $topic = "thuycanhiot@gmail.com/".$request->devicesId."=pump";
+                        $mqtt->ConnectAndPublish($topic, 0);
                     }
                 }
             }
@@ -641,7 +1094,7 @@ class UserController extends BaseApiController
                             $ppmMax = $nutri[0]->ppm_max;
                             $ppmMin = $nutri[0]->ppm_min;
 
-                            $topic = $request->devicesId."=";
+                            $topic = "thuycanhiot@gmail.com/".$request->devicesId."=";
                             $mqtt = new Mqtt();
                             $getAutoPpm = PpmAutomatic::getAuto($request->devicesId);
                             $ppmForDevice = 0;

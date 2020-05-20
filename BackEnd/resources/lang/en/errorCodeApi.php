@@ -222,6 +222,7 @@ $ApiErrorMessages = array(
 
     'nutrients_id_not_found' => 'Nutrient id not found.',
     'exists_in_ppm_automatic_table' => 'Nutrient id exists in ppm automatic table',
+    'devices_id_not_found_sensors_table' => 'Device id not found in sensors table.',
 );
 
 $ApiErrorCodes = array(
@@ -449,6 +450,7 @@ $ApiErrorCodes = array(
 
     'nutrients_id_not_found' => 8071,
     'exists_in_ppm_automatic_table' => 8072,
+    'devices_id_not_found_sensors_table' => 8073,
 );
 
 $ApiCodes['ApiErrorMessages'] = $ApiErrorMessages;
