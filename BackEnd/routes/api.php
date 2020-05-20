@@ -41,8 +41,16 @@ Route::group(['prefix' => 'user'], function () {
         Route::post('postFeedback', 'UserController@postFeedback');
         Route::put('seenNotification', 'UserController@seenNotification');
 
-        //MQTT
+        //Manual control
         Route::post('controlPump', 'UserController@controlPump');
+        Route::post('controlWaterIn', 'UserController@controlWaterIn');
+        Route::post('checkWaterIn', 'UserController@checkWaterIn');
+        Route::post('controlWaterOut', 'UserController@controlWaterOut');
+        Route::post('checkWaterOut', 'UserController@checkWaterOut');
+        Route::post('controlMix', 'UserController@controlMix');
+        Route::post('controlPpm', 'UserController@controlPpm');
+
+        //MQTT
         Route::post('sendMsgViaMqtt', 'UserController@sendMsgViaMqtt');
         Route::post('subscribetoTopic', 'UserController@subscribetoTopic');
 
