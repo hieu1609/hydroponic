@@ -16,7 +16,7 @@ class Controller extends BaseController
  * @SWG\Swagger(
  *     basePath="/api",
  *     schemes={"http", "https"},
- *     host="localhost:800/hydroponic/BackEnd/blog/public",
+ *     host="localhost:800/hydroponic/BackEnd/public",
  *     @SWG\Info(
  *         version="1.0.0",
  *         title="L5 Swagger API"
