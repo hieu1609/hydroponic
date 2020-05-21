@@ -2,9 +2,12 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include <string.h>
+#include <pt.h>
 
 char ssid[] = "MHHH";
 char pass[]  = "giahieu99";
+
+static struct pt pt1; //thread
 
 void recdata(char * tp, byte * conte, unsigned int length)
 {
@@ -35,7 +38,7 @@ void recdata(char * tp, byte * conte, unsigned int length)
 
 WiFiClient client;
 //server, port, [callback], client
-PubSubClient MQTT("m24.cloudmqtt.com", 15217, recdata, client);
+PubSubClient MQTT("maqiatto.com", 1883, recdata, client);
 
 void WifiConnect(char* ssid,char* pass){
   WiFi.begin(ssid, pass);
@@ -50,35 +53,40 @@ void WifiConnect(char* ssid,char* pass){
   Serial.println("successfully connected wifi");
 }
 
-void WifiReConnect(char* ssid,char* pass){
-  WiFi.begin(ssid, pass);
-}
-
 void ServerConnect(PubSubClient MQTT){
   Serial.println("Server connecting");
   while(1)
   {
     Serial.print(".");
     //connect with server
-    if(MQTT.connect("clientname", "tmlgemnz", "7fub13-eRIeR"))
+    if(MQTT.connect("clientname", "thuycanhiot@gmail.com", "Lancuoi1234@"))
       break;
     delay(500);
   }
   Serial.println("successfully connected server MQTT");
-  MQTT.subscribe("6=pump");
-  MQTT.subscribe("6=mix");
-  MQTT.subscribe("6=ppm");
-  MQTT.subscribe("6=waterIn");
-  MQTT.subscribe("6=waterOut");
+  MQTT.subscribe("thuycanhiot@gmail.com/6=pump");
+  MQTT.subscribe("thuycanhiot@gmail.com/6=mix");
+  MQTT.subscribe("thuycanhiot@gmail.com/6=ppm");
+  MQTT.subscribe("thuycanhiot@gmail.com/6=waterIn");
+  MQTT.subscribe("thuycanhiot@gmail.com/6=waterOut");
 }
 
-void ServerReConnect(PubSubClient MQTT){
-  MQTT.connect("clientname", "tmlgemnz", "7fub13-eRIeR");
-  MQTT.subscribe("6=pump");
-  MQTT.subscribe("6=mix");
-  MQTT.subscribe("6=ppm");
-  MQTT.subscribe("6=waterIn");
-  MQTT.subscribe("6=waterOut");
+static int protothread1(struct pt *pt, int interval, PubSubClient MQTT, String message) {
+  static unsigned long timestamp = 0;
+  PT_BEGIN(pt);
+  while(1) { // never stop 
+    /* each time the function is called the second boolean
+    *  argument "millis() - timestamp > interval" is re-evaluated
+    *  and if false the function exits after that. */
+    PT_WAIT_UNTIL(pt, millis() - timestamp > interval );
+    timestamp = millis(); // take a new timestamp
+    
+    //convert string to char array & publish
+    char buffer[64];
+    message.toCharArray(buffer, 64);
+    MQTT.publish("thuycanhiot@gmail.com/update",buffer);
+  }
+  PT_END(pt);
 }
 
 void setup() 
@@ -91,6 +99,9 @@ void setup()
   ServerConnect(MQTT);
   
   Wire.begin(D1, D2); /* join i2c bus with SDA=D1 and SCL=D2 of NodeMCU */
+  
+  //thread 1
+  PT_INIT(&pt1);  
 }
 
 void loop() 
@@ -98,25 +109,25 @@ void loop()
   //check wifi connection and MQTT connection 
   if (WiFi.waitForConnectResult() != WL_CONNECTED) {
     Serial.println("Not connected");
-    WifiReConnect(ssid, pass);
+    WifiConnect(ssid, pass);
   } else {
     Serial.println("Connected");
-  }
-  if (!MQTT.connected()) {
-    Serial.println("MQTT ReConnect");
-    MQTT.connect("client", "thuycanhiot@gmail.com", "Lancuoi1234@");
-    MQTT.subscribe("6=pump");
-    MQTT.subscribe("6=mix");
-    MQTT.subscribe("6=ppm");
-    MQTT.subscribe("6=waterIn");
-    MQTT.subscribe("6=waterOut");
-    //ServerReConnect(MQTT);
-  }
-  else {
-    Serial.println("MQTT Connected");
+    if (!MQTT.connected()) {
+      Serial.println("MQTT ReConnect");
+      MQTT.connect("clientname", "thuycanhiot@gmail.com", "Lancuoi1234@");
+      MQTT.subscribe("thuycanhiot@gmail.com/6=pump");
+      MQTT.subscribe("thuycanhiot@gmail.com/6=mix");
+      MQTT.subscribe("thuycanhiot@gmail.com/6=ppm");
+      MQTT.subscribe("thuycanhiot@gmail.com/6=waterIn");
+      MQTT.subscribe("thuycanhiot@gmail.com/6=waterOut");
+    }
+    else {
+      Serial.println("MQTT Connected");
+    }
   }
 
-  String s = "";
+
+  String message = "";
   MQTT.loop();
   
   Wire.beginTransmission(8); /* begin with device address 8 */
@@ -126,15 +137,14 @@ void loop()
   {
     char c = Wire.read(); 
     if(c=='0'||c=='1'||c=='2'||c=='3'||c=='4'||c=='5'||c=='6'||c=='7'||c=='8'||c=='9'||c=='.'||c=='=')
-      s+=c;
+      message+=c;
   }
 
-  Serial.print(s);
+  Serial.print(message);
   Serial.println();
-  char buffer[64];
-  s.toCharArray(buffer, 64);
 
-  MQTT.publish("update",buffer);
+  //publish update after 3s
+  protothread1(&pt1, 3000, MQTT, message);
+  
   Wire.endTransmission();    /* stop transmitting */
-  delay(500);
 } 

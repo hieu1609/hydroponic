@@ -14,7 +14,7 @@ const int RelayMix =9; // Relay motor quay tron hon hop dung dich ding duong
 const int RelayWaterOut = 10;// Relay bom nuoc ra khoi thung
 const int RelayPump = 11; // Relay bom nuoc len cho dan thuy canh
 
-static struct pt pt1, pt2; //thread
+static struct pt pt1; //thread
 
 DHT dht(DHTPIN, DHTTYPE);
 const int Light =  A2;
@@ -70,7 +70,6 @@ void setup() {
   Wire.onRequest(requestEvent); /* register request event */
 
   PT_INIT(&pt1);  //thread 1
-  PT_INIT(&pt2);  //thread 2
   
   pinMode(RelayPpm, OUTPUT); //7->11
   pinMode(RelayWaterIn, OUTPUT);
@@ -125,13 +124,13 @@ void loop() {
   /////////////////////////////EC PPM
   protothread1(&pt1, 5000);          //Calls Code to Go into GetEC() Loop [Below Main Loop] dont call this more than 1/5 hhz [once every five seconds] or you will polarise the water
   // id, device_id, temperature, humidity, light, EC, PPM, water, pump, water_in, water_out, mix
-  temp = 30.25;
-  h = 68.36;
-  distancelast = 56.20; 
+//  temp = 30.25;
+//  h = 68.36;
+//  distancelast = 56.20; 
   dataSend = "6="+(String)temp+"="+(String)h+"="+(String)lig+"="+(String)EC25+"="+(String)ppm+"="+(String)distancelast+"="+(String)relayStatus+"="+(String)waterInStatus+"="+(String)waterOutStatus+"="+(String)mixStatus;
 //  dataSend = "6=26.11=42.35=558=1.40=753=56.20=1=0=0=0";
   Serial.println(dataSend); 
-  delay(500); 
+  delay(1000); 
 }
 
 // function that executes whenever data is received from master

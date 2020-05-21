@@ -1,12 +1,12 @@
 <?php
 require 'phpMQTT.php';
 
-$host = 'm24.cloudmqtt.com';
-$port = 15217;
-$user = 'tmlgemnz';
-$pass = '7fub13-eRIeR';
-$topic = 'update';
-$client_id = "phpMQTT-publisher";
+$host = 'maqiatto.com';
+$port = 1883;
+$user = 'thuycanhiot@gmail.com';
+$pass = 'Lancuoi1234@';
+$topic = 'thuycanhiot@gmail.com/update';
+$client_id = "publisher";
 
 $message = "Hello CloudMQTT!";
 
