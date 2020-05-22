@@ -939,7 +939,7 @@ class UserController extends BaseApiController
                     $n = 1;
                     for($i = 0; $i < $n; $i++) { 
                         $getAutoPump = PumpAutomatic::getAuto($request->devicesId);
-                        if($getAutoPump[0]->auto == 1 and $n <= $request->timeOn) {
+                        if($getAutoPump[0]->auto == 1 and $n <= $request->timeOn*60) {
                             $n++;
                             sleep(1);
                         }
@@ -950,7 +950,7 @@ class UserController extends BaseApiController
                     $n = 1;
                     for($i = 0; $i < $n; $i++) { 
                         $getAutoPump = PumpAutomatic::getAuto($request->devicesId);
-                        if($getAutoPump[0]->auto == 1 and $n <= $request->timeOff) {
+                        if($getAutoPump[0]->auto == 1 and $n <= $request->timeOff*60) {
                             $n++;
                             sleep(1);
                         }
@@ -1100,48 +1100,47 @@ class UserController extends BaseApiController
                             $topic = "thuycanhiot@gmail.com/".$request->devicesId."=";
                             $mqtt = new Mqtt();
                             $getAutoPpm = PpmAutomatic::getAuto($request->devicesId);
-                            $ppmForDevice = 0;
                             $case = 0;
 
                             while($getAutoPpm[0]->auto_mode == 1){   
                                 //get good ppm
                                 $ppmNow = Sensors::getSensorData($request->devicesId);
-                                if($ppmNow[0]->temperature <= 25) {
-                                    $ppmForDevice = $ppmMax;
-                                }
-                                else if($ppmNow[0]->temperature >= 45) {
-                                    $ppmForDevice = $ppmMin;
-                                }
-                                else {
-                                    $ppmForDevice = $ppmMax - (($ppmNow[0]->temperature - 25)*0.05)*($ppmMax - $ppmMin);
-                                }
+                                $ppmForDevice = PpmAutomatic::ppmCalculation($ppmNow[0]->temperature, $ppmMax, $ppmMin);
 
                                 //mix nutrients
                                 //Nồng độ đúng
                                 if(abs($ppmForDevice - $ppmNow[0]->PPM) <= 100) {
                                     //Lượng nước dưới 20%, bơm nước(rất ít) để tránh cháy máy bơm
                                     if($ppmNow[0]->water <= 20) {
-                                        if($case != 1) {
-                                            if($case == 2 or $case == 0) {
-                                                $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
-                                                $checkAuto->auto_status = 1;
-                                                $checkAuto->save();
-
+                                        sleep(5);
+                                        $ppmNow = Sensors::getSensorData($request->devicesId);
+                                        //Kiểm tra lần 2 tránh sai sót của sensor
+                                        if($ppmNow[0]->water <= 20) {
+                                            if($case != 1) {
+                                                if($case == 2 or $case == 0) {
+                                                    $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+                                                    $checkAuto->auto_status = 1;
+                                                    $checkAuto->save();
+    
+                                                }
+                                                $topicPpm = $topic."ppm";
+                                                $messagePpm = 0;
+                                                $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
+                                                $topicWaterIn = $topic."waterIn";
+                                                $messageWaterIn = 1;
+                                                $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
+                                                $topicWaterOut = $topic."waterOut";
+                                                $messageWaterOut = 0;
+                                                $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
+                                                $topicMix = $topic."mix";
+                                                $messageMix = 1;
+                                                $mqtt->ConnectAndPublish($topicMix, $messageMix);
+                                                sleep(5);
+                                                $case = 1;
                                             }
-                                            $topicPpm = $topic."ppm";
-                                            $messagePpm = 0;
-                                            $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
-                                            $topicWaterIn = $topic."waterIn";
-                                            $messageWaterIn = 1;
-                                            $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
-                                            $topicWaterOut = $topic."waterOut";
-                                            $messageWaterOut = 0;
-                                            $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
-                                            $topicMix = $topic."mix";
-                                            $messageMix = 1;
-                                            $mqtt->ConnectAndPublish($topicMix, $messageMix);
-                                            $case = 1;
-                                            sleep(5);
+                                            else {
+                                                sleep(5);
+                                            }
                                         }
                                         else {
                                             sleep(5);
@@ -1165,8 +1164,8 @@ class UserController extends BaseApiController
                                             $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
                                             $checkAuto->auto_status = 0;
                                             $checkAuto->save();
-                                            $case = 2;
                                             sleep(30);
+                                            $case = 2;
                                         }
                                         else {
                                             sleep(30);
@@ -1175,9 +1174,118 @@ class UserController extends BaseApiController
                                 }
                                 //Nồng độ thiếu so với chuẩn: bơm lên trên 70 rồi mới pha
                                 else if($ppmForDevice - $ppmNow[0]->PPM > 100) {
-                                    //Bơm nước lên 70%
-                                    if($ppmNow[0]->water < 70) {
-                                        if($case != 3) {
+                                    sleep(5);
+                                    $ppmNow = Sensors::getSensorData($request->devicesId);
+                                    $ppmForDevice = PpmAutomatic::ppmCalculation($ppmNow[0]->temperature, $ppmMax, $ppmMin);
+                                    //Kiểm tra lần 2 tránh sai sót của sensor
+                                    if($ppmForDevice - $ppmNow[0]->PPM > 100) {
+                                        //Bơm nước lên 70%
+                                        if($ppmNow[0]->water < 70) {
+                                            if($case != 3) {
+                                                if($case == 2 or $case == 0) {
+                                                    $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+                                                    $checkAuto->auto_status = 1;
+                                                    $checkAuto->save();
+                                                    $topicMix = $topic."mix";
+                                                    $messageMix = 1;
+                                                    $mqtt->ConnectAndPublish($topicMix, $messageMix);
+                                                }
+
+                                                $topicPpm = $topic."ppm";
+                                                $messagePpm = 0;
+                                                $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
+                                                $topicWaterIn = $topic."waterIn";
+                                                $messageWaterIn = 1;
+                                                $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
+                                                $topicWaterOut = $topic."waterOut";
+                                                $messageWaterOut = 0;
+                                                $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
+                                                sleep(5);
+                                                $case = 3;
+                                            }
+                                            else {
+                                                sleep(5);
+                                            }
+                                        }
+                                        //Thêm dinh dưỡng khi nước >= 70%
+                                        else {
+                                            if($case == 2 or $case == 0) {
+                                                $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+                                                $checkAuto->auto_status = 1;
+                                                $checkAuto->save();
+                                                $topicMix = $topic."mix";
+                                                $messageMix = 1;
+                                                $mqtt->ConnectAndPublish($topicMix, $messageMix);
+                                            }
+
+                                            $topicWaterIn = $topic."waterIn";
+                                            $messageWaterIn = 0;
+                                            $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
+                                            $topicPpm = $topic."ppm";
+                                            $messagePpm = 1;
+                                            $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
+                                            $topicWaterOut = $topic."waterOut";
+                                            $messageWaterOut = 0;
+                                            $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
+                                            sleep(10);
+                                            $case = 4;
+                                        }
+                                    }
+                                    else {
+                                        sleep(5);
+                                    }
+                                }
+                                //Nồng độ dư so với chuẩn
+                                else if($ppmNow[0]->PPM - $ppmForDevice > 100) {
+                                    sleep(30);
+                                    $ppmNow = Sensors::getSensorData($request->devicesId);
+                                    $ppmForDevice = PpmAutomatic::ppmCalculation($ppmNow[0]->temperature, $ppmMax, $ppmMin);
+                                    //Kiểm tra lần 2 tránh sai sót của sensor
+                                    if($ppmNow[0]->PPM - $ppmForDevice > 100) {
+                                        //Nước bơm lên không quá 90%
+                                        //Tính toán dự đoán cho việc pha chế dinh dưỡng
+                                        $ppmDifference = PpmAutomatic::ppmDifferenceCalculation($ppmNow[0]->water, $ppmNow[0]->PPM, $ppmForDevice);
+                                        //2TH: 1. Phải bơm nước ra, 2. Có thể bơm thêm nước
+                                        //1. Phải bơm nước ra $ppmDifference > 100
+                                        if($ppmDifference > 100) {
+                                            if($case == 2 or $case == 0) {
+                                                $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
+                                                $checkAuto->auto_status = 1;
+                                                $checkAuto->save();
+                                                $topicMix = $topic."mix";
+                                                $messageMix = 1;
+                                                $mqtt->ConnectAndPublish($topicMix, $messageMix);
+                                            }
+
+                                            $topicWaterIn = $topic."waterIn";
+                                            $messageWaterIn = 0;
+                                            $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
+                                            $topicPpm = $topic."ppm";
+                                            $messagePpm = 0;
+                                            $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
+                                            //Get Pump Status
+                                            $getPumpStatus = Sensors::getPumpStatus($request->devicesId);
+                                            $topicPump = $topic."pump";
+                                            $messagePump = 1;
+                                            $mqtt->ConnectAndPublish($topicPump, $messagePump);
+                                            $topicWaterOut = $topic."waterOut";
+                                            $messageWaterOut = 1;
+                                            $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
+                                            //Bơm nước ra trong vòng 10s sau đó kiểm tra lại -> while
+                                            sleep(10);
+                                            $messageWaterOut = 0;
+                                            $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
+                                            //Return Pump Status
+                                            if($getPumpStatus[0]->pump == 0) {
+                                                $messagePump = 0;
+                                                $mqtt->ConnectAndPublish($topicPump, $messagePump);
+                                            }
+                                            //Chờ cho dữ liệu được gửi
+                                            sleep(5);
+                                            $case = 5;
+                                        }
+                                        //2. Có thể bơm thêm nước $ppmDifference <= 100
+                                        else {
                                             if($case == 2 or $case == 0) {
                                                 $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
                                                 $checkAuto->auto_status = 1;
@@ -1190,111 +1298,22 @@ class UserController extends BaseApiController
                                             $topicPpm = $topic."ppm";
                                             $messagePpm = 0;
                                             $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
-                                            $topicWaterIn = $topic."waterIn";
-                                            $messageWaterIn = 1;
-                                            $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
                                             $topicWaterOut = $topic."waterOut";
                                             $messageWaterOut = 0;
                                             $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
-                                            $case = 3;
+                                            $topicWaterIn = $topic."waterIn";
+                                            $messageWaterIn = 1;
+                                            $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
                                             sleep(5);
-                                        }
-                                        else {
-                                            sleep(5);
+                                            $messageWaterIn = 0;
+                                            $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
+                                            //Chờ dung dịch được trộn
+                                            sleep(20);
+                                            $case = 6;
                                         }
                                     }
-                                    //Thêm dinh dưỡng
-                                    else if($ppmNow[0]->water >= 70) {
-                                        if($case == 2 or $case == 0) {
-                                            $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
-                                            $checkAuto->auto_status = 1;
-                                            $checkAuto->save();
-                                            $topicMix = $topic."mix";
-                                            $messageMix = 1;
-                                            $mqtt->ConnectAndPublish($topicMix, $messageMix);
-                                        }
-
-                                        $topicWaterIn = $topic."waterIn";
-                                        $messageWaterIn = 0;
-                                        $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
-                                        $topicPpm = $topic."ppm";
-                                        $messagePpm = 1;
-                                        $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
-                                        $topicWaterOut = $topic."waterOut";
-                                        $messageWaterOut = 0;
-                                        $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
-                                        $case = 4;
-                                        sleep(10);
-                                    }
-                                }
-                                //Nồng độ dư so với chuẩn
-                                else if($ppmNow[0]->PPM - $ppmForDevice > 100) {
-                                    //Nước bơm lên không quá 90%
-                                    $ppmWater = 50;
-                                    $remainingWater = 90 - $ppmNow[0]->water;
-                                    $checkWaterAfterMix = ($ppmWater*$remainingWater + $ppmNow[0]->PPM*$ppmNow[0]->water)/90;
-                                    $ppmDifference = $checkWaterAfterMix - $ppmForDevice;
-
-                                    //2TH: 1. Phải bơm nước ra, 2. Có thể bơm thêm nước
-                                    //1. Phải bơm nước ra $ppmDifference > 100
-                                    if($ppmDifference > 100) {
-                                        if($case == 2 or $case == 0) {
-                                            $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
-                                            $checkAuto->auto_status = 1;
-                                            $checkAuto->save();
-                                            $topicMix = $topic."mix";
-                                            $messageMix = 1;
-                                            $mqtt->ConnectAndPublish($topicMix, $messageMix);
-                                        }
-
-                                        $topicWaterIn = $topic."waterIn";
-                                        $messageWaterIn = 0;
-                                        $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
-                                        $topicPpm = $topic."ppm";
-                                        $messagePpm = 0;
-                                        $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
-                                        //Get Pump Status
-                                        $getPumpStatus = Sensors::getPumpStatus($request->devicesId);
-                                        $topicPump = $topic."pump";
-                                        $messagePump = 1;
-                                        $mqtt->ConnectAndPublish($topicPump, $messagePump);
-                                        $topicWaterOut = $topic."waterOut";
-                                        $messageWaterOut = 1;
-                                        $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
-                                        sleep(10);
-                                        $messageWaterOut = 0;
-                                        $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
-                                        //Return Pump Status
-                                        if($getPumpStatus[0]->pump == 0) {
-                                            $messagePump = 0;
-                                            $mqtt->ConnectAndPublish($topicPump, $messagePump);
-                                        }
-                                        $case = 5;
-                                    }
-                                    //2. Có thể bơm thêm nước $ppmDifference <= 100
                                     else {
-                                        if($case == 2 or $case == 0) {
-                                            $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
-                                            $checkAuto->auto_status = 1;
-                                            $checkAuto->save();
-                                            $topicMix = $topic."mix";
-                                            $messageMix = 1;
-                                            $mqtt->ConnectAndPublish($topicMix, $messageMix);
-                                        }
-
-                                        $topicPpm = $topic."ppm";
-                                        $messagePpm = 0;
-                                        $mqtt->ConnectAndPublish($topicPpm, $messagePpm);
-                                        $topicWaterOut = $topic."waterOut";
-                                        $messageWaterOut = 0;
-                                        $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
-                                        $topicWaterIn = $topic."waterIn";
-                                        $messageWaterIn = 1;
-                                        $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
-                                        sleep(5);
-                                        $messageWaterIn = 0;
-                                        $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
-                                        $case = 6;
+                                        sleep(30);
                                     }
                                 }
                                 //Kiểm tra chế độ tự pha dinh dưỡng
