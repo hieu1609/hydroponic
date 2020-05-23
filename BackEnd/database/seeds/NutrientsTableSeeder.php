@@ -93,6 +93,14 @@ class NutrientsTableSeeder extends Seeder
                 'ppm_max' => 850,
                 "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
                 "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [
+                'user_id' => 1,
+                'plant_name' => 'Xà lách',
+                'ppm_min' => 400,
+                'ppm_max' => 750,
+                "created_at"=> Carbon::now()->format('Y-m-d H:i:s'),
+                "updated_at"=> Carbon::now()->format('Y-m-d H:i:s')
             ]
         ];
         
