@@ -17,11 +17,11 @@ class CreateSensorsTable extends Migration
             $table->increments('id')->unique();
             $table->integer('device_id')->unsigned()->index();
             $table->float('temperature')->default(0);
-            $table->float('humidity')->default(0);
+            $table->integer('humidity')->default(0);
             $table->integer('light')->default(0);
             $table->float('EC')->default(0);
             $table->integer('PPM')->default(0);
-            $table->float('water')->default(0);
+            $table->integer('water')->default(0);
             $table->boolean('pump')->default(0);
             $table->boolean('water_in')->default(0);
             $table->boolean('water_out')->default(0);
