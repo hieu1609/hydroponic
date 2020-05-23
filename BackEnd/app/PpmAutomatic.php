@@ -25,4 +25,26 @@ class PpmAutomatic extends BaseModel
         return PpmAutomatic::where('device_id', $devicesId)
         ->get('auto_mode');
     }
+
+    public static function ppmCalculation($temperature, $ppmMax, $ppmMin) {
+        $ppmForDevice = 0;
+        if($temperature <= 25) {
+            $ppmForDevice = $ppmMax;
+        }
+        else if($temperature >= 45) {
+            $ppmForDevice = $ppmMin;
+        }
+        else {
+            $ppmForDevice = $ppmMax - (($temperature - 25)*0.05)*($ppmMax - $ppmMin);
+        }
+        return $ppmForDevice;
+    }
+
+    public static function ppmDifferenceCalculation($water, $ppm, $ppmForDevice) {
+        $ppmWater = 50;
+        $remainingWater = 90 - $water;
+        $checkWaterAfterMix = ($ppmWater*$remainingWater + $ppm*$water)/90;
+        $ppmDifference = $checkWaterAfterMix - $ppmForDevice;
+        return $ppmDifference;
+    }
 }
