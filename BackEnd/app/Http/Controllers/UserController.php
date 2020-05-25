@@ -1134,7 +1134,9 @@ class UserController extends BaseApiController
                                                 $topicMix = $topic."mix";
                                                 $messageMix = 1;
                                                 $mqtt->ConnectAndPublish($topicMix, $messageMix);
-                                                sleep(5);
+                                                sleep(10);
+                                                $messageWaterIn = 0;
+                                                $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
                                                 $case = 1;
                                             }
                                             else {
