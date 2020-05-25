@@ -1668,7 +1668,7 @@
                     "Water"
                 ],
                 "summary": "Control water in via mqtt",
-                "description": "check water in after 90%",
+                "description": "check water in after 80%",
                 "parameters": [
                     {
                         "name": "body",

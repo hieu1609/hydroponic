@@ -277,7 +277,7 @@ class UserController extends BaseApiController
                     }
 
                     if($request->message == 1){
-                        if ($sensorData[0]->water < 90) {
+                        if ($sensorData[0]->water < 80) {
                             $mqtt = new Mqtt();
                             $topic = "thuycanhiot@gmail.com/".$request->devicesId."=waterIn";
                             $output = $mqtt->ConnectAndPublish($topic, $request->message);
@@ -307,7 +307,7 @@ class UserController extends BaseApiController
     /**
      * @SWG\Post(
      *     path="/user/checkWaterIn",
-     *     description="check water in after 90%",
+     *     description="check water in after 80%",
      *     tags={"Water"},
      *     summary="Control water in via mqtt",
      *     security={{"jwt":{}}},
@@ -354,7 +354,7 @@ class UserController extends BaseApiController
                         return $this->responseErrorCustom("devices_id_not_found_sensors_table", 404);
                     }
 
-                    while ($sensorData[0]->water_in == 1 && $sensorData[0]->water < 90) {
+                    while ($sensorData[0]->water_in == 1 && $sensorData[0]->water < 80) {
                         sleep(3);
                         $sensorData = Sensors::getSensorData($request->devicesId);
                     }
@@ -1254,6 +1254,7 @@ class UserController extends BaseApiController
                                         }
                                         else {
                                             //Nước bơm lên không quá 90%
+                                            //10% nước đang lưu thông trong ống cho nên max trong thùng là 80%
                                             //Tính toán dự đoán cho việc pha chế dinh dưỡng
                                             $ppmDifference = PpmAutomatic::ppmDifferenceCalculation($ppmNow[0]->water, $ppmNow[0]->PPM, $ppmForDevice);
                                             //2TH: 1. Phải bơm nước ra, 2. Có thể bơm thêm nước
