@@ -41,9 +41,14 @@ class PpmAutomatic extends BaseModel
     }
 
     public static function ppmDifferenceCalculation($water, $ppm, $ppmForDevice) {
-        $ppmWater = 50;
-        $remainingWater = 90 - $water;
-        $checkWaterAfterMix = ($ppmWater*$remainingWater + $ppm*$water)/90;
+        $ppmWater = 70;
+        $remainingWater = 80 - $water;
+        //3 ống mỗi ống chứa khoảng 5%
+        //lượng nước đang chảy chiếm khoảng 10%
+        //Nên max của bình là 90 thì chỉ bơm lên 80
+        //chừa 10% khi bơm không bơm nước chảy xuống thùng chứa
+        //Công thức ước tính ppm sau khi điều chế
+        $checkWaterAfterMix = ($ppm*($water + 25) + $ppmWater*$remainingWater)/80;
         $ppmDifference = $checkWaterAfterMix - $ppmForDevice;
         return $ppmDifference;
     }

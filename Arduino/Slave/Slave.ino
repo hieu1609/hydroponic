@@ -33,6 +33,7 @@ int waterOutStatus=0;
 int mixStatus=0;
 float distance1;
 float distancelast;
+int distancesend;
 int SlaveReceived=0;
 //*********** Converting to ppm [Learn to use EC it is much better**************//
 // Hana      [USA]        PPMconverion:  0.5
@@ -97,11 +98,11 @@ void setup() {
 void loop() {
   if(checkppm == 1){
     digitalWrite(RelayPpm, HIGH);
-    delay(2000);
+    delay(1000);
     digitalWrite(RelayPpm, LOW);
     checkppm = 0;
   }
-  float h = dht.readHumidity();    //Đọc độ ẩm
+  int hum = dht.readHumidity();    //Đọc độ ẩm
   float temp = dht.readTemperature(); //Đọc nhiệt độ
   int lig = analogRead(Light);
   digitalWrite(TRIG_PIN, LOW);
@@ -115,20 +116,20 @@ void loop() {
   distancelast = roundf(distance * 100) / 100;
   if(distancelast < 0){
     distancelast = 0;
-    }
-  if(distancelast >100){
+  }
+  if(distancelast > 100){
     distancelast = 100;
-    }
+  }
+  distancesend = distancelast;
   sensors.requestTemperatures();// Send the command to get temperatures
   Temperature = sensors.getTempCByIndex(0); //Stores Value in Variable
   /////////////////////////////EC PPM
   protothread1(&pt1, 5000);          //Calls Code to Go into GetEC() Loop [Below Main Loop] dont call this more than 1/5 hhz [once every five seconds] or you will polarise the water
   // id, device_id, temperature, humidity, light, EC, PPM, water, pump, water_in, water_out, mix
-//  temp = 30.25;
-//  h = 68.36;
-//  distancelast = 56.20; 
-  dataSend = "6="+(String)temp+"="+(String)h+"="+(String)lig+"="+(String)EC25+"="+(String)ppm+"="+(String)distancelast+"="+(String)relayStatus+"="+(String)waterInStatus+"="+(String)waterOutStatus+"="+(String)mixStatus;
-//  dataSend = "6=26.11=42.35=558=1.40=753=56.20=1=0=0=0";
+  //  temp = 30.25;
+  //  hum = 68;
+  dataSend = "6="+(String)temp+"="+(String)hum+"="+(String)lig+"="+(String)EC25+"="+(String)ppm+"="+(String)distancesend+"="+(String)relayStatus+"="+(String)waterInStatus+"="+(String)waterOutStatus+"="+(String)mixStatus;
+  //  dataSend = "6=26.11=42=558=1.40=753=56=1=0=0=0";
   Serial.println(dataSend); 
   delay(1000); 
 }
