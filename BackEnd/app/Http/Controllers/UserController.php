@@ -1116,7 +1116,7 @@ class UserController extends BaseApiController
                                         //Kiểm tra lần 2 tránh sai sót của sensor
                                         if($ppmNow[0]->water <= 20) {
                                             if($case != 1) {
-                                                if($case == 2 or $case == 0) {
+                                                if($case == 2 or $case == 0)    {
                                                     $checkStatus = PpmAutomatic::where(['device_id' => $request->devicesId])->first();
                                                     $checkAuto->auto_status = 1;
                                                     $checkAuto->save();
@@ -1138,6 +1138,7 @@ class UserController extends BaseApiController
                                                 $messageWaterIn = 0;
                                                 $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
                                                 $case = 1;
+                                                sleep(5);
                                             }
                                             else {
                                                 sleep(5);
@@ -1234,7 +1235,7 @@ class UserController extends BaseApiController
                                                 $topicWaterOut = $topic."waterOut";
                                                 $messageWaterOut = 0;
                                                 $mqtt->ConnectAndPublish($topicWaterOut, $messageWaterOut);
-                                                sleep(10);
+                                                sleep(20);
                                                 $case = 4;
                                             }
                                         }
@@ -1318,7 +1319,7 @@ class UserController extends BaseApiController
                                                 $topicWaterIn = $topic."waterIn";
                                                 $messageWaterIn = 1;
                                                 $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
-                                                sleep(5);
+                                                sleep(10);
                                                 $messageWaterIn = 0;
                                                 $mqtt->ConnectAndPublish($topicWaterIn, $messageWaterIn);
                                                 //Chờ dung dịch được trộn

@@ -117,7 +117,7 @@ void loop() {
   if(distancelast < 0){
     distancelast = 0;
   }
-  if(distancelast >100){
+  if(distancelast > 100){
     distancelast = 100;
   }
   distancesend = distancelast;
