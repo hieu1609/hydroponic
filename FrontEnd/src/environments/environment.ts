@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  urlApi:"http://localhost:800/hydroponic/BackEnd/blog/public/api"
+  urlApi: "http://localhost:800/hydroponic/BackEnd/public/api",
 };
 
 /*

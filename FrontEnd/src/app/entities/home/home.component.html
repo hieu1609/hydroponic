@@ -7,8 +7,10 @@
       <li><a class="active" routerLink="/home">Trang Chủ</a></li>
       <li><a routerLink="/stat">Điều Khiển</a></li>
       <li><a routerLink="/chart">Biểu Đồ</a></li>
-      <li><a href="#/">Liên Hệ</a></li>
+      <li><a routerLink="/contact">Liên Hệ</a></li>
+      <li><a (click)="logOut()">Đăng xuất</a></li>
     </ul>
   </div>
 </nav>
 <router-outlet></router-outlet>
+ 

@@ -1,55 +1,56 @@
 <div class="container mt-5" [ngClass]="{'right-panel-active' : signIn}">
     <div class="form-container sign-in-container">
         <form #formSignIn="ngForm" (submit)="_handleOnSubmit(formSignIn)">
-            <h1>Sign in</h1>
+            <h1>Đăng nhập</h1>
 
-            <span>or use your account</span>
+            <span></span>
+            <br>
 
             <input placeholder="Email" type="email" name="email" required #email="ngModel"
                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" ngModel class="form-control">
 
-            <p class="alert alert-danger mt-2" *ngIf="email?.errors?.required && (email.dirty || email.touched)">
+            <p class="checkForm" *ngIf="email?.errors?.required && (email.dirty || email.touched)">
                 Vui lòng nhập email </p>
-            <p class="alert alert-danger mt-2" *ngIf="email?.errors?.pattern"> Email phải đúng định dạng </p>
+            <p class="checkForm" *ngIf="email?.errors?.pattern"> Email phải đúng định dạng </p>
             <input placeholder="Password" type="password" #password="ngModel" required minlength="6" maxlength="16"
                 name="password" ngModel class="form-control">
 
-            <p class="alert alert-danger mt-2"
-                *ngIf="password?.errors?.required && (password.dirty || password.touched)">
+            <p class="checkForm" *ngIf="password?.errors?.required && (password.dirty || password.touched)">
                 Vui lòng nhập mật khẩu </p>
-            <p class="alert alert-danger mt-2" *ngIf="password?.errors?.minlength || password?.errors?.maxlength"> Mật
+            <p class="checkForm" *ngIf="password?.errors?.minlength || password?.errors?.maxlength"> Mật
                 khẩu phải có từ 6 tới 16 kí tự </p>
-            <a href="#">Forgot your password?</a>
-            <button type="submit">Đăng nhập</button>
+            <!-- <a href="#">Forgot your password?</a> -->
+            <br>
+            <button class="mt-2" type="submit">Đăng nhập</button>
         </form>
     </div>
     <div class="form-container sign-up-container">
         <form #formSignUp="ngForm" (submit)="_handleOnSubmitSignUp(formSignUp)">
-            <h1>Create Account</h1>
-            <div class="social-container">
-                <a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
-                <a href="#" class="social"><i class="fa fa-google"></i></a>
-                <a href="#" class="social"><i class="fa fa-linkedin"></i></a>
-            </div>
-            <span>or use your email for registration</span>
-            <input type="text" name="username" #username="ngModel" ngModel placeholder="Name" />
+            <h1>Tạo tài khoản</h1>
+
+            <!-- <span>or use your email for registration</span> -->
+            <input type="text" name="username" #username="ngModel" ngModel placeholder="Name" class="form-control" />
             <input placeholder="Email" type="email" name="email" required #email="ngModel"
                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" ngModel class="form-control">
 
-            <p class="alert alert-danger mt-2" *ngIf="email?.errors?.required && (email.dirty || email.touched)">
+            <p class=" checkForm" *ngIf="email?.errors?.required && (email.dirty || email.touched)">
                 Vui lòng nhập email </p>
-            <p class="alert alert-danger mt-2" *ngIf="email?.errors?.pattern"> Email phải đúng định dạng </p>
+            <p class=" checkForm" *ngIf="email?.errors?.pattern"> Email phải đúng định dạng </p>
             <input placeholder="Password" type="password" #password="ngModel" required minlength="6" maxlength="16"
                 name="password" ngModel class="form-control">
+            <p class=" checkForm" *ngIf="password?.errors?.required && (password.dirty || password.touched)">
+                Vui lòng nhập mật khẩu </p>
+            <p class=" checkForm" *ngIf="password?.errors?.minlength || password?.errors?.maxlength"> Mật
+                khẩu phải có từ 6 tới 16 kí tự </p>
             <input placeholder="Confirm password" type="password" name="confirmPassword" #confirmPassword="ngModel"
                 required minlength="6" maxlength="16" ngModel class="form-control">
-            <p class="alert alert-danger mt-2"
-                *ngIf="password?.errors?.required && (password.dirty || password.touched)">
+            <p class=" checkForm"
+                *ngIf="confirmPassword?.errors?.required && (confirmPassword.dirty || confirmPassword.touched)">
                 Vui lòng nhập mật khẩu </p>
-            <p class="alert alert-danger mt-2" *ngIf="password?.errors?.minlength || password?.errors?.maxlength"> Mật
+            <p class=" checkForm" *ngIf="confirmPassword?.errors?.minlength || confirmPassword?.errors?.maxlength"> Mật
                 khẩu phải có từ 6 tới 16 kí tự </p>
-            <a href="#">Forgot your password?</a>
-            <button type="submit">Đăng ký</button>
+            <!-- <a href="#">Forgot your password?</a> -->
+            <button class="mt-2" type="submit">Đăng ký</button>
         </form>
     </div>
 

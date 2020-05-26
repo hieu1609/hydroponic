@@ -69,12 +69,21 @@ body {
   background-color: #e0e0e0;
   font-family: Montserrat, sans-serif;
   line-height: 1.5;
-  background: linear-gradient(160deg, #4567b2 20%, #8ab9ff 20%, #8ab9ff 80%, #4567b2 80%);
+  background: linear-gradient(
+    160deg,
+    #4567b2 20%,
+    #8ab9ff 20%,
+    #8ab9ff 80%,
+    #4567b2 80%
+  );
 }
 nav {
   position: absolute;
   top: 0;
-  left: 50%;
+  left: 38%;
   display: block;
   z-index: 2;
+}
+ul {
+  width: 780px;
 }

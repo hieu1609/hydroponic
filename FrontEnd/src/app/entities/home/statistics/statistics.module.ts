@@ -7,13 +7,15 @@ import { StatisticsComponent } from "./statistics.component";
 import { DeviceStatisticsComponent } from "./device-statistics/device-statistics.component";
 import { DeviceControlComponent } from "./device-control/device-control.component";
 import { FormsModule } from "@angular/forms";
+import { MatTabsModule } from "@angular/material/tabs";
 
 @NgModule({
   declarations: [
     StatisticsComponent,
     DeviceStatisticsComponent,
-    DeviceControlComponent
+    DeviceControlComponent,
   ],
-  imports: [CommonModule, StatisticsRoutingModule, FormsModule]
+  imports: [CommonModule, StatisticsRoutingModule, FormsModule, MatTabsModule],
+  exports: [MatTabsModule],
 })
 export class StatisticsModule {}
