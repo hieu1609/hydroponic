@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 @Component({
   selector: "app-device-control",
   templateUrl: "./device-control.component.html",
-  styleUrls: ["./device-control.component.scss"]
+  styleUrls: ["./device-control.component.scss"],
 })
 export class DeviceControlComponent implements OnInit {
   @ViewChild("formPumpAuto", { static: false }) formPumpAuto: NgForm;
@@ -18,6 +18,10 @@ export class DeviceControlComponent implements OnInit {
   @Input() device;
   constructor(private _dataService: DataService, private router: Router) {}
   statusPump: boolean = false;
+  statusWaterIn: boolean = true;
+  statusWaterOut: boolean = false;
+  statusMix: boolean = false;
+  statusAddNutrition: boolean = false;
   statusPumpAuto: boolean = false;
   statusPpmAuto: boolean = false;
   nutrients: any = [];
@@ -29,13 +33,19 @@ export class DeviceControlComponent implements OnInit {
     } else {
       this.getNutrients();
     }
+    if (sessionStorage.getItem("sensorData")) {
+      let data = JSON.parse(sessionStorage.getItem("sensorData"));
+      this.statusWaterIn = data.water_in;
+      this.statusWaterOut = data.water_out;
+      this.statusMix = data.Mix;
+    }
   }
   PumpOn() {
     const uri = "user/controlPump";
     this.PumpAutoOff();
     const message = {
       devicesId: this.device.id,
-      message: "1"
+      message: "1",
     };
     this._dataService.post(uri, message).subscribe(
       (data: any) => {
@@ -50,7 +60,7 @@ export class DeviceControlComponent implements OnInit {
     const uri = "user/controlPump";
     const message = {
       devicesId: this.device.id,
-      message: "0"
+      message: "0",
     };
     this._dataService.post(uri, message).subscribe(
       (data: any) => {
@@ -84,7 +94,7 @@ export class DeviceControlComponent implements OnInit {
       const message = {
         devicesId: this.device.id,
         timeOn: this.formPumpAuto.value.timeOn,
-        timeOff: this.formPumpAuto.value.timeOff
+        timeOff: this.formPumpAuto.value.timeOff,
       };
       this._dataService.post(uri, message).subscribe(
         (data: any) => {},
@@ -97,15 +107,16 @@ export class DeviceControlComponent implements OnInit {
         icon: "error",
         title: "Time on, timeoff is required",
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       });
     }
   }
+
   PumpAutoOff() {
     const uri = "user/pumpAutoOff";
 
     const message = {
-      devicesId: this.device.id
+      devicesId: this.device.id,
     };
     this._dataService.post(uri, message).subscribe(
       (data: any) => {
@@ -121,7 +132,7 @@ export class DeviceControlComponent implements OnInit {
     this.statusPpmAuto = true;
     const message = {
       devicesId: this.device.id,
-      nutrientId: this.formPpmAuto.value.option
+      nutrientId: this.formPpmAuto.value.option,
     };
     this._dataService.post(uri, message).subscribe(
       (data: any) => {},
@@ -134,7 +145,7 @@ export class DeviceControlComponent implements OnInit {
     const uri = "user/ppmAutoOff";
 
     const message = {
-      devicesId: this.device.id
+      devicesId: this.device.id,
     };
     this._dataService.post(uri, message).subscribe(
       (data: any) => {
@@ -150,12 +161,124 @@ export class DeviceControlComponent implements OnInit {
     const message = {
       plantName: this.formPostNutrient.value.plantName,
       ppmMin: this.formPostNutrient.value.ppmMin,
-      ppmMax: this.formPostNutrient.value.ppmMax
+      ppmMax: this.formPostNutrient.value.ppmMax,
     };
     this._dataService.post(uri, message).subscribe(
       (data: any) => {
         this.getNutrients();
       },
+      (err: any) => {
+        console.log(err);
+      }
+    );
+  }
+  controlWaterIn() {
+    this.statusWaterIn = !this.statusWaterIn;
+    console.log(this.statusWaterIn.toString());
+
+    const uri = "user/controlWaterIn";
+
+    const message = {
+      devicesId: this.device.id,
+      message: this.statusWaterIn.toString(),
+    };
+    console.log(message);
+
+    this._dataService.post(uri, message).subscribe(
+      (data: any) => {
+        this.checkWaterIn();
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
+  }
+  checkWaterIn() {
+    const uri = "user/checkWaterIn";
+
+    const message = {
+      devicesId: this.device.id,
+    };
+    console.log(message);
+
+    this._dataService.post(uri, message).subscribe(
+      (data: any) => {},
+      (err: any) => {
+        console.log(err);
+      }
+    );
+  }
+  checkWaterOut() {
+    const uri = "user/checkWaterOut";
+
+    const message = {
+      devicesId: this.device.id,
+    };
+    console.log(message);
+
+    this._dataService.post(uri, message).subscribe(
+      (data: any) => {},
+      (err: any) => {
+        console.log(err);
+      }
+    );
+  }
+  controlWaterOut() {
+    this.statusWaterOut = !this.statusWaterOut;
+    console.log(this.statusWaterOut.toString());
+
+    const uri = "user/controlWaterOut";
+
+    const message = {
+      devicesId: this.device.id,
+      message: this.statusWaterOut.toString(),
+    };
+    console.log(message);
+
+    this._dataService.post(uri, message).subscribe(
+      (data: any) => {
+        this.checkWaterOut();
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
+  }
+
+  controlMix() {
+    this.statusMix = !this.statusMix;
+    console.log(this.statusMix.toString());
+
+    const uri = "user/controlMix";
+
+    const message = {
+      devicesId: this.device.id,
+      message: this.statusMix.toString(),
+    };
+    console.log(message);
+
+    this._dataService.post(uri, message).subscribe(
+      (data: any) => {},
+      (err: any) => {
+        console.log(err);
+      }
+    );
+  }
+
+  addNutrition() {
+    const uri = "user/controlPpm";
+    this.statusAddNutrition = true;
+    setTimeout(() => {
+      this.statusAddNutrition = false;
+    }, 2000);
+
+    const message = {
+      devicesId: this.device.id,
+    };
+    console.log(message);
+
+    this._dataService.post(uri, message).subscribe(
+      (data: any) => {},
       (err: any) => {
         console.log(err);
       }

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { DataService } from "src/app/shared/data.service";
 import { Router } from "@angular/router";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-login",
@@ -25,6 +26,13 @@ export class LoginComponent implements OnInit {
 
     this._dataService.post(uri, this.formSignIn.value).subscribe(
       (data: any) => {
+        Swal.fire({
+          icon: "success",
+          title: "Successul",
+          text: "Đăng nhập thành công",
+          showConfirmButton: false,
+          timer: 2500
+        });
         localStorage.setItem("user", JSON.stringify(data));
         this.router.navigate(["home"]);
       },
@@ -36,7 +44,15 @@ export class LoginComponent implements OnInit {
   _handleOnSubmitSignUp() {
     const uri = "auth/register";
     this._dataService.post(uri, this.formSignUp.value).subscribe(
-      (data: any) => {},
+      (data: any) => {
+        Swal.fire({
+          icon: "success",
+          title: "Successul",
+          text: "Đăng ký thành công",
+          showConfirmButton: false,
+          timer: 2500
+        });
+      },
       (err: any) => {
         console.log(err);
       }

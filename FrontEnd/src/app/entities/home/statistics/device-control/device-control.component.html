@@ -1,101 +1,190 @@
-<table class="table">
-    <tbody>
-        <tr>
-            <td scope="row"></td>
-            <td>
-                <h3>Bơm tay</h3>
-            </td>
-            <td>
-                <div *ngIf="!statusPump; else ElseContent">
-                    <button style="width: 50px" class="btn btn-success" (click)="PumpOn()">On</button>
+<mat-tab-group animationDuration="0ms">
+    <mat-tab label="Thủ công">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td scope="row"></td>
+                    <td>
+                        <h3>Bơm tay</h3>
+                    </td>
+                    <td class="button">
+                        <div *ngIf="!statusPump; else ElseContent">
+                            <button style="width: 50px" class="btn buttonOn " (click)="PumpOn()">On</button>
 
-                </div>
-                <ng-template #ElseContent>
-                    <button style="width: 50px" class="btn btn-danger" (click)="PumpOff()">Off</button>
-                </ng-template>
-            </td>
-        </tr>
-        <tr>
-            <td scope="row"></td>
-            <td>
-                <h3>Bơm tự động</h3>
-                <form #formPumpAuto="ngForm">
+                        </div>
+                        <ng-template #ElseContent>
+                            <button style="width: 50px" class="btn buttonOff" (click)="PumpOff()">Off</button>
+                        </ng-template>
+                    </td>
+                </tr>
 
-                    <div class="form-group">
-                        <label for="">Thời gian bật bơm (s)</label>
-                        <input type="text" #timeOn="ngModel" required name="timeOn" ngModel class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Thời gian tắt bơm (s)</label>
-                        <input type="text" #timeOff="ngModel" name="timeOff" ngModel class="form-control">
-                    </div>
+                <tr>
+                    <td scope="row"></td>
+                    <td>
+                        <h3>Điều chỉnh nước vào</h3>
 
-                </form>
-            </td>
-            <td>
-                <div *ngIf="!statusPumpAuto; else ElseContent11">
-                    <button style="width: 50px" type="submit" class="btn btn-success" (click)="PumpAutoOn()">On</button>
 
-                </div>
-                <ng-template #ElseContent11>
-                    <div>
-                        <button style="width: 50px" type="submit" class="btn btn-danger"
-                            (click)="PumpAutoOff()">Off</button>
-                    </div>
-                </ng-template>
-            </td>
-        </tr>
-        <tr>
-            <td scope="row"></td>
-            <td>
-                <h3>Pha tự động</h3>
-                <form #formPpmAuto="ngForm">
+                        <!-- Rounded switch -->
+                        <label class="switch">
+                            <input [checked]="statusWaterIn" (click)="controlWaterIn()" type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </td>
 
-                    <div class="form-group">
-                        <label for="">Chọn loại cây</label>
-                        <select class="form-control col-lg-8" ngModel option="ngModel" name="option">
-                            <option *ngFor="let item of nutrients; let i = index" value={{item.id}}>
-                                {{item.plant_name}} </option>
-                        </select>
-                    </div>
-                </form>
-            </td>
-            <td>
-                <div *ngIf="!statusPpmAuto; else ElseContent1">
-                    <button style="width: 50px" type="submit" class="btn btn-success" (click)="PpmAutoOn()">On</button>
+                </tr>
+                <tr>
+                    <td scope="row"></td>
+                    <td>
+                        <h3>Điều khiển van nước ra</h3>
 
-                </div>
-                <ng-template #ElseContent1>
-                    <button style="width: 50px" type="submit" class="btn btn-danger" (click)="PpmAutoOff()">Off</button>
-                </ng-template>
-            </td>
-        </tr>
-        <tr>
-            <td scope="row"></td>
-            <td>
-                <h3>Thêm cây trồng mới</h3>
-                <form #formPostNutrient="ngForm">
-                    <div class="form-group">
-                        <label for="">Tên cây trồng</label>
-                        <input type="text" #plantName="ngModel" required name="plantName" ngModel class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="">PPM Min</label>
-                        <input type="text" #ppmMin="ngModel" required name="ppmMin" ngModel class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="">PPM Max</label>
-                        <input type="text" #ppmMax="ngModel" name="ppmMax" ngModel class="form-control">
-                    </div>
 
-                </form>
-            </td>
-            <td>
-                <div>
-                    <button style="width: 80px" type="submit" class="btn btn-success"
-                        (click)="PostNutrient()">Thêm</button>
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
+                        <!-- Rounded switch -->
+                        <label class="switch">
+                            <input [checked]="statusWaterOut" (click)="controlWaterOut()" type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td scope="row"></td>
+                    <td>
+                        <h3>Điều khiển motor khuấy</h3>
+
+                        <!-- Rounded switch -->
+                        <label class="switch">
+                            <input [checked]="statusMix" (click)="controlMix()" type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td scope="row"></td>
+                    <td>
+                        <h3>Thêm dinh dưỡng</h3>
+
+
+                        <!-- Rounded switch -->
+                        <label class="switch">
+                            <input [disabled]="statusAddNutrition" [checked]="statusAddNutrition"
+                                (click)="addNutrition()" type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </td>
+
+                </tr>
+
+
+            </tbody>
+        </table>
+    </mat-tab>
+    <mat-tab label="Tự Động">
+        <table class="table">
+            <tbody>
+
+                <tr>
+                    <td scope="row"></td>
+                    <td>
+                        <h3>Bơm tự động</h3>
+                        <form #formPumpAuto="ngForm">
+                            <div class="row">
+                                <div class="form-group ml-2 mr-2">
+                                    <label for="">Thời gian bật bơm (s)</label>
+                                    <input type="text" #timeOn="ngModel" required name="timeOn" ngModel
+                                        class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Thời gian tắt bơm (s)</label>
+                                    <input type="text" #timeOff="ngModel" name="timeOff" ngModel class="form-control">
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                    <td>
+                        <div *ngIf="!statusPumpAuto; else ElseContent11">
+                            <button style="width: 50px" type="submit" class="btn buttonOn"
+                                (click)="PumpAutoOn()">On</button>
+
+                        </div>
+                        <ng-template #ElseContent11>
+                            <div>
+                                <button style="width: 50px" type="submit" class="btn buttonOff"
+                                    (click)="PumpAutoOff()">Off</button>
+                            </div>
+                        </ng-template>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td scope="row"></td>
+                    <td>
+                        <h3>Pha tự động</h3>
+                        <form #formPpmAuto="ngForm">
+
+                            <div class="form-group">
+                                <label for="">Chọn loại cây</label>
+                                <select class="form-control col-lg-8" ngModel option="ngModel" name="option">
+                                    <option *ngFor="let item of nutrients; let i = index" value={{item.id}}>
+                                        {{item.plant_name}} </option>
+                                </select>
+                            </div>
+                        </form>
+                    </td>
+                    <td>
+                        <div *ngIf="!statusPpmAuto; else ElseContent1">
+                            <button style="width: 50px" type="submit" class="btn buttonOn"
+                                (click)="PpmAutoOn()">On</button>
+
+                        </div>
+                        <ng-template #ElseContent1>
+                            <button style="width: 50px" type="submit" class="btn buttonOff"
+                                (click)="PpmAutoOff()">Off</button>
+                        </ng-template>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </mat-tab>
+    <mat-tab label="Thêm">
+        <table class="table">
+            <tbody>
+
+                <tr>
+                    <td scope="row"></td>
+                    <td>
+                        <h3>Thêm cây trồng mới</h3>
+                        <form #formPostNutrient="ngForm">
+                            <div class="form-group">
+                                <label for="">Tên cây trồng</label>
+                                <input type="text" #plantName="ngModel" required name="plantName" ngModel
+                                    class="form-control">
+                            </div>
+                            <div class="row">
+                                <div class="form-group ml-2 mr-2">
+                                    <label for="">PPM Min</label>
+                                    <input class="ppmInput" type="text" #ppmMin="ngModel" required name="ppmMin" ngModel
+                                        class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">PPM Max</label>
+                                    <input class="ppmInput" type="text" #ppmMax="ngModel" name="ppmMax" ngModel
+                                        class="form-control">
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                    <td>
+                        <div>
+                            <button style="width: 80px" type="submit" class="btn buttonOn"
+                                (click)="PostNutrient()">Thêm</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </mat-tab>
+</mat-tab-group>

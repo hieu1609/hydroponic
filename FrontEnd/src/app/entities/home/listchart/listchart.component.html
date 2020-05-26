@@ -12,9 +12,14 @@
     </form> -->
 
 
-    <div *ngFor="let item of devices; let i = index">
-        <app-chart [id]="item.id" [index]="i"></app-chart>
-    </div>
 
 
+    <mat-tab-group animationDuration="100ms">
+        <div *ngFor="let item of devices; let i = index">
+            <mat-tab [label]="item.id">
+                <app-chart [id]="item.id" [index]="i"></app-chart>
+
+            </mat-tab>
+        </div>
+    </mat-tab-group>
 </div>

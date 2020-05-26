@@ -18,6 +18,10 @@ const routes: Routes = [
       {
         path: "chart",
         loadChildren: "./listchart/listchart.module#ListchartModule"
+      },
+      {
+        path: "contact",
+        loadChildren: "./contact/contact.module#ContactModule"
       }
     ]
   }

@@ -100,14 +100,20 @@
             </div>
         </div>
     </div>
-    <div *ngFor="let item of devices, let i = index">
-        <app-device-statistics [index]="i" [stat]="item"> </app-device-statistics>
-    </div>
+    <mat-tab-group animationDuration="100ms">
+        <div *ngFor="let item of devices, let i = index">
+            <mat-tab [label]="item.id">
+                <app-device-statistics [index]="i" [stat]="item"> </app-device-statistics>
+
+            </mat-tab>
+        </div>
+    </mat-tab-group>
+
 
 </div>
 <div class="recommend">
     <div class="row">
-        <div class="col-lg-7 left veget " [ngClass]="{hungque:veGetType[0],            
+        <div class=" left veget " [ngClass]="{hungque:veGetType[0],            
                 bapcai:veGetType[1],
                 cantay:veGetType[2],
                 caixoong:veGetType[3],
@@ -149,10 +155,16 @@
                 <h2>TDS: {{nutrient.ppm_min}} - {{nutrient.ppm_max}} ppm</h2>
             </div>
         </div>
-        <div class="col-lg-5 right">
-            <div *ngFor="let item of devices">
-                <app-device-control [device]="item"></app-device-control>
-            </div>
+        <div class=" right">
+            <mat-tab-group animationDuration="100ms">
+                <div class="control" *ngFor="let item of devices">
+                    <mat-tab [label]="item.id">
+                        <app-device-control [device]="item"></app-device-control>
+                    </mat-tab>
+
+                </div>
+            </mat-tab-group>
+
         </div>
     </div>
 </div>

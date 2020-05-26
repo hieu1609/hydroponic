@@ -4,7 +4,7 @@ import { Observable, timer, SubscriptionLike } from "rxjs";
 @Component({
   selector: "app-device-statistics",
   templateUrl: "./device-statistics.component.html",
-  styleUrls: ["./device-statistics.component.scss"]
+  styleUrls: ["./device-statistics.component.scss"],
 })
 export class DeviceStatisticsComponent implements OnInit {
   subscription: SubscriptionLike;
@@ -26,13 +26,17 @@ export class DeviceStatisticsComponent implements OnInit {
     this.subscription.unsubscribe();
   }
   getSensor() {
+    console.log(this.stat);
+
     const message = {
-      devicesId: this.stat.id
+      devicesId: this.stat.id,
     };
     const uri = "devices/getSensorData";
     this._dataService.post(uri, message).subscribe(
       (data: any) => {
         this.sensorObj = data.data[0];
+        sessionStorage.setItem("sensorData", JSON.stringify(data.data[0]));
+
         if (this.sensorObj.pump === 0) {
           this.pumpStatusHTML = "OFF";
           this.statusPump = false;
