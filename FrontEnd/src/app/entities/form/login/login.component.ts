@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"]
+  styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit {
   @ViewChild("formSignIn", { static: false }) formSignIn: NgForm;
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   }
   _handleOnSubmit() {
     const uri = "auth/login";
-    if (this.formSignIn.valid) console.log(this.formSignIn.value);
+    // if (this.formSignIn.valid) console.log(this.formSignIn.value);eee
 
     this._dataService.post(uri, this.formSignIn.value).subscribe(
       (data: any) => {
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
           title: "Successul",
           text: "Đăng nhập thành công",
           showConfirmButton: false,
-          timer: 2500
+          timer: 2500,
         });
         localStorage.setItem("user", JSON.stringify(data));
         this.router.navigate(["home"]);
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
           title: "Successul",
           text: "Đăng ký thành công",
           showConfirmButton: false,
-          timer: 2500
+          timer: 2500,
         });
       },
       (err: any) => {

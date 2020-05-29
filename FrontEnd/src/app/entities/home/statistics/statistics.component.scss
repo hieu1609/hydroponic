@@ -419,7 +419,11 @@ p {
   transform: skew(2deg, 2deg);
   transition: all 0.5s;
 }
-
+.recommend {
+  .row {
+    width: 100%;
+  }
+}
 .box:hover .content a {
   opacity: 1;
   visibility: visible;
@@ -431,12 +435,12 @@ p {
   background-repeat: no-repeat;
   height: 600px;
   padding: 0;
-  width: 750px;
+  width: 900px;
 }
 .right {
   padding-right: 0px;
   padding-left: 0px;
-  width: 550px;
+  width: 590px;
 }
 .hungque {
   background-image: url(./../../../../assets/img/hungque.jpg);
