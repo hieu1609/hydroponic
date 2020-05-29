@@ -5,7 +5,40 @@
             <div class="card-header myCardHeader">
                 <div class="row">
                     <div class="col-md-6">
-                        <h3 class="text-left text-primary font-weight-bold">Notification </h3>
+                        <h3 class="text-left text-primary font-weight-bold">Thông tin người dùng </h3>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button class="btn buttonOn mr-2" id="btnThem" data-toggle="modal" data-target="#myModal0"> Đổi
+                            mật khẩu</button>
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="info">
+                    <h3>Tên người dùng :{{user.username}} </h3>
+                    <h3>Email : {{user.email}}</h3>
+                    <h3>Địa chỉ : {{user.city}}</h3>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+
+    </div>
+</div>
+<div class="margintop">
+    <div class="container mt-5">
+        <div class="card text-center">
+
+            <div class="card-header myCardHeader">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 class="text-left text-primary font-weight-bold">Liên Hệ </h3>
                     </div>
                     <div class="col-md-6 text-right">
                         <button class="btn buttonOn mr-2" id="btnThem" data-toggle="modal" data-target="#myModal2"><i
@@ -110,6 +143,63 @@
 
         <!-- form edit -->
         <!-- The Modal -->
+        <div class="modal fade" id="myModal0">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <header class="head-form mb-0">
+                        <h2>Đổi mật khẩu</h2>
+                    </header>
+
+
+                    <div class="modal-body">
+
+                        <form #formChangePass="ngForm">
+
+                            <span>Mật khẩu hiện tại <input type="text" type="password" minlength="6" maxlength="16"
+                                    name="currentPassword" required #currentPassword="ngModel" ngModel></span>
+
+                            <p class="alert alert-danger mt-2"
+                                *ngIf="currentPassword?.errors?.required && (currentPassword.dirty || currentPassword.touched)">
+                                Vui lòng xác nhập mật khẩu hiện tại</p>
+                            <p class="alert alert-danger mt-2"
+                                *ngIf="currentPassword?.errors?.minlength || currentPassword?.errors?.maxlength">
+                                Mật khẩu phải từ 6 đến 16 kí tự</p>
+
+                            <span>Mật khẩu mới <input type="text" minlength="6" maxlength="16" type="password"
+                                    #newPassword="ngModel" required name="newPassword" ngModel></span>
+                            <p class="alert alert-danger mt-2"
+                                *ngIf="newPassword?.errors?.required &&  (newPassword.dirty || newPassword.touched)">
+                                Vui lòng nhập mật khẩu mới </p>
+                            <p class="alert alert-danger mt-2"
+                                *ngIf="newPassword?.errors?.minlength || newPassword?.errors?.maxlength">
+                                Mật khẩu phải từ 6 đến 16 kí tự</p>
+                            <span>Xác nhận mật khẩu <input minlength="6" maxlength="16" type="text" type="password"
+                                    pattern="{{ newPassword.value }}" #confirmNewPassword="ngModel" required
+                                    name="confirmNewPassword" ngModel></span>
+                            <p class="alert alert-danger mt-2"
+                                *ngIf="confirmNewPassword?.errors?.required &&  (confirmNewPassword.dirty || confirmNewPassword.touched)">
+                                Vui lòng nhập xác nhận mật khẩu mới </p>
+                            <p class="alert alert-danger mt-2"
+                                *ngIf="confirmNewPassword?.errors?.minlength || confirmNewPassword?.errors?.maxlength">
+                                Mật khẩu phải từ 6 đến 16 kí tự</p>
+                            <p class="alert alert-danger mt-2" *ngIf="confirmNewPassword?.errors?.pattern"> Xác nhận
+                                phải trùng với mật khẩu</p>
+                        </form>
+
+                    </div>
+
+
+                    <div class="modal-footer" id="modal-footer">
+
+                        <button id="btnCapNhat" type="button" (click)="_handleOnSubmitChangePassForm()"
+                            class="btn btn-success">Xác nhận</button>
+                        <button id="btnDong" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="myModal1">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -140,7 +230,8 @@
                                     #content="ngModel" required ngModel>Content</textarea>
                                 <p class="alert alert-danger mt-2"
                                     *ngIf="content?.errors?.required && (content.dirty || content.touched)">
-                                    Vui lòng nhập mô tả sản phẩm </p></span>
+                                    Vui lòng nhập mô tả sản phẩm </p>
+                            </span>
                         </form>
 
                     </div>
@@ -179,7 +270,8 @@
                                     #content="ngModel" required ngModel>Content</textarea>
                                 <p class="alert alert-danger mt-2"
                                     *ngIf="content?.errors?.required && (content.dirty || content.touched)">
-                                    Content is required</p></span>
+                                    Content is required</p>
+                            </span>
                         </form>
 
                     </div>
@@ -230,3 +322,4 @@
             </div>
         </div>
     </div>
+</div>

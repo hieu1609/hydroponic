@@ -27,6 +27,10 @@
 ::ng-deep .container {
   margin-top: 80px;
 }
+.info {
+  padding-left: 50px;
+  text-align: left;
+}
 img.smallImage {
   width: 200px;
   height: 200px;
@@ -61,6 +65,7 @@ textarea {
     }
   }
 }
+#myModal0,
 #myModal1,
 #myModal2 {
   header {
