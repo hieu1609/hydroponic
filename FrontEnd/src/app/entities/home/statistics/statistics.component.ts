@@ -10,6 +10,7 @@ import { Router } from "@angular/router";
 export class StatisticsComponent implements OnInit {
   constructor(private _dataService: DataService, private router: Router) {}
   forecast: any;
+  forecastFlag: boolean = false;
   weather: any = [];
   devices: any = [];
   nutrients: any = [];
@@ -104,7 +105,10 @@ export class StatisticsComponent implements OnInit {
     this._dataService.post(uri, "").subscribe(
       (data: any) => {
         console.log(data);
-        this.forecast = data.days;
+        this.forecast = data.data.days;
+        console.log(this.forecast[6]["10-13"].temperature.now.value);
+        let a = this.forecast[6]["10-13"].time.day.date;
+        this.forecastFlag = true;
       },
       (err: any) => {
         console.log(err);
