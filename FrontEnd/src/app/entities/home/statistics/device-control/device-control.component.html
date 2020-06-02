@@ -150,39 +150,42 @@
         </table>
     </mat-tab>
     <mat-tab label="Thêm">
-        <table class="table">
+        <table class="table ">
             <tbody>
 
                 <tr>
-                    <td scope="row"></td>
-                    <td>
-                        <h3>Thêm cây trồng mới</h3>
+
+                    <td style="padding-left: 30px;">
+                        <h3 class="pt-2">Thêm cây trồng mới</h3>
                         <form #formPostNutrient="ngForm">
-                            <div class="form-group">
+                            <div class="form-group ml-2">
                                 <label for="">Tên cây trồng</label>
                                 <input type="text" #plantName="ngModel" required name="plantName" ngModel
                                     class="form-control">
                             </div>
-                            <div class="row">
-                                <div class="form-group ml-2 mr-2">
-                                    <label for="">PPM Min</label>
-                                    <input class="ppmInput" type="text" #ppmMin="ngModel" required name="ppmMin" ngModel
-                                        class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">PPM Max</label>
-                                    <input class="ppmInput" type="text" #ppmMax="ngModel" name="ppmMax" ngModel
-                                        class="form-control">
-                                </div>
+
+                            <div class="form-group ml-2 mr-2">
+                                <label for="">PPM Min</label>
+                                <input class="ppmInput" type="text" #ppmMin="ngModel" required name="ppmMin" ngModel
+                                    class="form-control">
                             </div>
+                            <div class="form-group ml-2">
+                                <label for="">PPM Max</label>
+                                <input class="ppmInput" type="text" #ppmMax="ngModel" name="ppmMax" ngModel
+                                    class="form-control">
+                            </div>
+
                         </form>
                     </td>
-                    <td>
-                        <div>
-                            <button style="width: 80px" type="submit" class="btn buttonOn"
-                                (click)="PostNutrient()">Thêm</button>
-                        </div>
-                    </td>
+
+
+                </tr>
+                <tr style="border: none;padding-left: 40px;">
+                    <div>
+                        <button style="width: 80px;margin-left: 40px; " type="submit" class="btn buttonOn"
+                            (click)="PostNutrient()">Thêm</button>
+                    </div>
+
                 </tr>
             </tbody>
         </table>

@@ -5,11 +5,12 @@ import { Router } from "@angular/router";
 @Component({
   selector: "app-statistics",
   templateUrl: "./statistics.component.html",
-  styleUrls: ["./statistics.component.scss"]
+  styleUrls: ["./statistics.component.scss"],
 })
 export class StatisticsComponent implements OnInit {
   constructor(private _dataService: DataService, private router: Router) {}
-
+  forecast: any;
+  forecastFlag: boolean = false;
   weather: any = [];
   devices: any = [];
   nutrients: any = [];
@@ -24,7 +25,7 @@ export class StatisticsComponent implements OnInit {
     false,
     false,
     false,
-    false
+    false,
   ];
   ngOnInit() {
     if (sessionStorage.getItem("nutrients")) {
@@ -46,6 +47,7 @@ export class StatisticsComponent implements OnInit {
     } else {
       this.getCurrentWeather();
     }
+    this.getWeatherForecast();
   }
 
   getCurrentWeather() {
@@ -99,11 +101,14 @@ export class StatisticsComponent implements OnInit {
     this.nutrient = this.nutrients[type];
   }
   getWeatherForecast() {
-    const uri = "weather/currentweather";
+    const uri = "weather/forecast";
     this._dataService.post(uri, "").subscribe(
       (data: any) => {
         console.log(data);
-        this.weather = data.data;
+        this.forecast = data.data.days;
+        console.log(this.forecast[6]["10-13"].temperature.now.value);
+        let a = this.forecast[6]["10-13"].time.day.date;
+        this.forecastFlag = true;
       },
       (err: any) => {
         console.log(err);
