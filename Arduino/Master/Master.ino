@@ -82,8 +82,8 @@ static int protothread1(struct pt *pt, int interval, PubSubClient MQTT, String m
     timestamp = millis(); // take a new timestamp
     
     //convert string to char array & publish
-    char buffer[64];
-    message.toCharArray(buffer, 64);
+    char buffer[32];
+    message.toCharArray(buffer, 32);
     MQTT.publish("thuycanhiot@gmail.com/update",buffer);
   }
   PT_END(pt);
@@ -132,7 +132,7 @@ void loop()
   
   Wire.beginTransmission(8); /* begin with device address 8 */
 
-  Wire.requestFrom(8, 64); /* request & read data of size 13 from slave */
+  Wire.requestFrom(8, 32); /* request & read data of size 13 from slave */
   while(Wire.available())
   {
     char c = Wire.read(); 
