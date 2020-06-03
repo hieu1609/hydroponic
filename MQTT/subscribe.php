@@ -15,16 +15,22 @@ function procmsg($topic, $msg){
   $time = $now->format('Y-m-d H:i:s');
   echo $time;
   echo "\n";
+  echo $msg;
+  echo "\n";
   $array = explode("=", $msg);
-  if($array[10] == null){
+  if($array[7] == null){
     echo "0";
     echo "\n";
   }
   else {
-    //6=30.25=68.36=282=0.54=376=56.20=0=0=0=0
+    $pump = $array[7][0];
+    $water_in = $array[7][1];
+    $water_out = $array[7][2];
+    $mix = $array[7][3];
+    //6=30=68=282=0.54=376=56=0000
     $conn = mysqli_connect("localhost", "root", "", "hydroponic");
     $query = "INSERT INTO sensors (id, device_id, temperature, humidity, light, EC, PPM, water, pump, water_in, water_out, mix, created_at, updated_at)
-    VALUES (null, '$array[0]', '$array[1]', '$array[2]', '$array[3]', '$array[4]', '$array[5]', '$array[6]', '$array[7]', '$array[8]', '$array[9]', '$array[10]', '$time', '$time')";
+    VALUES (null, '$array[0]', '$array[1]', '$array[2]', '$array[3]', '$array[4]', '$array[5]', '$array[6]', '$pump', '$water_in', '$water_out', '$mix', '$time', '$time')";
     $dta = mysqli_query($conn, $query);
     if ($dta) {
       echo "1";
