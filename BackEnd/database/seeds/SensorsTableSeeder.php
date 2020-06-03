@@ -16,7 +16,7 @@ class SensorsTableSeeder extends Seeder
         $sensors = [
             [
                 'device_id' => 1,
-                'temperature' => 28.47,
+                'temperature' => 28,
                 'humidity' => 56,
                 'light' => 532,
                 'EC' => 1.62,
@@ -31,7 +31,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 2,
-                'temperature' => 27.85,
+                'temperature' => 27,
                 'humidity' => 59,
                 'light' => 560,
                 'EC' => 1.75,
@@ -46,7 +46,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 3,
-                'temperature' => 33.76,
+                'temperature' => 33,
                 'humidity' => 86,
                 'light' => 125,
                 'EC' => 0.94,
@@ -61,7 +61,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 4,
-                'temperature' => 23.65,
+                'temperature' => 23,
                 'humidity' => 66,
                 'light' => 362,
                 'EC' => 0.84,
@@ -76,7 +76,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 5,
-                'temperature' => 28.47,
+                'temperature' => 28,
                 'humidity' => 56,
                 'light' => 532,
                 'EC' => 1.62,
@@ -91,7 +91,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 6,
-                'temperature' => 13.98,
+                'temperature' => 13,
                 'humidity' => 30,
                 'light' => 495,
                 'EC' => 1.53,
@@ -106,7 +106,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 7,
-                'temperature' => 35.64,
+                'temperature' => 35,
                 'humidity' => 21,
                 'light' => 1329,
                 'EC' => 1.78,
@@ -121,7 +121,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 6,
-                'temperature' => 13.99,
+                'temperature' => 13,
                 'humidity' => 30,
                 'light' => 496,
                 'EC' => 1.43,
@@ -136,7 +136,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 6,
-                'temperature' => 14.52,
+                'temperature' => 14,
                 'humidity' => 30,
                 'light' => 494,
                 'EC' => 1.41,
@@ -151,7 +151,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 6,
-                'temperature' => 15.11,
+                'temperature' => 15,
                 'humidity' => 29,
                 'light' => 484,
                 'EC' => 1.42,
@@ -166,7 +166,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 6,
-                'temperature' => 16.11,
+                'temperature' => 16,
                 'humidity' => 23,
                 'light' => 488,
                 'EC' => 1.39,
@@ -181,7 +181,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 6,
-                'temperature' => 16.35,
+                'temperature' => 16,
                 'humidity' => 22,
                 'light' => 492,
                 'EC' => 1.43,
@@ -196,7 +196,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 6,
-                'temperature' => 16.10,
+                'temperature' => 16,
                 'humidity' => 25,
                 'light' => 485,
                 'EC' => 1.38,
@@ -211,7 +211,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 6,
-                'temperature' => 16.12,
+                'temperature' => 16,
                 'humidity' => 24,
                 'light' => 481,
                 'EC' => 1.37,
@@ -226,7 +226,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 6,
-                'temperature' => 17.20,
+                'temperature' => 17,
                 'humidity' => 22,
                 'light' => 480,
                 'EC' => 1.38,
@@ -241,7 +241,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 6,
-                'temperature' => 18.35,
+                'temperature' => 18,
                 'humidity' => 21,
                 'light' => 474,
                 'EC' => 1.42,
@@ -256,7 +256,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 6,
-                'temperature' => 20.21,
+                'temperature' => 20,
                 'humidity' => 31,
                 'light' => 412,
                 'EC' => 1.29,
@@ -271,7 +271,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 6,
-                'temperature' => 21.29,
+                'temperature' => 21,
                 'humidity' => 31,
                 'light' => 488,
                 'EC' => 1.41,
@@ -286,7 +286,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 6,
-                'temperature' => 22.17,
+                'temperature' => 22,
                 'humidity' => 35,
                 'light' => 496,
                 'EC' => 1.41,
@@ -301,7 +301,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 6,
-                'temperature' => 23.41,
+                'temperature' => 23,
                 'humidity' => 35,
                 'light' => 498,
                 'EC' => 1.40,
@@ -316,7 +316,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 6,
-                'temperature' => 23.79,
+                'temperature' => 23,
                 'humidity' => 35,
                 'light' => 510,
                 'EC' => 1.41,
@@ -331,7 +331,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 6,
-                'temperature' => 22.15,
+                'temperature' => 22,
                 'humidity' => 36,
                 'light' => 512,
                 'EC' => 1.40,
@@ -346,7 +346,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 6,
-                'temperature' => 24.29,
+                'temperature' => 24,
                 'humidity' => 37,
                 'light' => 518,
                 'EC' => 1.38,
@@ -361,7 +361,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 6,
-                'temperature' => 25.41,
+                'temperature' => 25,
                 'humidity' => 40,
                 'light' => 540,
                 'EC' => 1.38,
@@ -376,7 +376,7 @@ class SensorsTableSeeder extends Seeder
             ],
             [
                 'device_id' => 6,
-                'temperature' => 26.11,
+                'temperature' => 26,
                 'humidity' => 42,
                 'light' => 558,
                 'EC' => 1.40,
