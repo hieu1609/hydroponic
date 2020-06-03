@@ -16,7 +16,7 @@ class CreateSensorsTable extends Migration
         Schema::create('sensors', function (Blueprint $table) {
             $table->increments('id')->unique();
             $table->integer('device_id')->unsigned()->index();
-            $table->float('temperature')->default(0);
+            $table->integer('temperature')->default(0);
             $table->integer('humidity')->default(0);
             $table->integer('light')->default(0);
             $table->float('EC')->default(0);
