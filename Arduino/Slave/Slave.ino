@@ -19,6 +19,7 @@ static struct pt pt1; //thread
 DHT dht(DHTPIN, DHTTYPE);
 const int Light =  A2;
 String dataSend = "";
+String dataSend1 = "";
 const unsigned int BAUD_RATE = 9600;
 /////EC
 #define ONE_WIRE_BUS 5
@@ -130,14 +131,20 @@ void loop() {
   //GetEC();
   protothread1(&pt1, 5000);
   // id, device_id, temperature, humidity, light, EC, PPM, water, pump, water_in, water_out, mix
-  // temp = 30;
-  // hum = 68;
-  // lig = 1258;
-  // EC25 = 1.42;
-  // ppm = 1253;
-  // distancesend = 64;
-  dataSend = "6="+(String)temp+"="+(String)hum+"="+(String)lig+"="+(String)EC25+"="+(String)ppm+"="+(String)distancesend+"="+(String)relayStatus+(String)waterInStatus+(String)waterOutStatus+(String)mixStatus;
+//   temp = 25 + rand() % 2 - 1;
+//   hum = 50 + rand() % 2 - 1;
+//   lig = 1100 + rand() % 10 - 5;
+//   EC25 = 1.42 + (rand() % 2 - 1)/10;
+//   ppm = 1000 + rand() % 20 - 10;
+//   distancesend = 64 + rand() % 2 - 1;
+  dataSend1 = "6="+(String)temp+"="+(String)hum+"="+(String)lig+"="+(String)EC25+"="+(String)ppm+"="+(String)distancesend+"="+(String)relayStatus+(String)waterInStatus+(String)waterOutStatus+(String)mixStatus;
 //  dataSend = "6=26=42=1258=1.40=1253=56=1000";
+  if(dataSend1.length() <= 32){
+    dataSend = dataSend1;
+  }
+  else {
+    dataSend = "";
+  }
   Serial.println(dataSend);
   delay(2000); 
 }
