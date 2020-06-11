@@ -37,7 +37,13 @@ export class DeviceControlComponent implements OnInit {
       let data = JSON.parse(sessionStorage.getItem("sensorData"));
       this.statusWaterIn = data.water_in;
       this.statusWaterOut = data.water_out;
-      this.statusMix = data.Mix;
+      this.statusMix = data.mix;
+
+      if (data.pump === 0) {
+        this.statusPump = false;
+      } else {
+        this.statusPump = true;
+      }
     }
   }
   PumpOn() {
@@ -172,21 +178,36 @@ export class DeviceControlComponent implements OnInit {
       }
     );
   }
+  waterInFunc() {
+    this.controlWaterIn();
+    this.checkWaterIn();
+  }
+  waterOutFunc() {
+    this.controlWaterOut();
+    this.checkWaterOut();
+  }
   controlWaterIn() {
     this.statusWaterIn = !this.statusWaterIn;
     console.log(this.statusWaterIn.toString());
 
     const uri = "user/controlWaterIn";
-
+    let status;
+    if (this.statusWaterIn) {
+      status = "1";
+    } else {
+      status = "0";
+    }
     const message = {
       devicesId: this.device.id,
-      message: this.statusWaterIn.toString(),
+      message: status,
     };
-    console.log(message);
+    console.log("water in");
 
     this._dataService.post(uri, message).subscribe(
       (data: any) => {
-        this.checkWaterIn();
+        console.log("success");
+
+        // this.checkWaterIn();
       },
       (err: any) => {
         console.log(err);
@@ -225,19 +246,23 @@ export class DeviceControlComponent implements OnInit {
   }
   controlWaterOut() {
     this.statusWaterOut = !this.statusWaterOut;
-    console.log(this.statusWaterOut.toString());
 
     const uri = "user/controlWaterOut";
-
+    let status;
+    if (this.statusWaterOut) {
+      status = "1";
+    } else {
+      status = "0";
+    }
     const message = {
       devicesId: this.device.id,
-      message: this.statusWaterOut.toString(),
+      message: status,
     };
-    console.log(message);
+    console.log("water out");
 
     this._dataService.post(uri, message).subscribe(
       (data: any) => {
-        this.checkWaterOut();
+        // this.checkWaterOut();
       },
       (err: any) => {
         console.log(err);
@@ -248,12 +273,17 @@ export class DeviceControlComponent implements OnInit {
   controlMix() {
     this.statusMix = !this.statusMix;
     console.log(this.statusMix.toString());
-
+    let status;
+    if (this.statusMix) {
+      status = "1";
+    } else {
+      status = "0";
+    }
     const uri = "user/controlMix";
 
     const message = {
       devicesId: this.device.id,
-      message: this.statusMix.toString(),
+      message: status,
     };
     console.log(message);
 

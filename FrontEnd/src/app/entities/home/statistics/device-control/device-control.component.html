@@ -26,7 +26,7 @@
 
                         <!-- Rounded switch -->
                         <label class="switch">
-                            <input [checked]="statusWaterIn" (click)="controlWaterIn()" type="checkbox">
+                            <input [checked]="statusWaterIn" (click)="waterInFunc()" type="checkbox">
                             <span class="slider round"></span>
                         </label>
                     </td>
@@ -40,7 +40,7 @@
 
                         <!-- Rounded switch -->
                         <label class="switch">
-                            <input [checked]="statusWaterOut" (click)="controlWaterOut()" type="checkbox">
+                            <input [checked]="statusWaterOut" (click)="waterOutFunc()" type="checkbox">
                             <span class="slider round"></span>
                         </label>
                     </td>
@@ -91,12 +91,12 @@
                         <form #formPumpAuto="ngForm">
                             <div class="row">
                                 <div class="form-group ml-2 mr-2">
-                                    <label for="">Thời gian bật bơm (s)</label>
+                                    <label for="">Thời gian bật bơm (m)</label>
                                     <input type="text" #timeOn="ngModel" required name="timeOn" ngModel
                                         class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Thời gian tắt bơm (s)</label>
+                                    <label for="">Thời gian tắt bơm (m)</label>
                                     <input type="text" #timeOff="ngModel" name="timeOff" ngModel class="form-control">
                                 </div>
                             </div>
