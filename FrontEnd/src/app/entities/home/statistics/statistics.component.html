@@ -73,28 +73,28 @@
                     <div class="week-container row" *ngIf="forecastFlag; else ElseContentName1">
 
                         <div class="col-sm-3">
+                            <h5>{{this.forecast[4]["10-13"].time.day.date.split(" ", 1)}}</h5>
+                            <h5>Temp : {{this.forecast[4]["10-13"].temperature.now.value}}°C</h5>
+                            <h5>Wind : {{this.forecast[4]["10-13"].wind.speed.value}} m/s</h5>
+                            <h5>Hum : {{this.forecast[4]["10-13"].humidity.value}}% </h5>
+                        </div>
+                        <div class="col-sm-3">
+                            <h5>{{this.forecast[5]["10-13"].time.day.date.split(" ", 1)}} </h5>
+                            <h5>Temp : {{this.forecast[5]["10-13"].temperature.now.value}}°C</h5>
+                            <h5>Wind : {{this.forecast[5]["10-13"].wind.speed.value}} m/s</h5>
+                            <h5>Hum : {{this.forecast[5]["10-13"].humidity.value}}% </h5>
+                        </div>
+                        <div class="col-sm-3">
                             <h5>{{this.forecast[6]["10-13"].time.day.date.split(" ", 1)}}</h5>
                             <h5>Temp : {{this.forecast[6]["10-13"].temperature.now.value}}°C</h5>
                             <h5>Wind : {{this.forecast[6]["10-13"].wind.speed.value}} m/s</h5>
-                            <h5>Hum : {{this.forecast[6]["10-13"].humidity.value}}% </h5>
+                            <h5>Hum : {{this.forecast[6]["10-13"].humidity.value}} % </h5>
                         </div>
                         <div class="col-sm-3">
-                            <h5>{{this.forecast[7]["10-13"].time.day.date.split(" ", 1)}} </h5>
+                            <h5>{{this.forecast[7]["10-13"].time.day.date.split(" ", 1)}}</h5>
                             <h5>Temp : {{this.forecast[7]["10-13"].temperature.now.value}}°C</h5>
                             <h5>Wind : {{this.forecast[7]["10-13"].wind.speed.value}} m/s</h5>
                             <h5>Hum : {{this.forecast[7]["10-13"].humidity.value}}% </h5>
-                        </div>
-                        <div class="col-sm-3">
-                            <h5>{{this.forecast[1]["10-13"].time.day.date.split(" ", 1)}}</h5>
-                            <h5>Temp : {{this.forecast[1]["10-13"].temperature.now.value}}°C</h5>
-                            <h5>Wind : {{this.forecast[1]["10-13"].wind.speed.value}} m/s</h5>
-                            <h5>Hum : {{this.forecast[1]["10-13"].humidity.value}} % </h5>
-                        </div>
-                        <div class="col-sm-3">
-                            <h5>{{this.forecast[2]["10-13"].time.day.date.split(" ", 1)}}</h5>
-                            <h5>Temp : {{this.forecast[2]["10-13"].temperature.now.value}}°C</h5>
-                            <h5>Wind : {{this.forecast[2]["10-13"].wind.speed.value}} m/s</h5>
-                            <h5>Hum : {{this.forecast[2]["10-13"].humidity.value}}% </h5>
                         </div>
 
 
@@ -136,7 +136,7 @@
     <mat-tab-group animationDuration="100ms">
         <div *ngFor="let item of devices, let i = index">
             <mat-tab [label]="item.id">
-                <app-device-statistics [index]="i" [stat]="item"> </app-device-statistics>
+                <app-device-statistics id="stat" [index]=" i" [stat]="item"> </app-device-statistics>
 
             </mat-tab>
         </div>

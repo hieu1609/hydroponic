@@ -26,7 +26,7 @@ export class ManagementComponent implements OnInit {
         });
 
         // localStorage.setItem("user", JSON.stringify(data));
-        this.router.navigate(["/admin"]);
+        this.router.navigate([""]);
       },
       (err: any) => {
         console.log(err);

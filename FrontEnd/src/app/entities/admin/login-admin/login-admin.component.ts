@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { DataService } from "src/app/shared/data.service";
 import { Router } from "@angular/router";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-login-admin",
@@ -22,10 +23,15 @@ export class LoginAdminComponent implements OnInit {
         // if(data.data.)
         console.log(data.data.user.admin == 1);
         if (data.data.user.admin == 1) {
-          localStorage.setItem("user", JSON.stringify(data));
+          sessionStorage.setItem("admin", JSON.stringify(data));
           this.router.navigate(["dashboard"]);
         } else {
-          alert("Bạn không có quyền truy cập trang này !");
+          Swal.fire({
+            icon: "error",
+            title: "You don't have permission to access",
+            showConfirmButton: false,
+            timer: 1500
+          });
         }
       },
       (err: any) => {

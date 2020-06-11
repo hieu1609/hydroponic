@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 @Component({
   selector: "app-user-management",
   templateUrl: "./user-management.component.html",
-  styleUrls: ["./user-management.component.scss"]
+  styleUrls: ["./user-management.component.scss"],
 })
 export class UserManagementComponent implements OnInit {
   @ViewChild("formSignUp", { static: false }) formSignUp: NgForm;
@@ -25,7 +25,7 @@ export class UserManagementComponent implements OnInit {
   getAllUsers(page) {
     const uri = `admin/getUserAdmin`;
     let message = {
-      page
+      page,
     };
     this.currentPage = page;
     this._dataService.post(uri, message).subscribe(
@@ -54,7 +54,7 @@ export class UserManagementComponent implements OnInit {
           icon: "success",
           title: "Delete User Successful",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
       },
       (err: any) => {}
@@ -67,13 +67,15 @@ export class UserManagementComponent implements OnInit {
       email: item.email,
       username: item.username,
       city: item.city,
-      admin: item.admin
+      admin: item.admin,
     });
     this.editflag = true;
   }
 
   _handleOnSubmitEditForm() {
     const uri = `admin/${this.idUserEdit}`;
+    console.log(this.formEdit.value);
+
     this._dataService.put(uri, this.formEdit.value).subscribe(
       (data: any) => {
         this.getAllUsers(this.currentPage);
@@ -81,7 +83,7 @@ export class UserManagementComponent implements OnInit {
           icon: "success",
           title: "Update Successful",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
       },
       (err: any) => {}
@@ -96,7 +98,7 @@ export class UserManagementComponent implements OnInit {
           icon: "success",
           title: "Add User Successful",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
         this.formSignUp.resetForm();
       },
