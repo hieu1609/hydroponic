@@ -1,4 +1,5 @@
 <?php
+header("Content-type: text/html; charset=utf-8");
 class Database {
  
     public $host = "localhost";
@@ -15,7 +16,7 @@ class Database {
  
     private function connectDB(){
         $this->link = new mysqli($this->host,$this->user, $this->pass, $this->dbname);
-
+        mysqli_set_charset($this->link, 'UTF8');
         if(!$this->link) {
             $this->error ="connection fail".$this->link->connect_error;
             return false;

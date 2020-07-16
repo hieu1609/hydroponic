@@ -7,6 +7,8 @@
     // $test->GetPumpAutomatic();
     // $test->GetPpmAutomatic();
     // $test->GetNutrients();
+    // $test->UpdatePumpAutomatic(4,5,10,1);
+    // $test->UpdatePpmAutomatic(4,3,0,0);
 	class Data{
 		public function GetAllDevices() {
             $sql = "SELECT * FROM `devices`";
@@ -51,6 +53,13 @@
             }
 			return $pumpAuto;
         }
+        
+        public function UpdatePumpAutomatic($deviceId, $timeOn, $timeOff, $auto) {
+            $sql = "UPDATE `pump_automatic` SET `time_on`={$timeOn},`time_off`={$timeOff},
+            `auto`={$auto} WHERE `device_id` = {$deviceId}";
+            $db = new Database();
+            $db->insert($sql);
+        }
 
         public function GetPpmAutomatic() {
             $sql = "SELECT * FROM `ppm_automatic`";
@@ -63,6 +72,13 @@
                 echo $row['auto_status']."<br>"."<br>";
             }
 			return $ppmAuto;
+        }
+
+        public function UpdatePpmAutomatic($deviceId, $nutrientId, $autoMode, $autoStatus) {
+            $sql = "UPDATE `ppm_automatic` SET `nutrient_id`={$nutrientId},`auto_mode`={$autoMode},
+            `auto_status`={$autoStatus} WHERE `device_id` = {$deviceId}";
+            $db = new Database();
+            $db->insert($sql);
         }
 
         public function GetNutrients() {
