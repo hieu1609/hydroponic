@@ -19,6 +19,14 @@ if (isset($_POST["selectDevice"])) {
     }
 }
 
+if (isset($_POST["selectDeviceAuto"])) {
+    $device = $_POST["selectDeviceAuto"];
+    $_SESSION["device"] = $device;
+
+    $dt = new Data();
+    $dt->RenderAutoControlButton($_SESSION["device"]);
+}
+
 if (isset($_POST["pump"])) {
     $dt = new Data();
     $status;

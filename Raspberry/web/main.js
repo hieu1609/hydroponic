@@ -40,6 +40,29 @@ $("body").delegate("#device", "click", function () {
   });
 });
 
+$("body").delegate("#device", "click", function () {
+  var device = $(this).attr("device");
+  console.log(device);
+  $.ajax({
+    url: "./web/action.php",
+    method: "POST",
+    data: { selectDeviceAuto: device },
+    success: function (data) {
+      $("#controlAutoButton").html(data);
+      btns = document.querySelectorAll(".button");
+      for (const btn of btns) {
+        btn.addEventListener("click", () => {
+          btn.classList.toggle("pushed");
+          var state = btn.innerText;
+          console.log(state);
+          state = state == "BẬT" ? "TẮT" : "BẬT";
+          btn.innerText = state;
+        });
+      }
+    },
+  });
+});
+
 const selectElement = document.querySelector(".nutrients");
 selectElement.addEventListener("change", (event) => {
   console.log(event.target.value);

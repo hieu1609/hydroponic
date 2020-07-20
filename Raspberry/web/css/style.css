@@ -82,6 +82,28 @@ body.dark .btnname {
     color: white;
 }
 
+body.dark .controller #controlAutoButton .controller .input input {
+    margin-bottom: 10px;
+    font-size: 18px;
+    padding-left: 10px;
+    border: none;
+    border-radius: 8px;
+    height: 50px;
+    box-shadow: -4px -4px 5px #313533, inset 4px 4px 5px rgba(0, 0, 0, 0.2), inset -4px -4px 10px rgba(255, 255, 255, 1), 4px 4px 5px rgba(0, 0, 0, 0.1);
+}
+
+body.dark .controller #controlAutoButton .controller .input select {
+    font-size: 18px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    border: 1px solid #999;
+    border: none;
+    border-radius: 8px;
+    height: 50px;
+    box-shadow: -4px -4px 5px #313533, inset 4px 4px 5px rgba(0, 0, 0, 0.2), inset -4px -4px 10px rgba(255, 255, 255, 1), 4px 4px 5px rgba(0, 0, 0, 0.1);
+}
+
 body {
     width: 100%;
     background: var(--back);
@@ -158,12 +180,29 @@ h2 {
     width: 90%
 }
 
+.controller #controlAutoButton {
+    margin-left: 50px;
+    width: 90%
+}
+
 .controller #controlButton .controller {
+    width: 90%
+}
+
+.controller #controlAutoButton .controller {
     width: 90%
 }
 
 .controller #controlButton .controller label {
     width: 270px
+}
+
+.controller #controlAutoButton .controller label {
+    width: 270px
+}
+
+.controller .controlButton .controller label {
+    width: 400px
 }
 
 .controller .controlAutoButton .controller label {
@@ -180,12 +219,44 @@ h2 {
 .controller #controlButton .controller .input select {
     font-size: 15px;
     padding-left: 10px;
+    border: 1px solid #999;
 }
 
 .controller #controlButton .controller .input input {
     margin-bottom: 10px;
     font-size: 18px;
     padding-left: 10px;
+    border: none;
+    box-shadow: -4px -4px 5px rgba(255, 255, 255, 1), inset 4px 4px 5px rgba(0, 0, 0, 0.2), inset -4px -4px 10px rgba(255, 255, 255, 1), 4px 4px 5px rgba(0, 0, 0, 0.1);
+}
+
+.controller #controlAutoButton .controller .input {
+    width: 100%;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.controller #controlAutoButton .controller .input select {
+    font-size: 18px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    border: 1px solid #999;
+    border: none;
+    border-radius: 8px;
+    height: 50px;
+    box-shadow: -4px -4px 5px #f1f5f3, inset 4px 4px 5px rgba(0, 0, 0, 0.2), inset -4px -4px 10px rgba(255, 255, 255, 1), 4px 4px 5px rgba(0, 0, 0, 0.1);
+}
+
+.controller #controlAutoButton .controller .input input {
+    margin-bottom: 10px;
+    font-size: 18px;
+    padding-left: 10px;
+    border: none;
+    border-radius: 8px;
+    height: 50px;
+    box-shadow: -4px -4px 5px #f1f5f3, inset 4px 4px 5px rgba(0, 0, 0, 0.2), inset -4px -4px 10px rgba(255, 255, 255, 1), 4px 4px 5px rgba(0, 0, 0, 0.1);
 }
 
 /*all of this project done by Suman Majhi*/

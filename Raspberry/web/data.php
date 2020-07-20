@@ -183,7 +183,7 @@ class Data
                         <input type="text" id="time_on" placeholder="Thời gian bật">
                         <input type="text" id="time_off" placeholder="Thời gian tắt">
                     </div>
-                    <button id="pump_auto" class="button">BẬT</button>
+                    <button id="ppm_auto_button" class="button">BẬT</button>
                     </div>                     
                 DELIMITER;
                 echo $pump;

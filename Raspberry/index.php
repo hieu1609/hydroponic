@@ -141,7 +141,7 @@ $_SESSION["device"] = $device;
             <h2>ĐIỀU KHIỂN TỰ ĐỘNG</h2>
         </div>
         <div class="controller" style="--i:0">
-            <div id="controlButton" class="controlAutoButton">
+            <div id="controlAutoButton" class="controlAutoButton">
                 <?php
                 $cp->RenderAutoControlButton($_SESSION["device"]);
                 ?>
