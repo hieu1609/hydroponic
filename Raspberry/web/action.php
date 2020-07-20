@@ -8,6 +8,9 @@ $setdvice = false;
 if (isset($_POST["selectDevice"])) {
     $device = $_POST["selectDevice"];
     $_SESSION["device"] = $device;
+
+    $dt = new Data();
+    $dt->RenderButton($_SESSION["device"]);
 } else {
     $dt = new Data();
     $device = $dt->GetDefaultDevice();
@@ -15,6 +18,87 @@ if (isset($_POST["selectDevice"])) {
         $_SESSION["device"] = $device;
     }
 }
+
+if (isset($_POST["pump"])) {
+    $dt = new Data();
+    $status;
+    if (isset($_POST["status"])) {
+        $status = $_POST["status"];
+    }
+    $dt->UpdatePump($_SESSION["device"], $status);
+    // echo "Mực nước: {$row['water']}";
+}
+
+if (isset($_POST["water_in"])) {
+    $dt = new Data();
+    $status;
+    if (isset($_POST["status"])) {
+        $status = $_POST["status"];
+    }
+    $dt->UpdateWaterIn($_SESSION["device"], $status);
+    // echo "Mực nước: {$row['water']}";
+}
+
+if (isset($_POST["water_out"])) {
+    $dt = new Data();
+    $status;
+    if (isset($_POST["status"])) {
+        $status = $_POST["status"];
+    }
+    $dt->UpdateWaterOut($_SESSION["device"], $status);
+    // echo "Mực nước: {$row['water']}";
+}
+
+if (isset($_POST["mix"])) {
+    $dt = new Data();
+    $status;
+    if (isset($_POST["status"])) {
+        $status = $_POST["status"];
+    }
+    $dt->UpdateMix($_SESSION["device"], $status);
+    // echo "Mực nước: {$row['water']}";
+}
+
+
+if (isset($_POST["ppm_auto"])) {
+    $dt = new Data();
+    $status;
+    $nutrientID;
+    if (isset($_POST["nutrientID"])) {
+        $nutrientID = $_POST["nutrientID"];
+    }
+    if (isset($_POST["status"])) {
+        $status = $_POST["status"];
+    }
+    $dt->UpdatePpmAutomatic($_SESSION["device"], $nutrientID, $status);
+    // echo "Mực nước: {$row['water']}";
+}
+
+if (isset($_POST["pump_auto"])) {
+    $dt = new Data();
+    $status;
+    $time_on;
+    $time_off;
+    if (isset($_POST["time_on"])) {
+        $time_on = $_POST["time_on"];
+    }
+
+    if (isset($_POST["time_off"])) {
+        $time_off = $_POST["time_off"];
+    }
+
+    if (isset($_POST["status"])) {
+        $status = $_POST["status"];
+    }
+    $dt->UpdatePumpAutomatic($_SESSION["device"], $time_on, $time_off, $status);
+    // echo "Mực nước: {$row['water']}";
+}
+
+
+
+
+
+
 if (isset($_POST["water"])) {
     $sql = "SELECT `water` FROM `sensors` WHERE `device_id` = {$_SESSION["device"]} ORDER BY `id` DESC LIMIT 1";
     $db = new Database();
