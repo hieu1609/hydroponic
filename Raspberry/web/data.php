@@ -108,6 +108,14 @@ class Data
         return $pumpAuto;
     }
 
+    public function UpdatePumpAutomatic($deviceId, $timeOn, $timeOff, $auto)
+    {
+        $sql = "UPDATE `pump_automatic` SET `time_on`={$timeOn},`time_off`={$timeOff},
+        `auto`={$auto} WHERE `device_id` = {$deviceId}";
+        $db = new Database();
+        $db->insert($sql);
+    }
+
     public function GetPpmAutomatic()
     {
 
@@ -148,8 +156,16 @@ class Data
             echo $row['plant_name'] . "<br>";
             echo $row['ppm_min'] . "<br>";
             echo $row['ppm_max'] . "<br>" . "<br>";
+
+            return $nutrients;
         }
-        return $nutrients;
+    }
+    public function UpdatePpmAutomatic($deviceId, $nutrientId, $autoMode, $autoStatus)
+    {
+        $sql = "UPDATE `ppm_automatic` SET `nutrient_id`={$nutrientId},`auto_mode`={$autoMode},
+        `auto_status`={$autoStatus} WHERE `device_id` = {$deviceId}";
+        $db = new Database();
+        $db->insert($sql);
     }
 }
 ?>
