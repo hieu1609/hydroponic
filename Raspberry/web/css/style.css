@@ -1,0 +1,291 @@
+@import url('https://fonts.googleapis.com/css?family=Spartan&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&display=swap"');
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Playfair Display', serif;
+    box-sizing: border-box;
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+}
+
+h2 {
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+    padding: 30px;
+}
+
+body {
+    --shadow: 250, 250, 255;
+    --shadow-out: -5px -5px 8px rgba(var(--shadow), 1), -5px -5px 12px rgba(var(--shadow), 0.5), inset 5px 5px 4px rgba(var(--shadow), 0.1), 5px 5px 8px rgba(0, 0, 0, 0.15);
+    --shadow-in: inset -5px -5px 8px rgba(var(--shadow), .7), inset -5px -5px 12px rgba(var(--shadow), 0.5), inset 5px 5px 4px rgba(var(--shadow), 0.1), inset 5px 5px 8px rgba(0, 0, 0, 0.15);
+    --m: 255, 210, 0;
+    --main: rgb(var(--m));
+    --mainbg: rgba(var(--m), 0.20);
+    --back: #f1f5f3;
+    --backi: #313533;
+    font-family: 'Playfair Display', serif;
+}
+
+.card {
+    background: #fff;
+    border-radius: 2px;
+    display: inline-block;
+    height: 250px;
+    margin: 1rem;
+    position: relative;
+    width: 300px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    /* padding-left: 50px;
+    padding-right: 50px; */
+    justify-content: center;
+    text-align: center;
+}
+
+.row i {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: black;
+    font-size: 100px;
+}
+
+.card-1:hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+body.dark {
+    --shadow-out: -5px -5px 8px rgba(255, 255, 255, 0.06), 5px 5px 8px rgba(0, 0, 0, 0.3);
+    --shadow-in: inset -5px -5px 8px rgba(255, 255, 255, 0.05), inset 5px 5px 8px rgba(0, 0, 0, 0.3);
+    --mainbg: rgba(var(--m), 0.10);
+    --back: #313533;
+    --backi: #f1f5f3;
+}
+
+body.dark h2 {
+    color: #f1f5f3;
+}
+
+body {
+    width: 100%;
+    background: var(--back);
+}
+
+.container {
+    display: flex;
+    position: relative;
+    /* margin: 0px 10vw 100px; */
+    letter-spacing: 3px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.fa {
+    font-size: 30px;
+    color: var(--main);
+}
+
+.mode {
+    top: 25px;
+    right: 0px;
+    height: 30px;
+    width: 50px;
+    border-radius: 50px;
+    background: linear-gradient(140deg, var(--backi), #a1a5a3);
+}
+
+.title {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    padding-top: 40px;
+    color: #aaa;
+    font-size: 28px;
+    line-height: 60px;
+    text-transform: uppercase;
+    text-align: center;
+    align-items: center;
+}
+
+h1 {
+    width: 100%;
+    margin: 30px 0px;
+    font-weight: 300;
+}
+
+.controller {
+    display: flex;
+    position: relative;
+    max-width: 600px;
+    width: 100%;
+    margin: 25px 0 25px 0;
+    padding: 30px 50px;
+    border-radius: 10px;
+    font-size: 24px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    box-shadow: var(--shadow-out);
+    animation: slide 1s ease-out forwards;
+    animation-delay: calc(var(--i)*0.3s);
+    opacity: 0;
+}
+
+/*all of this project done by Suman Majhi*/
+
+@keyframes slide {
+    0% {
+        transform: translateX(-200px);
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.button {
+    position: relative;
+    width: 160px;
+    height: 70px;
+    background: transparent;
+    color: #999;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    line-height: 77px;
+    outline: none;
+    border: none;
+    border-bottom-right-radius: 32px;
+    border-top-left-radius: 32px;
+    box-shadow: var(--shadow-out);
+    transition: all ease 0.1s;
+}
+
+/* .button:hover {
+    transform: translateY(-5px);
+} */
+
+/* .button.pushed:hover {
+    transform: translateY(-5px) scale(0.97);
+} */
+
+.button.pushed {
+    content: '';
+    color: #00ffa2;
+    transform: scale(0.98);
+    text-shadow: 0 0 15px #00ffa2;
+    box-shadow: var(--shadow-in);
+    transition: all ease 0.1s;
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 20px;
+    margin: 35px 0 20px;
+    background: var(--back);
+    box-shadow: var(--shadow-in);
+    outline: none;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+input[type=range]::-moz-range-track {
+    background: transparent;
+}
+
+input[type=range]::-ms-track {
+    width: 100%;
+    height: 20px;
+    background: var(--back);
+    box-shadow: var(--shadow-in);
+    outline: none;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 30px;
+    height: 20px;
+    border-radius: 50px;
+    background: linear-gradient(150deg, var(--back), var(--main));
+    box-shadow: -1015px 0px 0px 1000px var(--mainbg);
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+input[type=range]::-moz-range-thumb {
+    width: 30px;
+    height: 20px;
+    border-radius: 50px;
+    background: linear-gradient(150deg, var(--back), var(--main));
+    box-shadow: -1015px 0px 0px 1000px var(--mainbg);
+    border: none;
+    cursor: pointer;
+}
+
+input[type=range]::-ms-thumb {
+    width: 30px;
+    height: 20px;
+    border-radius: 50px;
+    background-color: var(--main);
+    background: linear-gradient(150deg, var(--back), var(--main));
+    box-shadow: -1015px 0px 0px 1000px var(--mainbg);
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+.btnname {
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+    color: var(--main);
+    background: transparent;
+    font-size: 28px;
+    font-weight: 300;
+    text-transform: uppercase;
+    line-height: 60px;
+    outline: none;
+    border: none;
+    border-bottom-right-radius: 35px;
+    border-top-left-radius: 35px;
+}
+
+@media only screen and (max-width: 600px) {
+    .controller {
+        padding: 30px;
+    }
+    .btnname {
+        font-size: 20px;
+    }
+    .button {
+        height: 60px;
+        width: 100px;
+        font-size: 16px;
+        line-height: 65px;
+    }
+    .button:hover, .button.pushed:hover {
+        transform: none;
+    }
+    h1 {
+        font-size: 38px;
+    }
+}

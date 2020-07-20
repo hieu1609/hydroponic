@@ -18,7 +18,8 @@ static struct pt pt1; //thread
 
 DHT dht(DHTPIN, DHTTYPE);
 const int Light =  A2;
-String dataSend;
+String dataSend = "";
+String dataSend1 = "";
 const unsigned int BAUD_RATE = 9600;
 /////EC
 #define ONE_WIRE_BUS 5
@@ -67,8 +68,8 @@ float buffer1 = 0;
 float distance;
 void setup() {
   Wire.begin(8);                /* join i2c bus with address 8 */
-  Wire.onReceive(receiveEvent); /* register receive event */
-  Wire.onRequest(requestEvent); /* register request event */
+//  Wire.onReceive(receiveEvent); /* register receive event */
+//  Wire.onRequest(requestEvent); /* register request event */
 
   PT_INIT(&pt1);  //thread 1
   
@@ -96,6 +97,8 @@ void setup() {
 }
 
 void loop() {
+  Wire.onReceive(receiveEvent); /* register receive event */
+  Wire.onRequest(requestEvent); /* register request event */
   if(checkppm == 1){
     digitalWrite(RelayPpm, HIGH);
     delay(1000);
@@ -103,7 +106,7 @@ void loop() {
     checkppm = 0;
   }
   int hum = dht.readHumidity();    //Đọc độ ẩm
-  float temp = dht.readTemperature(); //Đọc nhiệt độ
+  int temp = dht.readTemperature(); //Đọc nhiệt độ
   int lig = analogRead(Light);
   digitalWrite(TRIG_PIN, LOW);
   delayMicroseconds(2);
@@ -124,19 +127,31 @@ void loop() {
   sensors.requestTemperatures();// Send the command to get temperatures
   Temperature = sensors.getTempCByIndex(0); //Stores Value in Variable
   /////////////////////////////EC PPM
-  protothread1(&pt1, 5000);          //Calls Code to Go into GetEC() Loop [Below Main Loop] dont call this more than 1/5 hhz [once every five seconds] or you will polarise the water
+  //Calls Code to Go into GetEC() Loop [Below Main Loop] dont call this more than 1/5 hhz [once every five seconds] or you will polarise the water
+  //GetEC();
+  protothread1(&pt1, 5000);
   // id, device_id, temperature, humidity, light, EC, PPM, water, pump, water_in, water_out, mix
-  //  temp = 30.25;
-  //  hum = 68;
-  dataSend = "6="+(String)temp+"="+(String)hum+"="+(String)lig+"="+(String)EC25+"="+(String)ppm+"="+(String)distancesend+"="+(String)relayStatus+"="+(String)waterInStatus+"="+(String)waterOutStatus+"="+(String)mixStatus;
-  //  dataSend = "6=26.11=42=558=1.40=753=56=1=0=0=0";
-  Serial.println(dataSend); 
-  delay(1000); 
+//   temp = 25 + rand() % 2 - 1;
+//   hum = 50 + rand() % 2 - 1;
+//   lig = 1100 + rand() % 10 - 5;
+//   EC25 = 1.42 + (rand() % 2 - 1)/10;
+//   ppm = 1000 + rand() % 20 - 10;
+//   distancesend = 64 + rand() % 2 - 1;
+  dataSend1 = "6="+(String)temp+"="+(String)hum+"="+(String)lig+"="+(String)EC25+"="+(String)ppm+"="+(String)distancesend+"="+(String)relayStatus+(String)waterInStatus+(String)waterOutStatus+(String)mixStatus;
+//  dataSend = "6=26=42=1258=1.40=1253=56=1000";
+  if(dataSend1.length() <= 32){
+    dataSend = dataSend1;
+  }
+  else {
+    dataSend = "";
+  }
+  Serial.println(dataSend);
+  delay(2000); 
 }
 
 // function that executes whenever data is received from master
 void receiveEvent(int howMany) {
-  String data;
+  String data="";
   while (0 < Wire.available()) {
     char SlaveReceived = Wire.read();/* receive byte as a character */
     data += SlaveReceived; /* print the character */
@@ -223,8 +238,8 @@ void receiveEvent(int howMany) {
 
 // function that executes whenever data is requested from master
 void requestEvent() { /*send string on request */
-  char buffer[64];
-  dataSend.toCharArray(buffer,64);
+  char buffer[32];
+  dataSend.toCharArray(buffer,32);
   Wire.write(buffer);
 }
 

@@ -5,10 +5,10 @@ $host = 'maqiatto.com';
 $port = 1883;
 $user = 'thuycanhiot@gmail.com';
 $pass = 'Lancuoi1234@';
-$topic = 'thuycanhiot@gmail.com/update';
+$topic = 'thuycanhiot@gmail.com/6=pump';
 $client_id = "publisher";
 
-$message = "Hello CloudMQTT!";
+$message = "1";
 
 $mqtt = new Bluerhinos\phpMQTT($host, $port, $client_id);
 if ($mqtt->connect(true, NULL, $user, $pass)) {
