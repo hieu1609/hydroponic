@@ -38,10 +38,20 @@ if (isset($_POST["pump"])) {
 }
 
 if (isset($_POST["water_in"])) {
+
+
     $dt = new Data();
     $status;
     if (isset($_POST["status"])) {
         $status = $_POST["status"];
+        if($status == 1){
+            $command = escapeshellcmd('4_pump_on.py');
+            $output = shell_exec($command);
+        }
+        else {
+            $command = escapeshellcmd('4_pump_off.py');
+            $output = shell_exec($command);
+        }
     }
     $dt->UpdateWaterIn($_SESSION["device"], $status);
     // echo "Mực nước: {$row['water']}";

@@ -18,7 +18,6 @@ $device = $cp->GetDefaultDevice();
 session_start();
 $_SESSION["device"] = $device;
 
-
 ?>
 
 <body>

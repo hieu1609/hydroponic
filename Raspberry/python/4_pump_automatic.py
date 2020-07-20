@@ -2,6 +2,10 @@ import time
 import random
 from mysql.connector import Error
 import mysql.connector
+from smbus2 import SMBus
+
+addr = 7
+bus = SMBus(1)
 
 try:
     while True:
@@ -14,25 +18,25 @@ try:
         cursor = connection.cursor(dictionary=True)
         cursor.execute(sql_select_Query)
         records = cursor.fetchone()
-        # print(records)
+
         if records["auto"] == 1:
             print("automatic on")
             timeon = records["time_on"]
             timeoff = records["time_off"]
             print("pump on")
-            time.sleep(1)
+            dataSend = device + "=pump=1"
+            dataSend = dataSend.encode()
+            bus.write_i2c_block_data(addr, 0, dataSend)
+            time.sleep(timeon)
             print("pump off ")
-            time.sleep(1)
+            dataSend = device + "=pump=0"
+            dataSend = dataSend.encode()
+            bus.write_i2c_block_data(addr, 0, dataSend)
+            time.sleep(timeoff)
         elif records["auto"] == 0:
             print("automatic off")
-            time.sleep(1)
             break
 
-        # for row in records:
-        #     print("Id = ", row[0], )
-        #     print("Name = ", row[1])
-        #     print("ppmmin  = ", row[2])
-        #     print("ppmmax  = ", row[3], "\n")
 except Error as e:
     print("Error reading data from MySQL table", e)
 finally:
