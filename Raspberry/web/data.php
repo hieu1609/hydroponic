@@ -197,7 +197,7 @@ class Data
             if ($row['auto_mode'] == 1) {
                 $pumpAuto = <<<DELIMITER
                     <div class="controller" style="--i:1">
-                    <label class="btnname" style="width:400px; text-align:center">Bơm Tuần Hoàn</label>
+                    <label class="btnname" style="width:400px; text-align:center">Pha Tự Động</label>
                     <div class="input">
                         <select class="nutrients" id="nutrients" name="nutrients">
                             <option value=1 selected>Húng quế</option>
@@ -220,7 +220,7 @@ class Data
             } else {
                 $ppmAuto = <<<DELIMITER
                     <div class="controller" style="--i:1">
-                    <label class="btnname" style="width:400px; text-align:center">Bơm Tuần Hoàn</label>
+                    <label class="btnname" style="width:400px; text-align:center">Pha Tự Động</label>
                     <div class="input">
                         <select class="nutrients" id="nutrients" name="nutrients">
                             <option value=1 selected>Húng quế</option>
