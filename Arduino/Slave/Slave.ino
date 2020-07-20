@@ -20,7 +20,7 @@ DHT dht(DHTPIN, DHTTYPE);
 const int Light =  A2;
 String dataSend = "";
 String dataSend1 = "";
-const unsigned int BAUD_RATE = 9600;
+
 /////EC
 #define ONE_WIRE_BUS 5
 int R1 = 850;
@@ -28,14 +28,13 @@ int Ra = 25; //Resistance of powering Pins
 int ECPin = A0;
 int ECGround = A1; //=> Cam vs GND
 int ECPower = A3;
-int relayStatus=0;
+int pumpStatus=0;
 int waterInStatus=0;
 int waterOutStatus=0;
 int mixStatus=0;
 float distance1;
 float distancelast;
 int distancesend;
-int SlaveReceived=0;
 //*********** Converting to ppm [Learn to use EC it is much better**************//
 // Hana      [USA]        PPMconverion:  0.5
 // Eutech    [EU]          PPMconversion:  0.64
@@ -63,7 +62,6 @@ float raw = 0;
 float Vin = 5;
 float Vdrop = 0;
 float Rc = 0;
-float buffer1 = 0;
 /////
 float distance;
 void setup() {
@@ -137,7 +135,7 @@ void loop() {
 //   EC25 = 1.42 + (rand() % 2 - 1)/10;
 //   ppm = 1000 + rand() % 20 - 10;
 //   distancesend = 64 + rand() % 2 - 1;
-  dataSend1 = "6="+(String)temp+"="+(String)hum+"="+(String)lig+"="+(String)EC25+"="+(String)ppm+"="+(String)distancesend+"="+(String)relayStatus+(String)waterInStatus+(String)waterOutStatus+(String)mixStatus;
+  dataSend1 = "6="+(String)temp+"="+(String)hum+"="+(String)lig+"="+(String)EC25+"="+(String)ppm+"="+(String)distancesend+"="+(String)pumpStatus+(String)waterInStatus+(String)waterOutStatus+(String)mixStatus;
 //  dataSend = "6=26=42=1258=1.40=1253=56=1000";
   if(dataSend1.length() <= 32){
     dataSend = dataSend1;
@@ -171,13 +169,13 @@ void receiveEvent(int howMany) {
       //Turn on pump
       Serial.println("Turn on pump");
       digitalWrite(RelayPump, HIGH);
-      relayStatus=1;
+      pumpStatus=1;
     }
     else if (mess == "0") {
       //Turn off pump
       Serial.println("Turn off pump");
       digitalWrite(RelayPump, LOW);
-      relayStatus=0;
+      pumpStatus=0;
     }
   }
   else if (topic == "ppm") {
