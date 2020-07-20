@@ -16,17 +16,19 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, message):
     mess = message.payload.decode()
     topic = str(message.topic).split("/")[1]
+    idDevice = str(topic).split("=")[0]
     topic1 = str(topic).split("=")[1]
     dataSend = topic + "=" + mess
     print("Data Recieved: " + dataSend)
     if (topic1 == "ppmAuto"):
         #update database
        print("call python ppm auto")
-       subprocess.call(" python rasp.py 1", shell=True)
+       command = "python " + idDevice + "_pump_auto_on.py 1" 
+       subprocess.call(command, shell=True)
     elif (topic1 == "pumpAuto"):
         #update database
        print("call python pump auto")
-       subprocess.call(" python rasp.py 1", shell=True)
+       subprocess.call("python rasp.py 1", shell=True)
     else:
        print("send topic message to arduino")
        dataSend = dataSend.encode()
