@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Spartan&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&display=swap"');
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&display=swap"');
 * {
     margin: 0;
     padding: 0;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Merriweather', serif;
     box-sizing: border-box;
     -webkit-touch-callout: none;
     /* iOS Safari */
@@ -19,7 +19,7 @@
 }
 
 h2 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Merriweather', serif;
     text-align: center;
     padding: 30px;
 }
@@ -78,6 +78,10 @@ body.dark h2 {
     color: #f1f5f3;
 }
 
+body.dark .btnname {
+    color: white;
+}
+
 body {
     width: 100%;
     background: var(--back);
@@ -112,12 +116,13 @@ body {
     width: 100%;
     max-width: 700px;
     padding-top: 40px;
-    color: #aaa;
+    color: black;
     font-size: 28px;
     line-height: 60px;
     text-transform: uppercase;
     text-align: center;
     align-items: center;
+    font-weight: bold;
 }
 
 h1 {
@@ -126,22 +131,61 @@ h1 {
     font-weight: 300;
 }
 
+h2 {
+    font-weight: bold;
+}
+
 .controller {
     display: flex;
     position: relative;
-    max-width: 600px;
+    max-width: 900px;
     width: 100%;
     margin: 25px 0 25px 0;
     padding: 30px 50px;
     border-radius: 10px;
     font-size: 24px;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-wrap: wrap;
     box-shadow: var(--shadow-out);
     animation: slide 1s ease-out forwards;
     animation-delay: calc(var(--i)*0.3s);
     opacity: 0;
+}
+
+.controller #controlButton {
+    margin-left: 50px;
+    width: 90%
+}
+
+.controller #controlButton .controller {
+    width: 90%
+}
+
+.controller #controlButton .controller label {
+    width: 270px
+}
+
+.controller .controlAutoButton .controller label {
+    width: 400px
+}
+
+.controller #controlButton .controller .input {
+    width: 100%;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.controller #controlButton .controller .input select {
+    font-size: 15px;
+    padding-left: 10px;
+}
+
+.controller #controlButton .controller .input input {
+    margin-bottom: 10px;
+    font-size: 18px;
+    padding-left: 10px;
 }
 
 /*all of this project done by Suman Majhi*/
@@ -162,7 +206,7 @@ h1 {
     height: 70px;
     background: transparent;
     color: #999;
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 700;
     letter-spacing: 3px;
     text-transform: uppercase;
@@ -257,10 +301,10 @@ input[type=range]::-ms-thumb {
     position: relative;
     display: inline-block;
     margin-right: 10px;
-    color: var(--main);
+    color: black;
     background: transparent;
     font-size: 28px;
-    font-weight: 300;
+    font-weight: bold;
     text-transform: uppercase;
     line-height: 60px;
     outline: none;

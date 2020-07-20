@@ -1,18 +1,11 @@
 <?php
 header("Content-type: text/html; charset=utf-8");
-<<<<<<< HEAD
 class Database
 {
-
-=======
-class Database {
- 
->>>>>>> 8a9e945c6de9dd5ab48a331996c7665fb807757a
     public $host = "localhost";
     public $user = "root";
     public $pass = "";
     public $dbname = "raspberry";
-
     public $link;
     public $error;
 
@@ -20,7 +13,6 @@ class Database {
     {
         $this->connectDB();
     }
-<<<<<<< HEAD
 
     private function connectDB()
     {
@@ -28,14 +20,6 @@ class Database {
         mysqli_set_charset($this->link, 'UTF8');
         if (!$this->link) {
             $this->error = "connection fail" . $this->link->connect_error;
-=======
- 
-    private function connectDB(){
-        $this->link = new mysqli($this->host,$this->user, $this->pass, $this->dbname);
-        mysqli_set_charset($this->link, 'UTF8');
-        if(!$this->link) {
-            $this->error ="connection fail".$this->link->connect_error;
->>>>>>> 8a9e945c6de9dd5ab48a331996c7665fb807757a
             return false;
         }
     }

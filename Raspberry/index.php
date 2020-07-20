@@ -22,7 +22,7 @@ $_SESSION["device"] = $device;
 ?>
 
 <body>
-    <h2>Thông số hệ thống thủy canh</h2>
+    <h2>THÔNG SỐ HỆ THỐNG THỦY CANH</h2>
     <div class="deviceList">
         <?php
         $device = $cp->GetAllDevices();
@@ -107,7 +107,7 @@ $_SESSION["device"] = $device;
             setInterval(function() {
 
                 updateSensor();
-            }, 5000);
+            }, 1000);
         </script>
     </div>
     <div class="container">
@@ -115,46 +115,42 @@ $_SESSION["device"] = $device;
             <h2>Điều khiển</h2>
         </div>
         <div class="controller" style="--i:0">
-            <i class="fa fa-plus"></i>
+            <!-- <i class="fa fa-plus"></i> -->
             <div class="mode"></div>
+            <div id="controlButton">
+                <?php
+                $cp->RenderButton($_SESSION["device"]);
+                ?>
+            </div>
+
         </div>
-        <div class="controller" style="--i:1">
-            <label class="btnname">Van nước vào</label>
-            <button class="button" onclick="goPython()" href="">off</button>
-            <script>
-                function goPython() {
-                    var id = 4;
-                    var func = "pump.py";
-                    var fileName = "./web/" + id + func;
-                    console.log(fileName);
-                    $
-                    $.ajax({
-                        type: 'POST',
-                        dataType: "text",
-                        url: fileName,
-                        context: document.body
-                    }).done(function() {
-                        alert('finished python script');;
-                    });
-                }
-            </script>
+
+        <!-- <div class="controller" style="--i:2">
+            <label class="btnname">title</label>
+            <input type="range" id="rangeValue" class="range" name="" value="0" min="0" max="255">
         </div>
-        <div class="controller" style="--i:1">
-            <label class="btnname">Van nước ra</label>
+        <div class="controller" style="--i:3">
+            <label class="btnname">title</label>
             <button class="button" href="">off</button>
+            <input type="range" id="rangeValue" class="range" name="" value="0" min="0" max="255">
+        </div> -->
+    </div>
+
+    <div class="container">
+        <div class="title">
+            <h2>ĐIỀU KHIỂN TỰ ĐỘNG</h2>
         </div>
-        <div class="controller" style="--i:1">
-            <label class="btnname">Motor trộn</label>
-            <button class="button" href="">off</button>
+        <div class="controller" style="--i:0">
+            <div id="controlButton" class="controlAutoButton">
+                <?php
+                $cp->RenderAutoControlButton($_SESSION["device"]);
+                ?>
+
+
+            </div>
+
         </div>
-        <div class="controller" style="--i:1">
-            <label class="btnname">Bơm</label>
-            <button class="button" href="">off</button>
-        </div>
-        <div class="controller" style="--i:1">
-            <label class="btnname">Pha tự động</label>
-            <button class="button" href="">off</button>
-        </div>
+
         <!-- <div class="controller" style="--i:2">
             <label class="btnname">title</label>
             <input type="range" id="rangeValue" class="range" name="" value="0" min="0" max="255">
