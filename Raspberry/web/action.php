@@ -32,29 +32,35 @@ if (isset($_POST["pump"])) {
     $status;
     if (isset($_POST["status"])) {
         $status = $_POST["status"];
+        if ($status == 1) {
+            $file_name = $_SESSION["device"]  . "_pump_on.py";
+            $command = escapeshellcmd($file_name);
+            $output = shell_exec($command);
+        } else {
+            $file_name = $_SESSION["device"]  . "_pump_off.py";
+            $command = escapeshellcmd($file_name);
+            $output = shell_exec($command);
+        }
     }
-    $dt->UpdatePump($_SESSION["device"], $status);
+    // $dt->UpdatePump($_SESSION["device"], $status);
     // echo "Mực nước: {$row['water']}";
 }
 
 if (isset($_POST["water_in"])) {
-
-
     $dt = new Data();
     $status;
     if (isset($_POST["status"])) {
         $status = $_POST["status"];
-        if($status == 1){
-            $command = escapeshellcmd('4_pump_on.py');
+        if ($status == 1) {
+            $file_name = $_SESSION["device"]  . "_water_in_on.py";
+            $command = escapeshellcmd($file_name);
             $output = shell_exec($command);
-        }
-        else {
-            $command = escapeshellcmd('4_pump_off.py');
+        } else {
+            $file_name = $_SESSION["device"]  . "_water_in_off.py";
+            $command = escapeshellcmd($file_name);
             $output = shell_exec($command);
         }
     }
-    $dt->UpdateWaterIn($_SESSION["device"], $status);
-    // echo "Mực nước: {$row['water']}";
 }
 
 if (isset($_POST["water_out"])) {
@@ -62,8 +68,17 @@ if (isset($_POST["water_out"])) {
     $status;
     if (isset($_POST["status"])) {
         $status = $_POST["status"];
+        if ($status == 1) {
+            $file_name = $_SESSION["device"]  . "_water_out_on.py";
+            $command = escapeshellcmd($file_name);
+            $output = shell_exec($command);
+        } else {
+            $file_name = $_SESSION["device"]  . "_water_out_off.py";
+            $command = escapeshellcmd($file_name);
+            $output = shell_exec($command);
+        }
     }
-    $dt->UpdateWaterOut($_SESSION["device"], $status);
+    // $dt->UpdateWaterOut($_SESSION["device"], $status);
     // echo "Mực nước: {$row['water']}";
 }
 
@@ -72,8 +87,17 @@ if (isset($_POST["mix"])) {
     $status;
     if (isset($_POST["status"])) {
         $status = $_POST["status"];
+        if ($status == 1) {
+            $file_name = $_SESSION["device"]  . "_mix_on.py";
+            $command = escapeshellcmd($file_name);
+            $output = shell_exec($command);
+        } else {
+            $file_name = $_SESSION["device"]  . "_mix_off.py";
+            $command = escapeshellcmd($file_name);
+            $output = shell_exec($command);
+        }
     }
-    $dt->UpdateMix($_SESSION["device"], $status);
+    // $dt->UpdateMix($_SESSION["device"], $status);
     // echo "Mực nước: {$row['water']}";
 }
 
@@ -89,6 +113,16 @@ if (isset($_POST["ppm_auto"])) {
         $status = $_POST["status"];
     }
     $dt->UpdatePpmAutomatic($_SESSION["device"], $nutrientID, $status);
+
+    if ($status == 1) {
+        $file_name = $_SESSION["device"]  . "_ppm_automatic_on.py";
+        $command = escapeshellcmd($file_name);
+        $output = shell_exec($command);
+    } else {
+        $file_name = $_SESSION["device"]  . "_ppm_automatic_off.py";
+        $command = escapeshellcmd($file_name);
+        $output = shell_exec($command);
+    }
     // echo "Mực nước: {$row['water']}";
 }
 
@@ -109,13 +143,18 @@ if (isset($_POST["pump_auto"])) {
         $status = $_POST["status"];
     }
     $dt->UpdatePumpAutomatic($_SESSION["device"], $time_on, $time_off, $status);
+
+    if ($status == 1) {
+        $file_name = $_SESSION["device"]  . "_pump_automatic_on.py";
+        $command = escapeshellcmd($file_name);
+        $output = shell_exec($command);
+    } else {
+        $file_name = $_SESSION["device"]  . "_pump_automatic_off.py";
+        $command = escapeshellcmd($file_name);
+        $output = shell_exec($command);
+    }
     // echo "Mực nước: {$row['water']}";
 }
-
-
-
-
-
 
 if (isset($_POST["water"])) {
     $sql = "SELECT `water` FROM `sensors` WHERE `device_id` = {$_SESSION["device"]} ORDER BY `id` DESC LIMIT 1";
