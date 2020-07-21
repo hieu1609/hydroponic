@@ -33,17 +33,13 @@ if (isset($_POST["pump"])) {
     if (isset($_POST["status"])) {
         $status = $_POST["status"];
         if ($status == 1) {
-            $file_name = $_SESSION["device"]  . "_pump_on.py";
-            $command = escapeshellcmd($file_name);
-            $output = shell_exec($command);
+            $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_pump_on.py";
+            exec($file_name);
         } else {
-            $file_name = $_SESSION["device"]  . "_pump_off.py";
-            $command = escapeshellcmd($file_name);
-            $output = shell_exec($command);
+            $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_pump_off.py";
+            exec($file_name);
         }
     }
-    // $dt->UpdatePump($_SESSION["device"], $status);
-    // echo "Mực nước: {$row['water']}";
 }
 
 if (isset($_POST["water_in"])) {
@@ -52,13 +48,11 @@ if (isset($_POST["water_in"])) {
     if (isset($_POST["status"])) {
         $status = $_POST["status"];
         if ($status == 1) {
-            $file_name = $_SESSION["device"]  . "_water_in_on.py";
-            $command = escapeshellcmd($file_name);
-            $output = shell_exec($command);
+            $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_water_in_on.py";
+            exec($file_name);
         } else {
-            $file_name = $_SESSION["device"]  . "_water_in_off.py";
-            $command = escapeshellcmd($file_name);
-            $output = shell_exec($command);
+            $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_water_in_off.py";
+            exec($file_name);
         }
     }
 }
@@ -69,17 +63,13 @@ if (isset($_POST["water_out"])) {
     if (isset($_POST["status"])) {
         $status = $_POST["status"];
         if ($status == 1) {
-            $file_name = $_SESSION["device"]  . "_water_out_on.py";
-            $command = escapeshellcmd($file_name);
-            $output = shell_exec($command);
+            $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_water_out_on.py";
+            exec($file_name);
         } else {
-            $file_name = $_SESSION["device"]  . "_water_out_off.py";
-            $command = escapeshellcmd($file_name);
-            $output = shell_exec($command);
+            $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_water_out_off.py";
+            exec($file_name);
         }
     }
-    // $dt->UpdateWaterOut($_SESSION["device"], $status);
-    // echo "Mực nước: {$row['water']}";
 }
 
 if (isset($_POST["mix"])) {
@@ -88,17 +78,13 @@ if (isset($_POST["mix"])) {
     if (isset($_POST["status"])) {
         $status = $_POST["status"];
         if ($status == 1) {
-            $file_name = $_SESSION["device"]  . "_mix_on.py";
-            $command = escapeshellcmd($file_name);
-            $output = shell_exec($command);
+            $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_mix_on.py";
+            exec($file_name);
         } else {
-            $file_name = $_SESSION["device"]  . "_mix_off.py";
-            $command = escapeshellcmd($file_name);
-            $output = shell_exec($command);
+            $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_mix_off.py";
+            exec($file_name);
         }
     }
-    // $dt->UpdateMix($_SESSION["device"], $status);
-    // echo "Mực nước: {$row['water']}";
 }
 
 
@@ -111,19 +97,14 @@ if (isset($_POST["ppm_auto"])) {
     }
     if (isset($_POST["status"])) {
         $status = $_POST["status"];
+        echo $status;
     }
     $dt->UpdatePpmAutomatic($_SESSION["device"], $nutrientID, $status);
 
     if ($status == 1) {
-        $file_name = $_SESSION["device"]  . "_ppm_automatic_on.py";
-        $command = escapeshellcmd($file_name);
-        $output = shell_exec($command);
-    } else {
-        $file_name = $_SESSION["device"]  . "_ppm_automatic_off.py";
-        $command = escapeshellcmd($file_name);
-        $output = shell_exec($command);
+        $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_ppm_automatic.py";
+        exec($file_name);
     }
-    // echo "Mực nước: {$row['water']}";
 }
 
 if (isset($_POST["pump_auto"])) {
@@ -141,19 +122,15 @@ if (isset($_POST["pump_auto"])) {
 
     if (isset($_POST["status"])) {
         $status = $_POST["status"];
+        echo $status;
     }
     $dt->UpdatePumpAutomatic($_SESSION["device"], $time_on, $time_off, $status);
 
     if ($status == 1) {
-        $file_name = $_SESSION["device"]  . "_pump_automatic_on.py";
-        $command = escapeshellcmd($file_name);
-        $output = shell_exec($command);
-    } else {
-        $file_name = $_SESSION["device"]  . "_pump_automatic_off.py";
-        $command = escapeshellcmd($file_name);
-        $output = shell_exec($command);
+        $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_pump_automatic.py";
+        echo $status;
+        exec($file_name);
     }
-    // echo "Mực nước: {$row['water']}";
 }
 
 if (isset($_POST["water"])) {
