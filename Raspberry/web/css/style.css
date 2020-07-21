@@ -44,6 +44,8 @@ body {
     margin: 1rem;
     position: relative;
     width: 300px;
+    transition: all 0.5s;
+    border-radius: 5px;
 }
 
 .row {
@@ -76,6 +78,15 @@ body.dark {
 
 body.dark h2 {
     color: #f1f5f3;
+}
+
+body.dark .button.pushed {
+    content: '';
+    color: rgb(255, 0, 76);
+    transform: scale(0.98);
+    text-shadow: 0 0 15px rgb(255, 0, 76) rgb(255 38 3);
+    box-shadow: var(--shadow-in);
+    transition: all ease 0.1s;
 }
 
 body.dark .btnname {
@@ -276,7 +287,9 @@ h2 {
     width: 160px;
     height: 70px;
     background: transparent;
-    color: #999;
+    color: rgb(0 238 0);
+    transform: scale(0.98);
+    text-shadow: 0 0 15px rgb(0 238 0);
     font-size: 18px;
     font-weight: 700;
     letter-spacing: 3px;
@@ -300,9 +313,9 @@ h2 {
 
 .button.pushed {
     content: '';
-    color: #00ffa2;
+    color: rgb(254 0 2);
     transform: scale(0.98);
-    text-shadow: 0 0 15px #00ffa2;
+    text-shadow: 0 0 15px rgb(254 0 2);
     box-shadow: var(--shadow-in);
     transition: all ease 0.1s;
 }
@@ -402,5 +415,9 @@ input[type=range]::-ms-thumb {
     }
     h1 {
         font-size: 38px;
+    }
+    input {
+        margin-left: 0px;
+        width: 190px;
     }
 }

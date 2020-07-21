@@ -32,29 +32,29 @@ if (isset($_POST["pump"])) {
     $status;
     if (isset($_POST["status"])) {
         $status = $_POST["status"];
+        if ($status == 1) {
+            $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_pump_on.py";
+            exec($file_name);
+        } else {
+            $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_pump_off.py";
+            exec($file_name);
+        }
     }
-    $dt->UpdatePump($_SESSION["device"], $status);
-    // echo "Mực nước: {$row['water']}";
 }
 
 if (isset($_POST["water_in"])) {
-
-
     $dt = new Data();
     $status;
     if (isset($_POST["status"])) {
         $status = $_POST["status"];
-        if($status == 1){
-            $command = escapeshellcmd('4_pump_on.py');
-            $output = shell_exec($command);
-        }
-        else {
-            $command = escapeshellcmd('4_pump_off.py');
-            $output = shell_exec($command);
+        if ($status == 1) {
+            $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_water_in_on.py";
+            exec($file_name);
+        } else {
+            $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_water_in_off.py";
+            exec($file_name);
         }
     }
-    $dt->UpdateWaterIn($_SESSION["device"], $status);
-    // echo "Mực nước: {$row['water']}";
 }
 
 if (isset($_POST["water_out"])) {
@@ -62,9 +62,14 @@ if (isset($_POST["water_out"])) {
     $status;
     if (isset($_POST["status"])) {
         $status = $_POST["status"];
+        if ($status == 1) {
+            $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_water_out_on.py";
+            exec($file_name);
+        } else {
+            $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_water_out_off.py";
+            exec($file_name);
+        }
     }
-    $dt->UpdateWaterOut($_SESSION["device"], $status);
-    // echo "Mực nước: {$row['water']}";
 }
 
 if (isset($_POST["mix"])) {
@@ -72,9 +77,14 @@ if (isset($_POST["mix"])) {
     $status;
     if (isset($_POST["status"])) {
         $status = $_POST["status"];
+        if ($status == 1) {
+            $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_mix_on.py";
+            exec($file_name);
+        } else {
+            $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_mix_off.py";
+            exec($file_name);
+        }
     }
-    $dt->UpdateMix($_SESSION["device"], $status);
-    // echo "Mực nước: {$row['water']}";
 }
 
 
@@ -87,9 +97,14 @@ if (isset($_POST["ppm_auto"])) {
     }
     if (isset($_POST["status"])) {
         $status = $_POST["status"];
+        echo $status;
     }
     $dt->UpdatePpmAutomatic($_SESSION["device"], $nutrientID, $status);
-    // echo "Mực nước: {$row['water']}";
+
+    if ($status == 1) {
+        $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_ppm_automatic.py";
+        exec($file_name);
+    }
 }
 
 if (isset($_POST["pump_auto"])) {
@@ -107,15 +122,16 @@ if (isset($_POST["pump_auto"])) {
 
     if (isset($_POST["status"])) {
         $status = $_POST["status"];
+        echo $status;
     }
     $dt->UpdatePumpAutomatic($_SESSION["device"], $time_on, $time_off, $status);
-    // echo "Mực nước: {$row['water']}";
+
+    if ($status == 1) {
+        $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_pump_automatic.py";
+        echo $status;
+        exec($file_name);
+    }
 }
-
-
-
-
-
 
 if (isset($_POST["water"])) {
     $sql = "SELECT `water` FROM `sensors` WHERE `device_id` = {$_SESSION["device"]} ORDER BY `id` DESC LIMIT 1";

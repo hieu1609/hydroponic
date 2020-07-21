@@ -150,6 +150,8 @@ $(document).ready(function () {
       data: { water_in: 1, status: status },
       success: function (data) {
         console.log(data);
+
+        $("#test").html(data);
       },
     });
   });

@@ -112,6 +112,7 @@ $_SESSION["device"] = $device;
     <div class="container">
         <div class="title">
             <h2>Điều khiển</h2>
+            <div id="test"></div>
         </div>
         <div class="controller" style="--i:0">
             <!-- <i class="fa fa-plus"></i> -->
@@ -149,6 +150,8 @@ $_SESSION["device"] = $device;
             </div>
 
         </div>
+
+
 
         <!-- <div class="controller" style="--i:2">
             <label class="btnname">title</label>

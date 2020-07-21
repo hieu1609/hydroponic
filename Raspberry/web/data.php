@@ -53,7 +53,7 @@ class Data
             $category = <<<DELIMITER
             <div class="card card-1 .col-sm-8 .col-md-6 .col-lg-4">
             <i class="fa fa-water"></i>
-            <h3 class="water">Mực nước: {$row['water']} </h3>
+            <h3 class="water">Mực nước: {$row['water']} %</h3>
             </div>
             <div class="card card-1 .col-sm-8 .col-md-6 .col-lg-4">
             <i class="fa fa-bolt"></i>
@@ -183,7 +183,7 @@ class Data
                         <input type="text" id="time_on" placeholder="Thời gian bật">
                         <input type="text" id="time_off" placeholder="Thời gian tắt">
                     </div>
-                    <button id="ppm_auto" class="button">BẬT</button>
+                    <button id="pump_auto" class="button">BẬT</button>
                     </div>                     
                 DELIMITER;
                 echo $pump;
