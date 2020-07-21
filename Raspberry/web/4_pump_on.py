@@ -1,4 +1,4 @@
 import webbrowser
 
-webbrowser.open("https://www.google.com", new=2)
+webbrowser.open("https://www.youtube.com", new=2)
 
