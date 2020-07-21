@@ -17,6 +17,7 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, message):
+    print("on message")
     mess = message.payload.decode()
     topic = str(message.topic).split("/")[1]
     idDevice = str(topic).split("=")[0]
@@ -28,20 +29,12 @@ def on_message(client, userdata, message):
         autoMode = str(mess).split("=")[0]
         idNutrient = str(mess).split("=")[1]
         ppm_auto(idDevice, idNutrient, autoMode)
-        if (autoMode == "1"):
-            print("call python ppm auto")
-            command = "python " + idDevice + "_ppm_automatic.py 1"
-            subprocess.call(command, shell=True)
     elif (topic1 == "pumpAuto"):
         # update database
         status = str(mess).split("=")[0]
         timeOn = str(mess).split("=")[1]
         timeOff = str(mess).split("=")[2]
         pump_auto(idDevice, timeOn, timeOff, status)
-        if (status == "1"):
-            print("call python pump auto")
-            command = "python " + idDevice + "_pump_automatic.py 1"
-            subprocess.call(command, shell=True)
     else:
         print("send topic message to arduino")
         dataSend = dataSend.encode()
@@ -76,7 +69,7 @@ def pump_auto(idDevice, timeOn, timeOff, status):
 def ppm_auto(idDevice, idNutrient, autoMode):
     # prepare query and data
     query = """ UPDATE ppm_automatic
-                SET auto_status = %s, nutrient_id = %s
+                SET auto_mode = %s, nutrient_id = %s
                 WHERE device_id = %s """
     data = (autoMode, idNutrient, idDevice)
     try:
@@ -121,7 +114,5 @@ client.subscribe("thuycanhiot@gmail.com/5=waterIn", qos=1)
 client.subscribe("thuycanhiot@gmail.com/5=waterOut", qos=1)
 client.subscribe("thuycanhiot@gmail.com/5=ppmAuto", qos=1)
 client.subscribe("thuycanhiot@gmail.com/5=pumpAuto", qos=1)
-
-#client.publish("thuycanhiot@gmail.com/update", payload="1=2=3", qos=1, retain=False)
 
 client.loop_forever()

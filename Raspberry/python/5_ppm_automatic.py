@@ -34,6 +34,7 @@ def update_autostatus(device_id, status):
 
 
 try:
+    count = 0
     while True:
         device = "5"
         deviceid = 5
@@ -52,6 +53,7 @@ try:
         ppmNow = cursor2.fetchone()
         # print(records)
         if ppm["auto_mode"] == 1:
+            count = 0
             print("auto ppm on")
             cursor3 = connection.cursor(dictionary=True)
             cursor3.execute(sql_select_Query3)
@@ -289,23 +291,27 @@ try:
                     case = 8
                     print(case)
         elif ppm["auto_mode"] == 0:
-            print("waterIn=0")
-            dataSend = device + "=waterIn=0"
-            dataSend = dataSend.encode()
-            bus.write_i2c_block_data(addr, 0, dataSend)
-            print("waterOut=0")
-            dataSend = device + "=waterOut=0"
-            dataSend = dataSend.encode()
-            bus.write_i2c_block_data(addr, 0, dataSend)
-            print("ppm=0")
-            dataSend = device + "=ppm=0"
-            dataSend = dataSend.encode()
-            bus.write_i2c_block_data(addr, 0, dataSend)
-            print("mix=0")
-            dataSend = device + "=mix=0"
-            dataSend = dataSend.encode()
-            bus.write_i2c_block_data(addr, 0, dataSend)
-            break
+            if (count == 0):
+                print("waterIn=0")
+                dataSend = device + "=waterIn=0"
+                dataSend = dataSend.encode()
+                bus.write_i2c_block_data(addr, 0, dataSend)
+                print("waterOut=0")
+                dataSend = device + "=waterOut=0"
+                dataSend = dataSend.encode()
+                bus.write_i2c_block_data(addr, 0, dataSend)
+                print("ppm=0")
+                dataSend = device + "=ppm=0"
+                dataSend = dataSend.encode()
+                bus.write_i2c_block_data(addr, 0, dataSend)
+                print("mix=0")
+                dataSend = device + "=mix=0"
+                dataSend = dataSend.encode()
+                bus.write_i2c_block_data(addr, 0, dataSend)
+            print(count)
+            count = count + 1
+            time.sleep(1)
+
 except Error as e:
     print("Error reading data from MySQL table", e)
 finally:

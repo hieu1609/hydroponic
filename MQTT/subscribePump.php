@@ -7,7 +7,7 @@ $port = 1883;
 $user = 'thuycanhiot@gmail.com';
 $pass = 'Lancuoi1234@';
 $topic = 'thuycanhiot@gmail.com/updatePump';
-$client_id = "subscriber";
+$client_id = "subscriber2";
 
 function procmsg($topic, $msg){
   $now = new DateTime();

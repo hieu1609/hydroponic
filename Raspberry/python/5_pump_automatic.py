@@ -35,7 +35,7 @@ try:
             time.sleep(timeoff)
         elif records["auto"] == 0:
             print("automatic off")
-            break
+            time.sleep(1)
 
 except Error as e:
     print("Error reading data from MySQL table", e)

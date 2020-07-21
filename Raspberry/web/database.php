@@ -6,8 +6,8 @@ class Database
 {
 
     public $host = "localhost";
-    public $user = "root";
-    public $pass = "";
+    public $user = "admin";
+    public $pass = "admin";
     public $dbname = "raspberry";
     public $link;
     public $error;
