@@ -9,7 +9,7 @@ bus = SMBus(1)
 
 try:
     while True:
-        device = "4"
+        device = "5"
         connection = mysql.connector.connect(host='localhost',
                                              database='raspberry',
                                              user='admin',

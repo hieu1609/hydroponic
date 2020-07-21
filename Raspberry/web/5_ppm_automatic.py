@@ -36,8 +36,8 @@ def update_autostatus(device_id, status):
 try:
     count = 0
     while True:
-        device = "4"
-        deviceid = 4
+        device = "5"
+        deviceid = 5
         connection = mysql.connector.connect(host='localhost',
                                              database='raspberry',
                                              user='admin',
