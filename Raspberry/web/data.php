@@ -53,7 +53,7 @@ class Data
             $category = <<<DELIMITER
             <div class="card card-1 .col-sm-8 .col-md-6 .col-lg-4">
             <i class="fa fa-water"></i>
-            <h3 class="water">Mực nước: {$row['water']} </h3>
+            <h3 class="water">Mực nước: {$row['water']} %</h3>
             </div>
             <div class="card card-1 .col-sm-8 .col-md-6 .col-lg-4">
             <i class="fa fa-bolt"></i>

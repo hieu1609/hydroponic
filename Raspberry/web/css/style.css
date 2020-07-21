@@ -44,6 +44,8 @@ body {
     margin: 1rem;
     position: relative;
     width: 300px;
+    transition: all 0.5s;
+    border-radius: 5px;
 }
 
 .row {
@@ -402,5 +404,9 @@ input[type=range]::-ms-thumb {
     }
     h1 {
         font-size: 38px;
+    }
+    input {
+        margin-left: 0px;
+        width: 190px;
     }
 }
