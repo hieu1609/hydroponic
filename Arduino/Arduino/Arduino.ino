@@ -168,7 +168,7 @@ void loop() {
     dataSend = "";
   }
   Serial.println(dataSend);
-  delay(2000);
+  delay(3000);
 }
  
 void receiveEvent(int howMany) {

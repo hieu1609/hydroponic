@@ -6,7 +6,6 @@ import subprocess
 import time
 import sys
 
-# connect mysql
 addr = 7
 bus = SMBus(1)
 broker_url = "maqiatto.com"
@@ -85,40 +84,4 @@ while True:
     update_sensor(sen[0], sen[1], sen[2], sen[3], sen[4], sen[5],
                   sen[6], sen[7][0], sen[7][1], sen[7][2], sen[7][3])
 
-    # update pump automatic
-    connection = mysql.connector.connect(host='localhost',
-                                         database='raspberry',
-                                         user='admin',
-                                         password='admin')
-    sql_select_Query = "select * from pump_automatic"
-    cursor = connection.cursor(dictionary=True)
-    cursor.execute(sql_select_Query)
-    records = cursor.fetchall()
-    for row in records:
-        pumpUpdate = str(row["device_id"])+"="+str(row["time_on"]) + \
-            "="+str(row["time_off"])+"="+str(row["auto"])
-        print(pumpUpdate)
-        client.connect(broker_url, broker_port)
-        client.publish("thuycanhiot@gmail.com/updatePump",
-                       payload=pumpUpdate, qos=1, retain=False)
-    cursor.close()
-
-    # update ppm automatic
-    connection = mysql.connector.connect(host='localhost',
-                                         database='raspberry',
-                                         user='admin',
-                                         password='admin')
-    sql_select_Query = "select * from ppm_automatic"
-    cursor = connection.cursor(dictionary=True)
-    cursor.execute(sql_select_Query)
-    records = cursor.fetchall()
-    for row in records:
-        ppmUpdate = str(row["device_id"])+"="+str(row["nutrient_id"]) + \
-            "="+str(row["auto_mode"])+"="+str(row["auto_status"])
-        print(ppmUpdate)
-        client.connect(broker_url, broker_port)
-        client.publish("thuycanhiot@gmail.com/updatePpm",
-                       payload=ppmUpdate, qos=1, retain=False)
-    cursor.close()
-
-    time.sleep(3)
+    time.sleep(1)
