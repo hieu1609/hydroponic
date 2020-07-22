@@ -1,6 +1,6 @@
 <div class="container mt-5" [ngClass]="{'right-panel-active' : signIn}">
     <div class="form-container sign-in-container">
-        <form #formSignIn="ngForm" (submit)="_handleOnSubmit(formSignIn)">
+        <form #formSignIn="ngForm" (submit)="_handleOnSubmit()">
             <h1>Đăng nhập</h1>
 
             <span></span>
@@ -25,7 +25,7 @@
         </form>
     </div>
     <div class="form-container sign-up-container">
-        <form #formSignUp="ngForm" (submit)="_handleOnSubmitSignUp(formSignUp)">
+        <form #formSignUp="ngForm" (submit)="_handleOnSubmitSignUp()">
             <h1>Tạo tài khoản</h1>
 
             <!-- <span>or use your email for registration</span> -->

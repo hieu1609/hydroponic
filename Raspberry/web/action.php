@@ -101,10 +101,10 @@ if (isset($_POST["ppm_auto"])) {
     }
     $dt->UpdatePpmAutomatic($_SESSION["device"], $nutrientID, $status);
 
-    if ($status == 1) {
-        $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_ppm_automatic.py";
-        exec($file_name);
-    }
+    // if ($status == 1) {
+    //     $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_ppm_automatic.py";
+    //     exec($file_name);
+    // }
 }
 
 if (isset($_POST["pump_auto"])) {
@@ -126,11 +126,11 @@ if (isset($_POST["pump_auto"])) {
     }
     $dt->UpdatePumpAutomatic($_SESSION["device"], $time_on, $time_off, $status);
 
-    if ($status == 1) {
-        $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_pump_automatic.py";
-        echo $status;
-        exec($file_name);
-    }
+    // if ($status == 1) {
+    //     $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_pump_automatic.py";
+    //     echo $status;
+    //     exec($file_name);
+    // }
 }
 
 if (isset($_POST["water"])) {
