@@ -88,7 +88,7 @@
                                 <div>
                                     Admin
                                 </div>
-                                <ng-container *ngIf="item.admin; else ElseContentName3">
+                                <ng-container *ngIf="item.admin; else ElseContentName5">
                                     <div class="typeUser">
                                         <div class="admin">
                                             ADMIN
@@ -96,13 +96,13 @@
                                     </div>
 
                                 </ng-container>
-                                <!-- <ng-template #ElseContentName3>
+                                <ng-template #ElseContentName5>
                                     <div class="typeUser">
                                         <div class="user">
                                             USER
                                         </div>
                                     </div>
-                                </ng-template> -->
+                                </ng-template>
                             </td>
                             <td>
                                 {{item.title}}
@@ -133,7 +133,7 @@
                         <ng-container *ngFor="let item of totalPage">
                             <li><button class="btn mr-1"
                                     [ngClass]="{'btn-secondary':item!==currentPage,'btn-info':item===currentPage}"
-                                    (click)="getAllFeedbacks(item)">{{item}}</button></li>
+                                    (click)="getAllNotification()">{{item}}</button></li>
                         </ng-container>
                     </ul>
                 </nav>

@@ -3,7 +3,7 @@
     <div class="bottom"></div>
     <div class="center">
         <h2>Login</h2>
-        <form #formSignIn="ngForm" (submit)="_handleOnSubmit(formSignIn)">
+        <form #formSignIn="ngForm" (submit)="_handleOnSubmit()">
 
             <input placeholder="Email" type="email" name="email" required #email="ngModel"
                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" ngModel>
