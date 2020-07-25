@@ -6,7 +6,7 @@ import subprocess
 import time
 import sys
 
-addr = 7
+addr = 5
 bus = SMBus(1)
 broker_url = "maqiatto.com"
 broker_port = 1883
@@ -53,35 +53,34 @@ while True:
     dataSensor = ""
     number = bus.read_i2c_block_data(addr, 0, 32)
     dataRe = ("".join(map(chr, number)))
-    for x in range(0, len(dataRe)):
-        if dataRe[x] == "=":
-            dataSensor += dataRe[x]
-        elif dataRe[x] == "0":
-            dataSensor += dataRe[x]
-        elif dataRe[x] == "1":
-            dataSensor += dataRe[x]
-        elif dataRe[x] == "2":
-            dataSensor += dataRe[x]
-        elif dataRe[x] == "3":
-            dataSensor += dataRe[x]
-        elif dataRe[x] == "4":
-            dataSensor += dataRe[x]
-        elif dataRe[x] == "5":
-            dataSensor += dataRe[x]
-        elif dataRe[x] == "6":
-            dataSensor += dataRe[x]
-        elif dataRe[x] == "7":
-            dataSensor += dataRe[x]
-        elif dataRe[x] == "8":
-            dataSensor += dataRe[x]
-        elif dataRe[x] == "9":
-            dataSensor += dataRe[x]
-    print(dataSensor)
-    client.connect(broker_url, broker_port)
-    client.publish("thuycanhiot@gmail.com/update",
-                   payload=dataSensor, qos=1, retain=False)
-    sen = dataSensor.split("=")
-    update_sensor(sen[0], sen[1], sen[2], sen[3], sen[4], sen[5],
-                  sen[6], sen[7][0], sen[7][1], sen[7][2], sen[7][3])
-
-    time.sleep(1)
+    if (dataRe != ""):
+        for x in range(0, len(dataRe)):
+            if dataRe[x] == "=":
+                dataSensor += dataRe[x]
+            elif dataRe[x] == "0":
+                dataSensor += dataRe[x]
+            elif dataRe[x] == "1":
+                dataSensor += dataRe[x]
+            elif dataRe[x] == "2":
+                dataSensor += dataRe[x]
+            elif dataRe[x] == "3":
+                dataSensor += dataRe[x]
+            elif dataRe[x] == "4":
+                dataSensor += dataRe[x]
+            elif dataRe[x] == "5":
+                dataSensor += dataRe[x]
+            elif dataRe[x] == "6":
+                dataSensor += dataRe[x]
+            elif dataRe[x] == "7":
+                dataSensor += dataRe[x]
+            elif dataRe[x] == "8":
+                dataSensor += dataRe[x]
+            elif dataRe[x] == "9":
+                dataSensor += dataRe[x]
+        print(dataSensor)
+        client.connect(broker_url, broker_port)
+        client.publish("thuycanhiot@gmail.com/update",
+                       payload=dataSensor, qos=1, retain=False)
+        sen = dataSensor.split("=")
+        update_sensor(sen[0], sen[1], sen[2], sen[3], sen[4], sen[5],
+                      sen[6], sen[7][0], sen[7][1], sen[7][2], sen[7][3])

@@ -31,6 +31,7 @@ if (isset($_POST["pump"])) {
     $dt = new Data();
     $status;
     if (isset($_POST["status"])) {
+        $dt->TurnOffPumpAutomatic($_SESSION["device"]);
         $status = $_POST["status"];
         if ($status == 1) {
             $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_pump_on.py";
@@ -42,10 +43,27 @@ if (isset($_POST["pump"])) {
     }
 }
 
+if (isset($_POST["ppm"])) {
+    $dt = new Data();
+    $status;
+    if (isset($_POST["status"])) {
+        $dt->TurnOffPumpAutomatic($_SESSION["device"]);
+        $status = $_POST["status"];
+        if ($status == 1) {
+            $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_ppm_on.py";
+            exec($file_name);
+        } else {
+            $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_ppm_off.py";
+            exec($file_name);
+        }
+    }
+}
+
 if (isset($_POST["water_in"])) {
     $dt = new Data();
     $status;
     if (isset($_POST["status"])) {
+        $dt->TurnOffPpmAutomatic($_SESSION["device"]);
         $status = $_POST["status"];
         if ($status == 1) {
             $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_water_in_on.py";
@@ -61,6 +79,7 @@ if (isset($_POST["water_out"])) {
     $dt = new Data();
     $status;
     if (isset($_POST["status"])) {
+        $dt->TurnOffPpmAutomatic($_SESSION["device"]);
         $status = $_POST["status"];
         if ($status == 1) {
             $file_name = "sudo python3 /var/www/html/web/" . $_SESSION["device"]  . "_water_out_on.py";
@@ -71,7 +90,6 @@ if (isset($_POST["water_out"])) {
         }
     }
 }
-
 if (isset($_POST["mix"])) {
     $dt = new Data();
     $status;
@@ -138,21 +156,21 @@ if (isset($_POST["water"])) {
     $db = new Database();
     $sensor = $db->select($sql);
     $row = mysqli_fetch_array($sensor);
-    echo "Mực nước: {$row['water']}";
+    echo "Mực nước: {$row['water']} %";
 }
 if (isset($_POST["ec"])) {
     $sql = "SELECT `EC` FROM `sensors` WHERE `device_id` = {$_SESSION["device"]}  ORDER BY `id` DESC LIMIT 1";
     $db = new Database();
     $sensor = $db->select($sql);
     $row = mysqli_fetch_array($sensor);
-    echo "Độ dẫn điện: {$row['EC']}";
+    echo "Dẫn điện: {$row['EC']} S/cm";
 }
 if (isset($_POST["temp"])) {
     $sql = "SELECT `temperature` FROM `sensors` WHERE `device_id` = {$_SESSION["device"]}  ORDER BY `id` DESC LIMIT 1";
     $db = new Database();
     $sensor = $db->select($sql);
     $row = mysqli_fetch_array($sensor);
-    echo "Nhiệt độ: {$row['temperature']}";
+    echo "Nhiệt độ: {$row['temperature']} °C";
 }
 if (isset($_POST["pumpstatus"])) {
     $sql = "SELECT `pump` FROM `sensors` WHERE `device_id` = {$_SESSION["device"]}  ORDER BY `id` DESC LIMIT 1";
@@ -171,7 +189,7 @@ if (isset($_POST["ppm"])) {
     $db = new Database();
     $sensor = $db->select($sql);
     $row = mysqli_fetch_array($sensor);
-    echo "PPM: {$row['PPM']}";
+    echo "TDS: {$row['PPM']} ppm";
 }
 if (isset($_POST["ppmstatus"])) {
     $sql = "SELECT * FROM `ppm_automatic` WHERE `device_id` = {$_SESSION["device"]}";

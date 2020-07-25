@@ -6,7 +6,7 @@ import subprocess
 import time
 import sys
 
-addr = 7
+addr = 5
 bus = SMBus(1)
 broker_url = "maqiatto.com"
 broker_port = 1883
@@ -36,6 +36,14 @@ def on_message(client, userdata, message):
         timeOff = str(mess).split("=")[2]
         pump_auto(idDevice, timeOn, timeOff, status)
     else:
+        if (topic1 == "pump"):
+            pump_auto_off(idDevice)
+        elif (topic1 == "waterIn"):
+            ppm_auto_off(idDevice)
+        elif (topic1 == "waterOut"):
+            ppm_auto_off(idDevice)
+        elif (topic1 == "ppm"):
+            ppm_auto_off(idDevice)
         print("send topic message to arduino")
         dataSend = dataSend.encode()
         bus.write_i2c_block_data(addr, 0, dataSend)
@@ -66,12 +74,63 @@ def pump_auto(idDevice, timeOn, timeOff, status):
         conn.close()
 
 
+def pump_auto_off(idDevice):
+    query = """ UPDATE pump_automatic
+            SET auto = %s
+            WHERE device_id = %s """
+    data = (0, idDevice)
+    try:
+        conn = mysql.connector.connect(host='localhost',
+                                       database='raspberry',
+                                       user='admin',
+                                       password='admin')
+        # update book title
+        cursor = conn.cursor()
+        cursor.execute(query, data)
+
+        # accept the changes
+        conn.commit()
+
+    except Error as error:
+        print(error)
+
+    finally:
+        cursor.close()
+        conn.close()
+
+
 def ppm_auto(idDevice, idNutrient, autoMode):
     # prepare query and data
     query = """ UPDATE ppm_automatic
                 SET auto_mode = %s, nutrient_id = %s
                 WHERE device_id = %s """
     data = (autoMode, idNutrient, idDevice)
+    try:
+        conn = mysql.connector.connect(host='localhost',
+                                       database='raspberry',
+                                       user='admin',
+                                       password='admin')
+        # update book title
+        cursor = conn.cursor()
+        cursor.execute(query, data)
+
+        # accept the changes
+        conn.commit()
+
+    except Error as error:
+        print(error)
+
+    finally:
+        cursor.close()
+        conn.close()
+
+
+def ppm_auto_off(idDevice):
+    # prepare query and data
+    query = """ UPDATE ppm_automatic
+                SET auto_mode = %s, auto_status = %s
+                WHERE device_id = %s """
+    data = (0, 0, idDevice)
     try:
         conn = mysql.connector.connect(host='localhost',
                                        database='raspberry',

@@ -6,7 +6,7 @@ import subprocess
 import time
 import sys
 
-addr = 7
+addr = 4
 bus = SMBus(1)
 broker_url = "maqiatto.com"
 broker_port = 1883
