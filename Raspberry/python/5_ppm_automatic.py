@@ -3,7 +3,7 @@ from mysql.connector import MySQLConnection, Error
 import mysql.connector
 from smbus2 import SMBus
 
-addr = 7
+addr = 5
 bus = SMBus(1)
 
 

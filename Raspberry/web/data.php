@@ -25,7 +25,17 @@ class Data
             echo $category;
         }
     }
-
+    public function TurnOffPpmAutomatic($deviceId)
+    {
+        $sql = "UPDATE ppm_automatic SET `auto_mode`=0,`auto_status`=0 WHERE device_id = {$deviceId}";
+        $db = new Database();
+        $db->insert($sql);
+    }public function TurnOffPumpAutomatic($deviceId)
+    {
+        $sql = "UPDATE pump_automatic SET `auto`=0 WHERE `device_id` = {$deviceId}";
+        $db = new Database();
+        $db->insert($sql);
+    }
     public function GetSensor()
     {
         $deviceId = Data::$dv;
@@ -33,18 +43,6 @@ class Data
         $db = new Database();
         $sensor = $db->select($sql);
         while ($row = $sensor->fetch_assoc()) {
-            // echo $row['id'] . "<br>";
-            // echo $row['device_id'] . "<br>";
-            // echo $row['temperature'] . "<br>";
-            // echo $row['humidity'] . "<br>";
-            // echo $row['light'] . "<br>";
-            // echo $row['EC'] . "<br>";
-            // echo $row['PPM'] . "<br>";
-            // echo $row['water'] . "<br>";
-            // echo $row['pump'] . "<br>";
-            // echo $row['water_in'] . "<br>";
-            // echo $row['water_out'] . "<br>";
-            // echo $row['mix'] . "<br>" . "<br>";
             if ($row['pump'] == 1) {
                 $statusPump  = "BẬT";
             } else {
@@ -57,11 +55,11 @@ class Data
             </div>
             <div class="card card-1 .col-sm-8 .col-md-6 .col-lg-4">
             <i class="fa fa-bolt"></i>
-            <h3 class="ec">Độ dẫn điện: {$row['EC']} </h3>
+            <h3 class="ec">Dẫn điện: {$row['EC']} S/cm</h3>
             </div>
             <div class="card card-1 .col-sm-8 .col-md-6 .col-lg-4">
             <i class="fa fa-temperature-low"></i>
-            <h3 class="temp">Nhiệt độ: {$row['temperature']} </h3>
+            <h3 class="temp">Nhiệt độ: {$row['temperature']} °C</h3>
             </div>
             <div class="card card-1 .col-sm-8 .col-md-6 .col-lg-4">
             <i class="fa fa-fill-drip"></i>
@@ -69,7 +67,7 @@ class Data
             </div>
             <div class="card card-1 .col-sm-8 .col-md-6 .col-lg-4">
             <i class="fa fa-vial"></i>
-            <h3 class="ppm">PPM: {$row['PPM']} </h3>
+            <h3 class="ppm">TDS: {$row['PPM']} ppm</h3>
             </div>                      
         DELIMITER;
             echo $category;
@@ -153,6 +151,17 @@ class Data
                 DELIMITER;
                 echo $mix;
             }
+
+            $ppm = <<<DELIMITER
+                <div class="controller" style="--i:1">
+                <label class="btnname">Thêm dinh dưỡng</label>
+                <button id="ppm" class="button">BẬT</button>
+                </div>                     
+            DELIMITER;
+            echo $ppm;
+            
+
+            
         }
         return $sensor;
     }
@@ -168,8 +177,8 @@ class Data
                     <div class="controller" style="--i:1">
                     <label class="btnname" style="width:400px; text-align:center">Bơm Tuần Hoàn</label>
                     <div class="input">
-                        <input type="text" id="time_on" placeholder="Thời gian bật">
-                        <input type="text" id="time_off" placeholder="Thời gian tắt">
+                        <input type="text" value={$row['time_on']} id="time_on" placeholder="Thời gian bật">
+                        <input type="text" value={$row['time_off']} id="time_off" placeholder="Thời gian tắt">
                     </div>
                     <button id="pump_auto" class="button pushed">TẮT</button>
                     </div>                     
@@ -180,8 +189,8 @@ class Data
                     <div class="controller" style="--i:1">
                     <label class="btnname" style="width:400px; text-align:center">Bơm Tuần Hoàn</label>
                     <div class="input">
-                        <input type="text" id="time_on" placeholder="Thời gian bật">
-                        <input type="text" id="time_off" placeholder="Thời gian tắt">
+                        <input type="text" value={$row['time_on']} id="time_on" placeholder="Thời gian bật">
+                        <input type="text" value={$row['time_off']} id="time_off" placeholder="Thời gian tắt">
                     </div>
                     <button id="pump_auto" class="button">BẬT</button>
                     </div>                     

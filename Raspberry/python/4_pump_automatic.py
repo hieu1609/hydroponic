@@ -4,7 +4,7 @@ from mysql.connector import Error
 import mysql.connector
 from smbus2 import SMBus
 
-addr = 7
+addr = 4
 bus = SMBus(1)
 
 try:

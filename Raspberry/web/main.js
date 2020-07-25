@@ -27,15 +27,15 @@ $("body").delegate("#device", "click", function () {
     success: function (data) {
       $("#controlButton").html(data);
       btns = document.querySelectorAll(".button");
-      for (const btn of btns) {
-        btn.addEventListener("click", () => {
-          btn.classList.toggle("pushed");
-          var state = btn.innerText;
-          console.log(state);
-          state = state == "BẬT" ? "TẮT" : "BẬT";
-          btn.innerText = state;
-        });
-      }
+      // for (const btn of btns) {
+      //   btn.addEventListener("click", () => {
+      //     btn.classList.toggle("pushed");
+      //     var state = btn.innerText;
+      //     console.log(state);
+      //     state = state == "BẬT" ? "TẮT" : "BẬT";
+      //     btn.innerText = state;
+      //   });
+      // }
     },
   });
 });
@@ -131,6 +131,36 @@ $(document).ready(function () {
         console.log(data);
       },
     });
+  });
+
+  $("body").delegate("#ppm", "click", function () {
+    var statusText = document.getElementById("ppm");
+    var status = 0;
+    console.log(statusText.innerText);
+    if (statusText.innerText == "TẮT") {
+      status = 1;
+      console.log(status);
+    } else {
+      status = 0;
+      console.log(status);
+    }
+    $.ajax({
+      url: "./web/action.php",
+      method: "POST",
+      data: { ppm: 1, status: status },
+      success: function (data) {
+        setTimeout(function () {
+          btn = document.getElementById("ppm");
+          btn.classList.toggle("pushed");
+          var state = btn.innerText;
+          console.log(state);
+          state = state == "BẬT" ? "TẮT" : "BẬT";
+          btn.innerText = state;
+        }, 2000);
+      },
+
+    });
+
   });
 
   $("body").delegate("#water_in", "click", function () {

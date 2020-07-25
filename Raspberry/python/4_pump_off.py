@@ -1,6 +1,6 @@
 from smbus2 import SMBus
 
-addr = 7
+addr = 4
 bus = SMBus(1)
 
 dataSend = "4=pump=0"
