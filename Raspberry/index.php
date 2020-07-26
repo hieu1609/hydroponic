@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
     <link rel="stylesheet" href="./web/css/style.css">
-    <title>Document</title>
+    <title>Thủy canh IOT</title>
 </head>
 <?php
 include "web/data.php";

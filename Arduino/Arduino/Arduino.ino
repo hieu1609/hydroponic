@@ -7,6 +7,7 @@
 
 //id
 const int id = 4; //id của thiết bị
+//id 4 -> addr 4, id 5 -> addr 5
 
 //Sensor
 const int TRIG_PIN = 13; //Pin đọc cảm biến siêu âm
@@ -24,7 +25,7 @@ const int RelayWaterOut = 10;//Relay bơm nước ra khỏi thùng
 const int RelayPump = 11; //Relay bơm nước lên giàn thủy canh
 
 //i2c
-const int addr = 7; //Địa chỉ kết nối i2c
+const int addr = 4; //Địa chỉ kết nối i2c
 bool stringComplete = false; //Biến kiểm tra chuỗi toàn vẹn
 String inputString; //Biến lưu chuỗi truyền từ i2c
 char inputString2;
@@ -153,12 +154,12 @@ void loop() {
   //GetEC();
   protothread1(&pt1, 5000);
   // id, device_id, temperature, humidity, light, EC, PPM, water, pump, water_in, water_out, mix
-     temp = 25 + rand() % 2 - 1;
-     hum = 50 + rand() % 2 - 1;
-     lig = 1100 + rand() % 10 - 5;
-     EC25 = 1.42 + (rand() % 2 - 1)/10;
-     ppm = 1000 + rand() % 20 - 10;
-     distancesend = 64 + rand() % 2 - 1;
+    //  temp = 25 + rand() % 2 - 1;
+    //  hum = 50 + rand() % 2 - 1;
+    //  lig = 1100 + rand() % 10 - 5;
+    //  EC25 = 1.42 + (rand() % 2 - 1)/10;
+    //  ppm = 1000 + rand() % 20 - 10;
+    //  distancesend = 64 + rand() % 2 - 1;
   dataSend1 = (String)id+"="+(String)temp+"="+(String)hum+"="+(String)lig+"="+(String)EC25+"="+(String)ppm+"="+(String)distancesend+"="+(String)pumpStatus+(String)waterInStatus+(String)waterOutStatus+(String)mixStatus;
 //  dataSend = "6=26=42=1258=1.40=1253=56=1000";
   if(dataSend1.length() <= 32){
