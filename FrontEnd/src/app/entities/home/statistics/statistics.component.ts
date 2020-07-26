@@ -8,13 +8,15 @@ import { Router } from "@angular/router";
   styleUrls: ["./statistics.component.scss"],
 })
 export class StatisticsComponent implements OnInit {
-  constructor(private _dataService: DataService, private router: Router) {}
+  constructor(private _dataService: DataService, private router: Router) { }
   forecast: any;
   forecastFlag: boolean = false;
   weather: any = [];
   devices: any = [];
   nutrients: any = [];
   nutrient: any = {};
+  sensorObj: any = {};
+
   veGetType: any = [
     false,
     false,
@@ -50,6 +52,22 @@ export class StatisticsComponent implements OnInit {
     this.getWeatherForecast();
   }
 
+  getSensor(id) {
+    const message = {
+      devicesId: id,
+    };
+    const uri = "devices/getSensorData";
+    this._dataService.post(uri, message).subscribe(
+      (data: any) => {
+        this.sensorObj = data.data[0];
+        sessionStorage.setItem(`sensorData${id}`, JSON.stringify(data.data[0]));
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
+  }
+
   getCurrentWeather() {
     const uri = "weather/currentweather";
     this._dataService.post(uri, "").subscribe(
@@ -71,6 +89,9 @@ export class StatisticsComponent implements OnInit {
         console.log("deviceID");
         sessionStorage.setItem("deviceID", JSON.stringify(data));
         this.devices = data.data;
+        for (let i = 0; i < data.data.length(); i++) {
+          this.getSensor(data.data[i].id);
+        }
       },
       (err: any) => {
         console.log(err);

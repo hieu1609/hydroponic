@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  urlApi: "https://thuycanhuit.000webhostapp.com/public/api",
+  // urlApi: "https://thuycanhuit.000webhostapp.com/public/api",
+  urlApi: "http://localhost:800/hydroponic/BackEnd/public/api",
 };
 
 /*

@@ -16,25 +16,33 @@ export class DeviceControlComponent implements OnInit {
   @ViewChild("formPostNutrient", { static: false }) formPostNutrient: NgForm;
 
   @Input() device;
-  constructor(private _dataService: DataService, private router: Router) {}
+  constructor(private _dataService: DataService, private router: Router) { }
   statusPump: boolean = false;
-  statusWaterIn: boolean = true;
-  statusWaterOut: boolean = false;
-  statusMix: boolean = false;
-  statusAddNutrition: boolean = false;
-  statusPumpAuto: boolean = false;
-  statusPpmAuto: boolean = false;
+  statusWaterIn: boolean;
+  statusWaterOut: boolean;
+  statusMix: boolean;
+  statusAddNutrition: boolean;
+  statusPumpAuto: boolean;
+  statusPpmAuto: boolean;
   nutrients: any = [];
+  dataExisted: boolean = false;
   today: number;
+
   ngOnInit() {
+    console.log("on init");
+    console.log(this.device.id);
+
     if (sessionStorage.getItem("nutrients")) {
       let data = JSON.parse(sessionStorage.getItem("nutrients"));
       this.nutrients = data.data;
     } else {
       this.getNutrients();
     }
-    if (sessionStorage.getItem("sensorData")) {
-      let data = JSON.parse(sessionStorage.getItem("sensorData"));
+    if (sessionStorage.getItem(`sensorData${this.device.id}`)) {
+      this.dataExisted = true;
+      let data = JSON.parse(sessionStorage.getItem(`sensorData${this.device.id}`));
+      console.log(data);
+
       this.statusWaterIn = data.water_in;
       this.statusWaterOut = data.water_out;
       this.statusMix = data.mix;
@@ -48,7 +56,7 @@ export class DeviceControlComponent implements OnInit {
   }
   PumpOn() {
     const uri = "user/controlPump";
-    this.PumpAutoOff();
+    // this.PumpAutoOff();
     const message = {
       devicesId: this.device.id,
       message: "1",
@@ -56,6 +64,8 @@ export class DeviceControlComponent implements OnInit {
     this._dataService.post(uri, message).subscribe(
       (data: any) => {
         this.statusPump = true;
+        console.log("pump");
+
       },
       (err: any) => {
         console.log(err);
@@ -71,6 +81,7 @@ export class DeviceControlComponent implements OnInit {
     this._dataService.post(uri, message).subscribe(
       (data: any) => {
         this.statusPump = false;
+        console.log("pump off");
       },
       (err: any) => {
         console.log(err);
@@ -103,7 +114,7 @@ export class DeviceControlComponent implements OnInit {
         timeOff: this.formPumpAuto.value.timeOff,
       };
       this._dataService.post(uri, message).subscribe(
-        (data: any) => {},
+        (data: any) => { },
         (err: any) => {
           console.log(err);
         }
@@ -141,7 +152,7 @@ export class DeviceControlComponent implements OnInit {
       nutrientId: this.formPpmAuto.value.option,
     };
     this._dataService.post(uri, message).subscribe(
-      (data: any) => {},
+      (data: any) => { },
       (err: any) => {
         console.log(err);
       }
@@ -180,11 +191,11 @@ export class DeviceControlComponent implements OnInit {
   }
   waterInFunc() {
     this.controlWaterIn();
-    this.checkWaterIn();
+    // this.checkWaterIn();
   }
   waterOutFunc() {
     this.controlWaterOut();
-    this.checkWaterOut();
+    // this.checkWaterOut();
   }
   controlWaterIn() {
     this.statusWaterIn = !this.statusWaterIn;
@@ -223,7 +234,7 @@ export class DeviceControlComponent implements OnInit {
     console.log(message);
 
     this._dataService.post(uri, message).subscribe(
-      (data: any) => {},
+      (data: any) => { },
       (err: any) => {
         console.log(err);
       }
@@ -238,7 +249,7 @@ export class DeviceControlComponent implements OnInit {
     console.log(message);
 
     this._dataService.post(uri, message).subscribe(
-      (data: any) => {},
+      (data: any) => { },
       (err: any) => {
         console.log(err);
       }
@@ -288,7 +299,7 @@ export class DeviceControlComponent implements OnInit {
     console.log(message);
 
     this._dataService.post(uri, message).subscribe(
-      (data: any) => {},
+      (data: any) => { },
       (err: any) => {
         console.log(err);
       }
@@ -308,7 +319,7 @@ export class DeviceControlComponent implements OnInit {
     console.log(message);
 
     this._dataService.post(uri, message).subscribe(
-      (data: any) => {},
+      (data: any) => { },
       (err: any) => {
         console.log(err);
       }

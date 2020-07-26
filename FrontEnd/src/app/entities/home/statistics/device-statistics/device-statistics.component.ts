@@ -35,7 +35,7 @@ export class DeviceStatisticsComponent implements OnInit {
     this._dataService.post(uri, message).subscribe(
       (data: any) => {
         this.sensorObj = data.data[0];
-        sessionStorage.setItem("sensorData", JSON.stringify(data.data[0]));
+        sessionStorage.setItem(`sensorData${this.stat.id}`, JSON.stringify(data.data[0]));
 
         if (this.sensorObj.pump === 0) {
           this.pumpStatusHTML = "OFF";

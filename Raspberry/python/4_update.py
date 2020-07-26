@@ -84,3 +84,4 @@ while True:
         sen = dataSensor.split("=")
         update_sensor(sen[0], sen[1], sen[2], sen[3], sen[4], sen[5],
                       sen[6], sen[7][0], sen[7][1], sen[7][2], sen[7][3])
+    time.sleep(3)

@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
   styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
-  constructor(private _dataService: DataService, private router: Router) {}
+  constructor(private _dataService: DataService, private router: Router) { }
 
   ngOnInit() {
     $("#nav-1 a").on("click", function () {
@@ -60,10 +60,12 @@ export class HomeComponent implements OnInit {
           timer: 1500,
         });
         this.router.navigate([""]);
-        sessionStorage.removeItem("deviceID");
-        sessionStorage.removeItem("nutrients");
-        sessionStorage.removeItem("weather");
-        sessionStorage.removeItem("sensorData");
+        // sessionStorage.removeItem("deviceID");
+        // sessionStorage.removeItem("nutrients");
+        // sessionStorage.removeItem("weather");
+        // sessionStorage.removeItem("sensorData");
+
+        sessionStorage.clear();
         localStorage.removeItem("user");
       },
       (err: any) => {
