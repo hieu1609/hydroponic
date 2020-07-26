@@ -94,7 +94,18 @@ try:
                     print(case)
                 else:
                     if case != 2:
-                        print("nuoc duoi 30 tat bom")
+                        print("waterIn=0")
+                        dataSend = device + "=waterIn=0"
+                        dataSend = dataSend.encode()
+                        bus.write_i2c_block_data(addr, 0, dataSend)
+                        print("waterOut=0")
+                        dataSend = device + "=waterOut=0"
+                        dataSend = dataSend.encode()
+                        bus.write_i2c_block_data(addr, 0, dataSend)
+                        print("mix=0")
+                        dataSend = device + "=mix=0"
+                        dataSend = dataSend.encode()
+                        bus.write_i2c_block_data(addr, 0, dataSend)
                     case = 2
                     print(case)
             elif (ppmForDevice-ppmNow["PPM"] > 100):
