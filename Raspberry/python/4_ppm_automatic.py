@@ -59,6 +59,9 @@ try:
             cursor3.execute(sql_select_Query3)
             temp = cursor3.fetchone()
             case = 0
+            checkWaterAfterMix = (
+                ppmNow["PPM"]*(ppmNow["water"]+25) + 70*(80-ppmNow["water"]))/80
+            ppmDifferent = checkWaterAfterMix - ppmForDevice
             if ppmNow["temperature"] <= 25:
                 ppmForDevice = temp["ppm_max"]
             elif ppmNow["temperature"] >= 45:
@@ -68,11 +71,11 @@ try:
                     temp["ppm_max"]-temp["ppm_min"])
             print(ppmForDevice)
             if(abs(ppmForDevice-ppmNow["PPM"])) <= 100:
-                if ppmNow["water"] <= 30:
+                if ppmNow["water"] <= 20:
                     if case != 1:
                         if case == 2 or case == 0:
                             update_autostatus(deviceid, 1)
-                            print("# auto_status =1 ?")
+                            print("auto_status =1")
                         print("ppm=0")
                         dataSend = device + "=ppm=0"
                         dataSend = dataSend.encode()
@@ -89,9 +92,16 @@ try:
                         dataSend = device + "=mix=1"
                         dataSend = dataSend.encode()
                         bus.write_i2c_block_data(addr, 0, dataSend)
-                        time.sleep(2)
-                    case = 1
-                    print(case)
+                        time.sleep(10)
+                        print("waterIn=1")
+                        dataSend = device + "=waterIn=1"
+                        dataSend = dataSend.encode()
+                        bus.write_i2c_block_data(addr, 0, dataSend)
+                        time.sleep(5)
+                        case = 1
+                        print(case)
+                    else:
+                        time.sleep(5)
                 else:
                     if case != 2:
                         print("waterIn=0")
@@ -106,201 +116,124 @@ try:
                         dataSend = device + "=mix=0"
                         dataSend = dataSend.encode()
                         bus.write_i2c_block_data(addr, 0, dataSend)
-                    case = 2
-                    print(case)
+                        time.sleep(30)
+                        case = 2
+                        print(case)
+                    else:
+                        time.sleep(30)
             elif (ppmForDevice-ppmNow["PPM"] > 100):
-                if ppmNow["water"] < 70:
-                    if case != 3:
+                if case == 2 and ppmNow["PPM"] >= temp["ppm_min"] and ppmNow["PPM"] <= temp["ppm_max"]:
+                    time.sleep(30)
+                else:
+                    if ppmNow["water"] < 50:
+                        if case != 3:
+                            if case == 2 or case == 0:
+                                print("autostatus=1")
+                                update_autostatus(deviceid, 1)
+                                print("mix=1")
+                                dataSend = device + "=mix=1"
+                                dataSend = dataSend.encode()
+                                bus.write_i2c_block_data(addr, 0, dataSend)
+                            print("ppm=0")
+                            dataSend = device + "=ppm=0"
+                            dataSend = dataSend.encode()
+                            bus.write_i2c_block_data(addr, 0, dataSend)
+                            print("waterIn=1")
+                            dataSend = device + "=waterIn=1"
+                            dataSend = dataSend.encode()
+                            bus.write_i2c_block_data(addr, 0, dataSend)
+                            print("waterOut=0")
+                            dataSend = device + "=waterOut=0"
+                            dataSend = dataSend.encode()
+                            bus.write_i2c_block_data(addr, 0, dataSend)
+                            time.sleep(5)
+                            case = 3
+                            print(case)
+                        else:
+                            time.sleep(5)
+                    elif ppmNow["water"] >= 50:
                         if case == 2 or case == 0:
-                            print("# autostatus =1 ")
+                            print("autostatus=1")
                             update_autostatus(deviceid, 1)
-                            print("mix=1 ")
+                            print("mix=1")
                             dataSend = device + "=mix=1"
                             dataSend = dataSend.encode()
                             bus.write_i2c_block_data(addr, 0, dataSend)
-                        else:
-                            print("mix=0 ")
-                            dataSend = device + "=mix=0"
-                            dataSend = dataSend.encode()
-                            bus.write_i2c_block_data(addr, 0, dataSend)
-                        print("ppm=0")
-                        dataSend = device + "=ppm=0"
+                        print("waterIn=0")
+                        dataSend = device + "=waterIn=0"
                         dataSend = dataSend.encode()
                         bus.write_i2c_block_data(addr, 0, dataSend)
-                        print("waterIn=1")
-                        dataSend = device + "=waterIn=1"
+                        print("ppm=1")
+                        dataSend = device + "=ppm=1"
                         dataSend = dataSend.encode()
                         bus.write_i2c_block_data(addr, 0, dataSend)
                         print("waterOut=0")
                         dataSend = device + "=waterOut=0"
                         dataSend = dataSend.encode()
                         bus.write_i2c_block_data(addr, 0, dataSend)
-                        time.sleep(2)
-                    case = 3
-                    print(case)
-                elif ppmNow["water"] >= 70:
-                    if case == 2 or case == 0:
-                        print("auto status =1")
-                        update_autostatus(deviceid, 1)
-                        print("mix=1")
-                        dataSend = device + "=mix=1"
-                        dataSend = dataSend.encode()
-                        bus.write_i2c_block_data(addr, 0, dataSend)
-                    else:
-                        print("mix=0")
-                        dataSend = device + "=mix=0"
-                        dataSend = dataSend.encode()
-                        bus.write_i2c_block_data(addr, 0, dataSend)
-                    print("waterIn=0")
-                    dataSend = device + "=waterIn=0"
-                    dataSend = dataSend.encode()
-                    bus.write_i2c_block_data(addr, 0, dataSend)
-                    print("ppm=1")
-                    dataSend = device + "=ppm=1"
-                    dataSend = dataSend.encode()
-                    bus.write_i2c_block_data(addr, 0, dataSend)
-                    print("waterOut=0")
-                    dataSend = device + "=waterOut=0"
-                    dataSend = dataSend.encode()
-                    bus.write_i2c_block_data(addr, 0, dataSend)
-                    time.sleep(5)
-                    case = 4
-                    print(case)
+                        time.sleep(20)
+                        case = 4
+                        print(case)
             elif (ppmNow["PPM"]-ppmForDevice) > 100:
-                if ppmNow["water"] < 70:
-                    if case != 5:
+                if case == 2 and ppmNow["PPM"] >= temp["ppm_min"] and ppmNow["PPM"] <= temp["ppm_max"]:
+                    time.sleep(30)
+                else:
+                    if ppmDifferent > 100:
                         if case == 2 or case == 0:
-                            print("mix=1")
-                            dataSend = device + "=mix=1"
-                            dataSend = dataSend.encode()
-                            bus.write_i2c_block_data(addr, 0, dataSend)
-                        else:
-                            print("mix=0")
-                            dataSend = device + "=mix=0"
-                            dataSend = dataSend.encode()
-                            bus.write_i2c_block_data(addr, 0, dataSend)
-                        print("ppm=0")
-                        dataSend = device + "=ppm=0"
-                        dataSend = dataSend.encode()
-                        bus.write_i2c_block_data(addr, 0, dataSend)
-                        print("waterIn=1")
-                        dataSend = device + "=waterIn=1"
-                        dataSend = dataSend.encode()
-                        bus.write_i2c_block_data(addr, 0, dataSend)
-                        print("waterOut=0")
-                        dataSend = device + "=waterOut=0"
-                        dataSend = dataSend.encode()
-                        bus.write_i2c_block_data(addr, 0, dataSend)
-                        time.sleep(2)
-                    case = 5
-                    print(case)
-                elif ppmNow["water"] < 95 and (ppmNow["PPM"]-ppmForDevice) <= 400:
-                    if case != 6:
-                        if case == 2 or case == 0:
-                            print("auto status =1")
+                            print("autostatus=1")
                             update_autostatus(deviceid, 1)
                             print("mix=1")
                             dataSend = device + "=mix=1"
                             dataSend = dataSend.encode()
                             bus.write_i2c_block_data(addr, 0, dataSend)
-                        else:
-                            print("mix=0")
-                            dataSend = device + "=mix=0"
+                        print("waterIn=0")
+                        dataSend = device + "=waterIn=0"
+                        dataSend = dataSend.encode()
+                        bus.write_i2c_block_data(addr, 0, dataSend)
+                        print("pump=1")
+                        dataSend = device + "=pump=1"
+                        dataSend = dataSend.encode()
+                        bus.write_i2c_block_data(addr, 0, dataSend)
+                        print("waterOut=1")
+                        dataSend = device + "=waterOut=1"
+                        dataSend = dataSend.encode()
+                        bus.write_i2c_block_data(addr, 0, dataSend)
+                        time.sleep(10)
+                        if ppmNow["pump"] = 0:
+                            print("pump=0")
+                            dataSend = device + "=pump=0"
+                            dataSend = dataSend.encode()
+                            bus.write_i2c_block_data(addr, 0, dataSend)
+                        time.sleep(5)
+                        case = 5
+                        print(case)
+                    else:
+                        if case == 2 or case == 0:
+                            print("autostatus=1")
+                            update_autostatus(deviceid, 1)
+                            print("mix=1")
+                            dataSend = device + "=mix=1"
                             dataSend = dataSend.encode()
                             bus.write_i2c_block_data(addr, 0, dataSend)
                         print("ppm=0")
                         dataSend = device + "=ppm=0"
                         dataSend = dataSend.encode()
                         bus.write_i2c_block_data(addr, 0, dataSend)
-                        print("waterIn=1")
-                        dataSend = device + "=waterIn=1"
-                        dataSend = dataSend.encode()
-                        bus.write_i2c_block_data(addr, 0, dataSend)
                         print("waterOut=0")
                         dataSend = device + "=waterOut=0"
                         dataSend = dataSend.encode()
                         bus.write_i2c_block_data(addr, 0, dataSend)
-                        time.sleep(2)
-                    case = 6
-                    print(case)
-                elif ppmNow["water"] >= 95:
-                    if case == 2 or case == 0:
-                        print("auto status=1")
-                        update_autostatus(deviceid, 1)
-                        print("mix=1")
-                        dataSend = device + "=mix=1"
+                        print("waterIn=1")
+                        dataSend = device + "=waterIn=1"
                         dataSend = dataSend.encode()
                         bus.write_i2c_block_data(addr, 0, dataSend)
-                    else:
-                        print("mix=0")
-                        dataSend = device + "=mix=0"
+                        time.sleep(10)
+                        print("waterIn=0")
+                        dataSend = device + "=waterIn=0"
                         dataSend = dataSend.encode()
                         bus.write_i2c_block_data(addr, 0, dataSend)
-                    print("waterIn=0")
-                    dataSend = device + "=waterIn=0"
-                    dataSend = dataSend.encode()
-                    bus.write_i2c_block_data(addr, 0, dataSend)
-                    print("ppm=0")
-                    dataSend = device + "=ppm=0"
-                    dataSend = dataSend.encode()
-                    bus.write_i2c_block_data(addr, 0, dataSend)
-                    print("pump=1")
-                    print("waterOut=1")
-                    dataSend = device + "=waterOut=1"
-                    dataSend = dataSend.encode()
-                    bus.write_i2c_block_data(addr, 0, dataSend)
-                    print("sleep 30s")
-                    time.sleep(30)
-                    if ppmNow["pump"] == 0:
-                        print("pump=0")
-                    print("waterOut=0")
-                    dataSend = device + "=waterOut=0"
-                    dataSend = dataSend.encode()
-                    bus.write_i2c_block_data(addr, 0, dataSend)
-                    case = 7
-                    print(case)
-                elif (ppmNow["PPM"]-ppmForDevice > 400):
-                    if case == 2 or case == 0:
-                        print("auto status=1")
-                        update_autostatus(deviceid, 1)
-                        print("mix=1")
-                        dataSend = device + "=mix=1"
-                        dataSend = dataSend.encode()
-                        bus.write_i2c_block_data(addr, 0, dataSend)
-                    else:
-                        print("mix=0")
-                        dataSend = device + "=mix=0"
-                        dataSend = dataSend.encode()
-                        bus.write_i2c_block_data(addr, 0, dataSend)
-                    print("waterIn=0")
-                    dataSend = device + "=waterIn=0"
-                    dataSend = dataSend.encode()
-                    bus.write_i2c_block_data(addr, 0, dataSend)
-                    print("ppm=0")
-                    dataSend = device + "=ppm=0"
-                    dataSend = dataSend.encode()
-                    bus.write_i2c_block_data(addr, 0, dataSend)
-                    print("pump=1")
-                    dataSend = device + "=pump=1"
-                    dataSend = dataSend.encode()
-                    bus.write_i2c_block_data(addr, 0, dataSend)
-                    print("waterOut=1")
-                    dataSend = device + "=waterOut=1"
-                    dataSend = dataSend.encode()
-                    bus.write_i2c_block_data(addr, 0, dataSend)
-                    print("sleep 30s")
-                    time.sleep(30)
-                    if ppmNow["pump"] == 0:
-                        print("pump=0")
-                        dataSend = device + "=pump=0"
-                        dataSend = dataSend.encode()
-                        bus.write_i2c_block_data(addr, 0, dataSend)
-                    print("waterOut=0")
-                    dataSend = device + "=waterOut=0"
-                    dataSend = dataSend.encode()
-                    bus.write_i2c_block_data(addr, 0, dataSend)
-                    case = 8
-                    print(case)
+                        time.sleep(20)
+                        case = 6
         elif ppm["auto_mode"] == 0:
             if (count == 0):
                 print("waterIn=0")
